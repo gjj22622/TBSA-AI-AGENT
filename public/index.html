@@ -1,0 +1,2049 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ORG_SHORT}} AI 教師研習營 · 課程導覽｜TBSA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+/* ── 角色橫條 + 同步狀態 ── */
+.role-banner{padding:10px 20px;text-align:center;font-family:var(--font-sans);font-size:.92rem;font-weight:600;letter-spacing:.04em;display:none}
+body.viewer-mode .role-banner.viewer{display:block;background:linear-gradient(90deg,#3E5C2A 0%,#5A8040 100%);color:#FAF7E8}
+body.teacher-mode .role-banner.teacher{display:block;background:linear-gradient(90deg,var(--tbsa-crimson-dk) 0%,var(--tbsa-crimson) 100%);color:var(--tbsa-paper)}
+.role-banner .sync-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#fde047;margin-right:6px;vertical-align:middle;animation:syncPulse 1.6s infinite}
+.role-banner.synced .sync-dot{background:#86efac;animation:none}
+.role-banner.error .sync-dot{background:#fca5a5;animation:none}
+@keyframes syncPulse{0%,100%{opacity:.4}50%{opacity:1}}
+/* 學員模式：禁用所有勾選 */
+body.viewer-mode .lab-check{cursor:not-allowed;opacity:.55;pointer-events:none}
+body.viewer-mode .step-circle{cursor:default;pointer-events:none}
+body.viewer-mode .hw-check{cursor:not-allowed;opacity:.55;pointer-events:none}
+body.viewer-mode .step-reset{display:none}
+/* 講師模式：勾選元素加深紅描邊提示 */
+body.teacher-mode .lab-check{box-shadow:0 0 0 2px rgba(162,0,24,.15)}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* ── TBSA 品牌 tokens ── */
+  --tbsa-crimson:#A20018;--tbsa-crimson-dk:#7A0012;--tbsa-crimson-lt:#C13848;
+  --tbsa-gold:#A37A0F;--tbsa-gold-dk:#7A5A08;--tbsa-gold-lt:#C9A23C;
+  --tbsa-brush:#9F3128;
+  --tbsa-ink:#1F1B16;--tbsa-ink-2:#3A332A;
+  --tbsa-stone:#6B6357;--tbsa-mist:#C9C2B4;
+  --tbsa-parchment:#F8F4EC;--tbsa-paper:#FFFEFB;--tbsa-line:#E6DFD0;
+  --font-han:"Noto Serif TC","Source Han Serif TC","PingFang TC","Songti TC",serif;
+  --font-sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --font-en:"Cormorant Garamond","EB Garamond",Georgia,"Times New Roman",serif;
+  --font-en-sans:"Inter","Helvetica Neue",Arial,sans-serif;
+  /* ── 語意映射（既有變數覆蓋） ── */
+
+  --blue:var(--tbsa-crimson);--blue-dark:var(--tbsa-crimson-dk);--blue-light:var(--tbsa-parchment);--blue-mid:#FAF1D8;
+  --green:#16a34a;--green-bg:#dcfce7;--green-border:#86efac;--green-dark:#15803d;
+  --amber:#d97706;--amber-bg:#fffbeb;--amber-border:#fcd34d;--amber-dark:#92400e;
+  --purple:var(--tbsa-gold);--purple-bg:#FAF1D8;--purple-dark:var(--tbsa-gold-dk);--purple-light:var(--tbsa-parchment);
+  --red:#dc2626;--red-bg:#fff1f2;--red-border:#fca5a5;--red-dark:#b91c1c;
+  --yellow:#ca8a04;--yellow-bg:#fefce8;--yellow-border:#fde047;--yellow-dark:#a16207;
+  --gray-50:var(--tbsa-paper);--gray-100:var(--tbsa-parchment);--gray-200:var(--tbsa-line);--gray-300:var(--tbsa-mist);
+  --gray-400:#9F9787;--gray-500:var(--tbsa-stone);--gray-600:var(--tbsa-stone);--gray-700:var(--tbsa-ink-2);
+  --gray-800:var(--tbsa-ink);--gray-900:var(--tbsa-ink);
+}
+html{scroll-behavior:smooth;font-size:17px}
+body{font-family:var(--font-sans);background:var(--gray-100);color:var(--gray-800);line-height:1.7;min-height:100vh}
+
+
+.tbsa-bar-top{height:10px;background:linear-gradient(to right,var(--tbsa-gold) 0%,var(--tbsa-gold) 50%,var(--tbsa-crimson) 50%,var(--tbsa-crimson) 100%)}
+.tbsa-bar-bottom{height:6px;background:linear-gradient(to right,var(--tbsa-gold) 0%,var(--tbsa-gold) 50%,var(--tbsa-crimson) 50%,var(--tbsa-crimson) 100%);margin-top:24px}
+.tbsa-footer{padding:18px 20px 14px;text-align:center;background:var(--tbsa-parchment);border-top:1px solid var(--tbsa-line)}
+.tbsa-footer-zh{font-family:var(--font-han);font-size:.95rem;font-weight:600;color:var(--tbsa-ink);letter-spacing:.06em;margin-bottom:4px}
+.tbsa-footer-en{font-family:var(--font-en-sans);font-size:.7rem;font-weight:500;color:var(--tbsa-stone);letter-spacing:.32em;text-transform:uppercase}
+.tbsa-footer-meta{font-family:var(--font-en);font-style:italic;font-size:.85rem;color:var(--tbsa-gold-dk);margin-top:6px}
+
+/* ── HEADER ── */
+.header{background:linear-gradient(135deg,var(--tbsa-crimson-dk) 0%,var(--tbsa-crimson-dk) 60%,var(--tbsa-crimson-dk) 100%);color:white;padding:22px 20px 18px;text-align:center}
+.header-eyebrow{font-family:var(--font-en);font-style:italic;font-weight:500;font-size:1rem;letter-spacing:.06em;opacity:.85;margin-bottom:8px;color:var(--tbsa-gold-lt)}
+.header h1{font-family:var(--font-han);font-size:1.85rem;font-weight:700;letter-spacing:.04em;margin-bottom:6px;line-height:1.25}
+.header-meta{display:flex;justify-content:center;gap:12px;margin-top:10px;flex-wrap:wrap}
+.header-badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:5px 14px;font-size:.88rem;display:flex;align-items:center;gap:4px}
+
+/* ── 拆建修串 BAR ── */
+.agents-bar{background:linear-gradient(135deg,#14110D 0%,var(--tbsa-ink) 50%,var(--tbsa-ink-2) 100%);padding:18px 16px 14px;border-bottom:2px solid var(--tbsa-gold-dk);border-top:1px solid rgba(163,122,15,.2)}
+.agents-title{font-family:var(--font-en-sans);font-size:.72rem;letter-spacing:.32em;color:var(--tbsa-gold-lt);text-align:center;margin-bottom:14px;text-transform:uppercase;font-weight:600;opacity:.92}
+.agents-row{display:flex;align-items:flex-start;justify-content:center;max-width:760px;margin:0 auto}
+.ag-step{flex:1;display:flex;flex-direction:column;align-items:center;min-width:0;position:relative}
+.ag-letter{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:600;margin:0 auto 6px;font-family:var(--font-en);font-style:italic;letter-spacing:.02em}
+.ag-step.active .ag-letter{background:linear-gradient(135deg,var(--tbsa-gold) 0%,var(--tbsa-gold-dk) 50%,var(--tbsa-crimson) 100%);color:var(--tbsa-paper);box-shadow:0 3px 12px rgba(162,0,24,.45),inset 0 0 0 1px rgba(255,255,255,.08)}
+.ag-step.future .ag-letter{background:rgba(255,255,255,.07);color:rgba(255,255,255,.22);border:1.5px dashed rgba(255,255,255,.15)}
+.ag-cn{font-family:var(--font-han);font-size:1rem;font-weight:600;color:rgba(255,255,255,.92);text-align:center;line-height:1;letter-spacing:.06em}
+.ag-step.future .ag-cn{color:rgba(255,255,255,.25)}
+.ag-en{font-size:.56rem;color:rgba(255,255,255,.4);text-align:center;letter-spacing:.3px;margin-top:2px}
+.ag-step.future .ag-en{color:rgba(255,255,255,.14)}
+.ag-sub{font-family:var(--font-sans);font-size:.7rem;color:rgba(255,255,255,.55);text-align:center;margin-top:4px;line-height:1.4;font-weight:300}
+.ag-step.future .ag-sub{color:rgba(255,255,255,.15)}
+.ag-arrow{color:rgba(255,255,255,.25);font-size:.8rem;padding:0 2px;margin-top:10px;flex-shrink:0;line-height:1;align-self:flex-start}
+.ag-gap{width:12px;margin-top:10px;flex-shrink:0;align-self:flex-start;text-align:center;font-size:.6rem;color:rgba(255,255,255,.18);letter-spacing:1px}
+.agents-footer{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;font-size:.68rem;flex-wrap:wrap}
+.ag-tag{padding:3px 11px;border-radius:12px;font-weight:600;letter-spacing:.04em;font-family:var(--font-sans)}
+.ag-tag.today{background:rgba(193,56,72,.22);color:#F4C8CD;border:1px solid rgba(193,56,72,.4)}
+.ag-tag.loop{background:rgba(163,122,15,.2);color:#E8C76B;border:1px solid rgba(163,122,15,.4)}
+.ag-tag.future{background:rgba(255,255,255,.06);color:rgba(255,255,255,.35);border:1px solid rgba(255,255,255,.1)}
+.ag-divider{color:rgba(255,255,255,.15)}
+
+/* ── TAB NAV (5 tabs) ── */
+.tab-nav{background:white;border-bottom:2px solid var(--gray-200);position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+.tab-list{display:flex;max-width:900px;margin:0 auto;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab-list::-webkit-scrollbar{display:none}
+.tab-btn{flex:1;min-width:64px;padding:14px 8px;font-family:var(--font-sans);font-size:.95rem;font-weight:600;color:var(--tbsa-stone);border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;transition:.2s;display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap;letter-spacing:.04em}
+.tab-btn:hover{color:var(--blue);background:var(--blue-light)}
+.tab-btn.active{color:var(--tbsa-crimson);border-bottom-color:var(--tbsa-crimson);font-weight:700}
+
+/* ── PANES ── */
+.pane{display:none;max-width:860px;margin:0 auto;padding:20px 14px 80px}
+.pane.active{display:block}
+
+/* ── CARD BASE ── */
+.card{background:white;border-radius:14px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.08);margin-bottom:14px;border:1px solid var(--gray-200)}
+.card-sm{padding:14px}
+.card-title{font-family:var(--font-han);font-size:1.18rem;font-weight:700;color:var(--tbsa-ink);margin-bottom:16px;display:flex;align-items:center;gap:10px;letter-spacing:.02em}
+.divider{height:1px;background:var(--gray-200);margin:16px 0}
+
+/* ── 實作 LAB CARD ── */
+.lab-card{background:white;border-radius:14px;border:1.5px solid var(--gray-200);margin-bottom:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.07);transition:.2s}
+.lab-card.done-card{border-color:#9CC080;background:#F4F9EE}
+.lab-header{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;cursor:pointer;user-select:none;gap:10px}
+.lab-header-left{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.lab-badge{font-family:var(--font-en-sans);font-size:.7rem;font-weight:600;padding:4px 10px;border-radius:4px;letter-spacing:.16em;white-space:nowrap;flex-shrink:0;text-transform:uppercase}
+.lab-card.b1 .lab-badge{background:var(--blue-mid);color:var(--tbsa-crimson-dk)}
+.lab-card.b2 .lab-badge{background:var(--purple-bg);color:var(--tbsa-gold-dk)}
+.lab-card.b3 .lab-badge{background:#E8F0E2;color:#3E5C2A;border:1px solid #C7D9B8}
+.lab-card.b4 .lab-badge{background:rgba(31,27,22,.06);color:var(--tbsa-ink);border:1px solid rgba(31,27,22,.14)}
+.lab-card.bd .lab-badge{background:#fce7f3;color:#831843}
+.lab-header-title{font-family:var(--font-han);font-size:1.05rem;font-weight:600;color:var(--tbsa-ink);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:.02em}
+.lab-check{width:26px;height:26px;border-radius:50%;border:2px solid var(--gray-300);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;flex-shrink:0;font-size:.85rem;color:transparent}
+.lab-check.checked{background:var(--green);border-color:var(--green);color:white}
+.lab-body{padding:4px 16px 16px;border-top:1px solid var(--gray-100)}
+.lab-time{font-size:.85rem;color:var(--gray-400);margin:8px 0 10px;display:flex;align-items:center;gap:4px}
+.lab-step{font-family:var(--font-han);font-size:.98rem;font-weight:600;color:var(--tbsa-crimson-dk);margin:14px 0 6px;letter-spacing:.02em}
+.lab-desc{font-size:.95rem;color:var(--gray-600);line-height:1.6;margin-bottom:10px}
+.lab-note{font-size:.92rem;color:var(--amber);background:var(--amber-bg);border:1px solid var(--amber-border);border-radius:8px;padding:8px 12px;margin:8px 0;line-height:1.5}
+.lab-note.info{color:var(--tbsa-crimson-dk);background:var(--blue-light);border-color:var(--blue-mid)}
+.lab-note.success{color:var(--green-dark);background:var(--green-bg);border-color:var(--green-border)}
+
+/* ── COPY BLOCK ── */
+.copy-block{background:#1e293b;border-radius:10px;padding:14px 44px 14px 14px;position:relative;margin:8px 0}
+.copy-label-top{font-size:.82rem;font-weight:700;color:#94a3b8;letter-spacing:.5px;margin-bottom:6px;text-transform:uppercase}
+.copy-text{color:#e2e8f0;font-family:'Courier New',monospace;font-size:.95rem;line-height:1.75;white-space:pre-wrap;word-break:break-word}
+.copy-btn{position:absolute;top:10px;right:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#cbd5e1;border-radius:6px;padding:5px 9px;font-size:.72rem;cursor:pointer;transition:.15s;white-space:nowrap}
+.copy-btn:hover{background:rgba(255,255,255,.2)}
+.copy-btn.copied{background:#16a34a;border-color:#16a34a;color:white}
+.copy-options{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 2px}
+.copy-opt-btn{padding:6px 14px;border-radius:8px;border:1.5px solid var(--gray-200);background:white;color:var(--gray-700);font-size:.8rem;font-weight:600;cursor:pointer;transition:.15s}
+.copy-opt-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
+.copy-opt-btn.active{background:var(--blue);border-color:var(--blue);color:white}
+
+/* ── STEP TRACKER ── */
+.steps-track{display:flex;align-items:center;gap:0;margin:6px 0 14px}
+.st{flex:1;position:relative}
+.st-inner{display:flex;flex-direction:column;align-items:center;cursor:pointer;padding:6px 4px;border-radius:10px;transition:.15s;user-select:none}
+.st-inner:hover{background:var(--gray-100)}
+.st-circle{width:42px;height:42px;border-radius:50%;border:2.5px solid var(--gray-200);background:white;color:var(--gray-400);display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:.2s;margin-bottom:5px}
+.st-label{font-size:.76rem;font-weight:700;color:var(--gray-400);transition:.2s}
+.st-sub{font-size:.66rem;color:var(--gray-400);text-align:center;line-height:1.3;margin-top:2px;transition:.2s}
+.st-line{flex:0 0 10px;height:3px;background:var(--gray-200);transition:.3s;margin-top:-22px;align-self:flex-start;margin-left:-5px;margin-right:-5px}
+.st.done .st-circle{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+.st.done .st-label{color:var(--green-dark)}
+.st.done .st-sub{color:var(--green)}
+.st.active .st-circle{background:var(--blue);border-color:var(--blue);color:white;box-shadow:0 0 0 4px var(--blue-mid)}
+.st.active .st-label{color:var(--blue);font-weight:800}
+.st.active .st-sub{color:var(--blue)}
+.st-line.done{background:var(--green)}
+.st-line.active{background:linear-gradient(90deg,var(--green),var(--gray-200))}
+.step-hint{font-size:.8rem;color:var(--gray-500);line-height:1.5}
+
+/* ── TIMER ── */
+.timer-wrap{text-align:center;padding:4px 0}
+.timer-label{font-size:.78rem;color:var(--gray-400);margin-bottom:6px;font-weight:600;letter-spacing:.5px}
+.timer-display{font-size:3.2rem;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-2px;color:var(--gray-800);line-height:1;margin:8px 0}
+.timer-display.running{color:var(--blue)}
+.timer-display.warn{color:var(--amber);animation:pulse 1s ease-in-out infinite}
+.timer-display.done{color:var(--green)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.65}}
+.timer-presets{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.preset-btn{padding:5px 12px;border:1.5px solid var(--gray-200);border-radius:20px;font-size:.78rem;font-weight:600;color:var(--gray-600);background:var(--gray-50);cursor:pointer;transition:.15s}
+.preset-btn:hover{border-color:var(--blue);color:var(--blue)}
+.preset-btn.active{background:var(--blue);border-color:var(--blue);color:white}
+.timer-controls{display:flex;gap:8px;justify-content:center;margin-top:8px}
+.tcbtn{padding:8px 20px;border-radius:8px;font-size:.88rem;font-weight:700;cursor:pointer;border:none;transition:.15s}
+.tcbtn.start{background:var(--blue);color:white}
+.tcbtn.start:hover{background:var(--blue-dark)}
+.tcbtn.pause{background:var(--amber);color:white}
+.tcbtn.reset{background:var(--gray-100);color:var(--gray-700);border:1.5px solid var(--gray-200)}
+.timer-custom{display:flex;align-items:center;gap:5px;justify-content:center;margin-top:6px}
+.timer-custom input{width:58px;padding:5px 7px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:.88rem;text-align:center;color:var(--gray-800)}
+.timer-custom input:focus{outline:none;border-color:var(--blue)}
+
+/* ── TIMELINE ── */
+.timeline{position:relative;padding-left:18px}
+.timeline::before{content:'';position:absolute;left:5px;top:8px;bottom:8px;width:2px;background:var(--gray-200)}
+.tl-item{position:relative;padding:0 0 12px 20px}
+.tl-item::before{content:'';position:absolute;left:-13px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--gray-300);border:2px solid white;box-shadow:0 0 0 1px var(--gray-300)}
+.tl-item.current::before{background:var(--blue);box-shadow:0 0 0 3px var(--blue-mid)}
+.tl-item.done::before{background:var(--green);box-shadow:0 0 0 1px var(--green)}
+.tl-time{font-size:.7rem;color:var(--gray-400);font-weight:600;letter-spacing:.3px}
+.tl-title{font-size:.88rem;font-weight:700;color:var(--gray-700);line-height:1.3}
+.tl-desc{font-size:.78rem;color:var(--gray-500);margin-top:2px;line-height:1.4}
+.tl-tag{display:inline-block;padding:2px 7px;border-radius:10px;font-size:.68rem;font-weight:700;margin-top:3px}
+.tag-拆{background:#fef3c7;color:#92400e}
+.tag-建{background:#FAF1D8;color:var(--tbsa-crimson-dk)}
+.tag-修{background:#f0fdf4;color:#166534}
+.tag-串{background:#FAF1D8;color:#5b21b6}
+.tag-橋{background:#fff7ed;color:#9a3412}
+.tag-許{background:#fdf2f8;color:#9d174d}
+
+/* ── COUNTDOWN (bridge) ── */
+.countdown-big{text-align:center;padding:20px 12px}
+.countdown-title{font-size:.82rem;color:var(--gray-500);font-weight:600;letter-spacing:.5px;margin-bottom:10px}
+.countdown-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.cd-unit{text-align:center;min-width:66px}
+.cd-num{font-size:2.6rem;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-1px;color:var(--gray-800);line-height:1}
+.cd-label{font-size:.68rem;color:var(--gray-400);font-weight:600;letter-spacing:.5px;margin-top:2px}
+.cd-sep{font-size:2.2rem;font-weight:800;color:var(--gray-300);padding-top:4px;align-self:flex-start}
+.countdown-msg{margin-top:12px;font-size:.83rem;color:var(--blue);font-weight:600}
+.countdown-done-msg{font-size:1rem;font-weight:700;color:var(--green)}
+
+/* ── HOMEWORK ── */
+.hw-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--gray-100)}
+.hw-item:last-child{border-bottom:none}
+.hw-check{width:22px;height:22px;border-radius:6px;border:2px solid var(--gray-300);flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;margin-top:1px;font-size:.78rem}
+.hw-check.checked{background:var(--green);border-color:var(--green);color:white}
+.hw-title{font-size:.88rem;font-weight:600;color:var(--gray-700);line-height:1.3}
+.hw-desc{font-size:.76rem;color:var(--gray-500);margin-top:2px;line-height:1.4}
+.hw-progress{height:5px;background:var(--gray-100);border-radius:3px;margin:10px 0 3px;overflow:hidden}
+.hw-bar{height:100%;background:linear-gradient(90deg,var(--green-dark),var(--green));border-radius:3px;transition:.4s}
+
+/* ── RESOURCE LINKS ── */
+.res-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:8px;margin-top:4px}
+.res-btn{display:flex;flex-direction:column;align-items:center;gap:5px;padding:14px 10px;border-radius:12px;border:1.5px solid var(--gray-200);background:white;text-decoration:none;color:var(--gray-700);font-size:.8rem;font-weight:600;transition:.15s;text-align:center;cursor:pointer}
+.res-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light);transform:translateY(-1px);box-shadow:0 4px 12px rgba(37,99,235,.1)}
+.res-icon{font-size:1.5rem}
+.res-label{line-height:1.3}
+.res-sub{font-size:.7rem;color:var(--gray-400);font-weight:400}
+
+/* ── BANNER ── */
+.banner{border-radius:10px;padding:12px 14px;font-size:.83rem;display:flex;gap:9px;align-items:flex-start;margin-bottom:12px}
+.banner-icon{font-size:1rem;flex-shrink:0;margin-top:1px}
+.banner.info{background:var(--blue-light);border:1px solid var(--blue-mid);color:var(--tbsa-crimson-dk)}
+.banner.success{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green-dark)}
+.banner.warn{background:var(--amber-bg);border:1px solid var(--amber-border);color:#92400e}
+
+/* ── HOOK CARD ── */
+.hook-card{border-radius:14px;background:linear-gradient(135deg,#2d1b69,var(--tbsa-gold-dk);color:white;padding:22px;text-align:center;margin-bottom:14px}
+.hook-card h3{font-size:1rem;font-weight:800;margin-bottom:7px}
+.hook-card p{font-size:.82rem;opacity:.85;line-height:1.6;margin-bottom:14px}
+.hook-btn{display:inline-block;background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.4);color:white;border-radius:8px;padding:7px 18px;font-size:.82rem;font-weight:700;text-decoration:none;transition:.15s;cursor:pointer}
+.hook-btn:hover{background:rgba(255,255,255,.3)}
+
+/* ── MISC ── */
+.label-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.label{font-size:.78rem;font-weight:700;color:var(--gray-500);letter-spacing:.5px;text-transform:uppercase}
+.badge-sm{padding:3px 9px;border-radius:8px;font-size:.7rem;font-weight:700}
+.text-sm{font-size:.8rem;color:var(--gray-500);line-height:1.5}
+.mb8{margin-bottom:8px}
+.mt8{margin-top:8px}
+.mt12{margin-top:12px}
+.flex-center{display:flex;align-items:center;justify-content:center}
+.gap8{gap:8px}
+.hidden{display:none!important}
+.section-head{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.section-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.section-title{font-size:1rem;font-weight:700;color:var(--gray-800)}
+.section-sub{font-size:.78rem;color:var(--gray-500);font-weight:400;margin-top:1px}
+
+/* ── DAY PROGRESS BAR ── */
+.day-progress{display:flex;align-items:center;gap:10px;padding:10px 0 6px}
+.dp-bar{flex:1;height:6px;background:var(--gray-200);border-radius:3px;overflow:hidden}
+.dp-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:3px;transition:.4s}
+.dp-label{font-size:.75rem;color:var(--gray-500);font-weight:600;white-space:nowrap}
+
+/* ── GEM 工坊 EMBEDDED ── */
+.gw-wrap{}
+.gw-screen{display:none}
+.gw-screen.active{display:block}
+.type-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:10px;margin-bottom:4px}
+.type-card{border:2px solid var(--gray-200);border-radius:12px;padding:14px 12px;cursor:pointer;transition:.15s;background:white;text-align:left}
+.type-card:hover{border-color:var(--purple);background:var(--purple-light)}
+.type-card.selected{border-color:var(--purple);background:var(--purple-light)}
+.type-icon{font-size:1.7rem;display:block;margin-bottom:5px}
+.type-name{font-size:.88rem;font-weight:700;color:var(--gray-700);margin-bottom:2px}
+.type-desc{font-size:.73rem;color:var(--gray-500);line-height:1.4}
+.type-card.selected .type-name{color:var(--purple-dark)}
+.fg{margin-bottom:18px}
+.fg:last-child{margin-bottom:0}
+.fg-label{font-size:.86rem;font-weight:700;color:var(--gray-700);margin-bottom:4px;display:flex;align-items:center;gap:5px}
+.fg-badge{font-size:.67rem;font-weight:700;padding:2px 6px;border-radius:7px;background:var(--purple-bg);color:var(--purple-dark)}
+.fg-badge.opt{background:var(--gray-100);color:var(--gray-500)}
+.fg-hint{font-size:.76rem;color:var(--gray-400);margin-bottom:5px;line-height:1.5}
+.fg-example{font-size:.73rem;color:var(--gray-400);background:var(--gray-50);border-left:3px solid var(--gray-200);padding:5px 9px;border-radius:0 6px 6px 0;margin-bottom:7px;line-height:1.5;font-style:italic}
+.gw-wrap input,.gw-wrap textarea,.gw-wrap select{width:100%;padding:9px 12px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:.86rem;font-family:inherit;color:var(--gray-800);background:white;transition:border-color .15s;resize:vertical}
+.gw-wrap input:focus,.gw-wrap textarea:focus,.gw-wrap select:focus{outline:none;border-color:var(--purple)}
+.gw-wrap textarea{min-height:80px;line-height:1.6}
+.gw-wrap textarea.tall{min-height:100px}
+.char{text-align:right;font-size:.7rem;color:var(--gray-400);margin-top:2px}
+.sec-nav{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px}
+.sec-btn{padding:4px 11px;border-radius:20px;font-size:.76rem;font-weight:600;border:1.5px solid var(--gray-200);background:white;color:var(--gray-500);cursor:pointer;transition:.15s;display:flex;align-items:center;gap:4px}
+.sec-btn:hover{border-color:var(--purple);color:var(--purple)}
+.sec-btn.active{background:var(--purple);border-color:var(--purple);color:white}
+.sec-btn .dot{width:6px;height:6px;border-radius:50%;background:var(--gray-300);transition:.15s}
+.sec-btn.active .dot{background:rgba(255,255,255,.6)}
+.sec-btn.filled .dot{background:var(--green)}
+.sec-pane{display:none}
+.sec-pane.active{display:block}
+.complete-ring{width:66px;height:66px;position:relative;flex-shrink:0}
+.complete-ring svg{transform:rotate(-90deg)}
+.complete-ring .pct-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:800;color:var(--purple-dark)}
+.complete-row{display:flex;align-items:center;gap:14px;padding:10px 0}
+.complete-info{flex:1}
+.complete-title{font-size:.92rem;font-weight:700;color:var(--gray-800)}
+.complete-sub{font-size:.78rem;color:var(--gray-500);margin-top:2px;line-height:1.4}
+.missing-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.missing-tag{padding:3px 9px;border-radius:7px;font-size:.73rem;font-weight:600;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)}
+.preview-box{background:var(--gray-50);border:1.5px solid var(--gray-200);border-radius:10px;padding:16px;font-size:.83rem;color:var(--gray-700);white-space:pre-wrap;line-height:1.8;max-height:420px;overflow-y:auto;font-family:'Noto Sans TC',monospace}
+.gw-nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.info-box{background:var(--blue-light);border:1px solid var(--blue-mid);border-radius:9px;padding:10px 13px;font-size:.8rem;color:var(--tbsa-crimson-dk);line-height:1.5;margin-bottom:12px;display:flex;gap:7px}
+.sb-step{display:flex;align-items:center;gap:5px;font-size:.8rem;font-weight:600;opacity:.5;transition:.2s}
+.sb-step.active{opacity:1}
+.sb-step.done{opacity:.85}
+.sb-num{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;flex-shrink:0;transition:.2s}
+.sb-step.active .sb-num{background:white;color:var(--purple-dark)}
+.sb-step.done .sb-num{background:rgba(255,255,255,.4)}
+.sb-line{width:28px;height:2px;background:rgba(255,255,255,.2);margin:0 3px}
+.sb-line.done{background:rgba(255,255,255,.5)}
+.success-toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--green-dark);color:white;padding:9px 20px;border-radius:22px;font-size:.85rem;font-weight:700;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;white-space:nowrap}
+.success-toast.show{opacity:1}
+
+/* ── 三色測試 EMBEDDED ── */
+.tc-wrap{}
+.tc-screen{display:none}
+.tc-screen.active{display:block}
+.tc-steps-wrap{background:white;border-radius:12px;padding:12px 16px;margin-bottom:14px;border:1px solid var(--gray-200)}
+.tc-steps{display:flex;align-items:center;justify-content:center;gap:0}
+.tc-step{display:flex;align-items:center;gap:7px;font-size:.83rem;color:var(--gray-500);padding:0 10px;cursor:default}
+.tc-step-n{width:24px;height:24px;border-radius:50%;background:var(--gray-200);color:var(--gray-500);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.72rem;flex-shrink:0;transition:.2s}
+.tc-step.active{color:var(--blue);font-weight:600}
+.tc-step.active .tc-step-n{background:var(--blue);color:white}
+.tc-step.done-step{color:var(--green)}
+.tc-step.done-step .tc-step-n{background:var(--green);color:white}
+.tc-step-line{flex:1;height:2px;background:var(--gray-200);max-width:50px;transition:.3s}
+.tc-step-line.done{background:var(--green)}
+.tritest-card{border-radius:12px;padding:18px;margin-bottom:14px;border:2px solid}
+.tritest-card.gc{background:#f0fdf4;border-color:var(--green-border)}
+.tritest-card.yc{background:var(--yellow-bg);border-color:var(--yellow-border)}
+.tritest-card.rc{background:var(--red-bg);border-color:var(--red-border)}
+.tritest-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:6px}
+.tritest-label{font-size:.95rem;font-weight:700;display:flex;align-items:center;gap:7px}
+.tritest-sub{font-size:.73rem;color:var(--gray-600);font-style:italic}
+.prompt-box{background:white;border-radius:8px;padding:12px;font-size:.85rem;color:var(--gray-700);border:1px solid var(--gray-200);margin-bottom:10px;white-space:pre-wrap;line-height:1.7}
+.tc-actions{display:flex;gap:7px;margin-bottom:12px;flex-wrap:wrap}
+.rating-row{display:flex;gap:7px;margin-top:9px}
+.rb{flex:1;padding:8px 5px;border-radius:8px;border:2px solid var(--gray-200);background:white;font-size:.78rem;font-weight:600;cursor:pointer;transition:.15s;text-align:center}
+.rb:hover{background:var(--gray-100)}
+.rb.sel.good{background:var(--green-bg);border-color:var(--green);color:var(--green-dark)}
+.rb.sel.ok{background:var(--yellow-bg);border-color:var(--yellow);color:var(--yellow-dark)}
+.rb.sel.bad{background:var(--red-bg);border-color:var(--red);color:var(--red-dark)}
+.res-area label{font-size:.8rem;color:var(--gray-600);font-weight:600;display:block;margin-bottom:4px}
+.res-area textarea{min-height:68px;font-size:.83rem;border:1.5px solid var(--gray-200);border-radius:8px;padding:8px 10px;width:100%;font-family:inherit;resize:vertical}
+.res-area textarea:focus{outline:none;border-color:var(--blue)}
+.score-bar{background:var(--gray-200);border-radius:8px;height:10px;overflow:hidden}
+.score-fill{height:100%;border-radius:8px;transition:width .6s ease,background .4s}
+.score-meta{display:flex;justify-content:space-between;font-size:.78rem;color:var(--gray-500);margin-top:5px}
+.chk-list{list-style:none;padding:0}
+.chk-list li{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-bottom:1px solid var(--gray-100);font-size:.85rem}
+.chk-list li:last-child{border:none}
+.ci{font-size:1rem;flex-shrink:0;margin-top:1px}
+.chk-fix{font-size:.78rem;color:var(--red);margin-top:3px}
+.result-pills{display:flex;gap:9px;flex-wrap:wrap;margin:12px 0}
+.pill{flex:1;min-width:85px;padding:10px 7px;border-radius:9px;text-align:center;font-weight:700;font-size:.8rem;line-height:1.5}
+.sug-list{list-style:none;padding:0}
+.sug-item{display:flex;gap:10px;padding:12px;background:var(--gray-50);border-radius:9px;margin-bottom:9px;font-size:.85rem}
+.sug-n{background:var(--blue);color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;flex-shrink:0;margin-top:1px}
+.sug-body{color:var(--gray-600);margin-top:4px}
+.result-note-item{margin-bottom:7px;font-size:.85rem;padding:9px;background:var(--gray-50);border-radius:8px}
+
+/* ── BUTTONS ── */
+.btn{padding:9px 20px;border-radius:8px;font-size:.88rem;font-weight:700;cursor:pointer;border:none;transition:.15s;display:inline-flex;align-items:center;gap:5px;text-decoration:none;line-height:1}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--blue);color:white}
+.btn-primary:hover{background:var(--blue-dark)}
+.btn-crimson{background:var(--tbsa-crimson);color:var(--tbsa-paper);border:1.5px solid var(--tbsa-crimson)}.btn-crimson:hover{background:var(--tbsa-crimson-dk);border-color:var(--tbsa-crimson-dk)}.btn-purple{background:var(--tbsa-crimson);color:var(--tbsa-paper);border:1.5px solid var(--tbsa-crimson)}.btn-purple:hover{background:var(--tbsa-crimson-dk);border-color:var(--tbsa-crimson-dk)}
+.btn-purple:hover{background:var(--purple-dark)}
+.btn-green{background:var(--green);color:white}
+.btn-green:hover{background:var(--green-dark)}
+.btn-ghost{background:var(--gray-100);color:var(--gray-700);border:1.5px solid var(--gray-200)}
+.btn-ghost:hover{background:var(--gray-200)}
+.btn-dark{background:var(--gray-800);color:white}
+.btn-dark:hover{background:black}
+.btn-dark.ok{background:var(--green)}
+.btn-gemini{background:white;color:#1a73e8;border:1.5px solid #1a73e8}
+.btn-gemini:hover{background:#e8f0fe}
+.btn-sm{padding:6px 13px;font-size:.8rem}
+.btn-full{width:100%;justify-content:center;padding:12px}
+
+/* ── MOBILE ── */
+@media(max-width:480px){
+  .header h1{font-size:1.3rem}
+  .timer-display{font-size:2.6rem}
+  .cd-num{font-size:2rem}
+  .st-circle{width:36px;height:36px;font-size:1rem}
+  .ag-letter{width:30px;height:30px;font-size:.88rem}
+  .ag-cn{font-size:.7rem}
+  .ag-en,.ag-sub{display:none}
+  .type-grid{grid-template-columns:1fr 1fr}
+  .tab-btn{font-size:.75rem;padding:10px 5px}
+}
+</style>
+</head>
+<body>
+
+
+<!-- ══ 角色狀態橫條（同步模式才顯示）══ -->
+<div class="role-banner viewer" id="role-banner-viewer"><span class="sync-dot"></span>📺 學員視角｜進度由講師端即時同步｜你的勾選與進度已被鎖定</div>
+<div class="role-banner teacher" id="role-banner-teacher"><span class="sync-dot"></span>✏️ 講師模式｜你的勾選會即時同步給所有學員　·　<span id="online-count">連線中…</span></div>
+
+<!-- ══ TBSA 品牌橫條（頁首）══ -->
+<div class="tbsa-bar-top"></div>
+
+<!-- ══ HEADER ══ -->
+<div class="header">
+  <div class="header-eyebrow">{{ORG_NAME}} × AI 教師研習營 {{COURSE_MONTH}}</div>
+  <h1>AI Agent × 教學備課實戰工作坊</h1>
+  <div class="header-meta">
+    <div class="header-badge">📅 Day 1：5/6（三）13:00–17:00</div>
+    <div class="header-badge">📅 Day 2：5/8（五）09:00–12:00</div>
+    <div class="header-badge">🏫 {{ORG_NAME}}・實體</div>
+  </div>
+</div>
+
+<!-- ══ 拆建修串 BAR ══ -->
+<div class="agents-bar">
+  <div class="agents-title">拆建修串 · 方法論框架</div>
+  <div class="agents-row">
+    <div class="ag-step active"><div class="ag-letter">1</div><div class="ag-cn">拆</div><div class="ag-sub">分析<br>痛點</div></div>
+    <div class="ag-arrow">›</div>
+    <div class="ag-step active"><div class="ag-letter">2</div><div class="ag-cn">建</div><div class="ag-sub">建立<br>Gem</div></div>
+    <div class="ag-arrow">›</div>
+    <div class="ag-step active"><div class="ag-letter">3</div><div class="ag-cn">修</div><div class="ag-sub">殘酷<br>測試</div></div>
+    <div class="ag-arrow">›</div>
+    <div class="ag-step active"><div class="ag-letter">4</div><div class="ag-cn">串</div><div class="ag-sub">串接<br>協作</div></div>
+    <div class="ag-gap">···</div>
+    <div class="ag-step future"><div class="ag-letter">5</div><div class="ag-cn">管</div><div class="ag-sub">管理<br>部署</div></div>
+    <div class="ag-arrow" style="color:rgba(255,255,255,.1)">›</div>
+    <div class="ag-step future"><div class="ag-letter">6</div><div class="ag-cn">交</div><div class="ag-sub">交付<br>複製</div></div>
+  </div>
+  <div class="agents-footer">
+    <span class="ag-tag today">本場：拆 → 串</span>
+    <span class="ag-tag loop">Persona Gem ＋ 備課 Gem 兩圈</span>
+    <span class="ag-divider">|</span>
+    <span class="ag-tag future">管 → 交 暑期 AI AGENT 進階課</span>
+  </div>
+</div>
+
+<!-- ══ TAB NAV ══ -->
+<div class="tab-nav">
+  <div class="tab-list">
+    <button class="tab-btn active" data-tab="day1" onclick="switchTab('day1')">📚 Day 1</button>
+    <button class="tab-btn" data-tab="bridge" onclick="switchTab('bridge')">🌉 40h 橋</button>
+    <button class="tab-btn" data-tab="day2" onclick="switchTab('day2')">🎯 Day 2</button>
+    <button class="tab-btn" data-tab="gemlab" onclick="switchTab('gemlab')">💡 Prompt 速查</button>
+    <button class="tab-btn" data-tab="tritest" onclick="switchTab('tritest')">🧪 三色測試</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     DAY 1
+══════════════════════════════════════ -->
+<div class="pane active" id="pane-day1">
+
+  <!-- 步驟追蹤 -->
+  <div class="card" style="margin-top:0">
+    <div class="label-row">
+      <div class="label">今日進度 ── 拆 → 建 → 修 → 串</div>
+      <button onclick="resetSteps('day1')" style="font-size:.7rem;color:var(--gray-400);background:none;border:none;cursor:pointer">重置</button>
+    </div>
+    <div class="steps-track" id="steps-day1">
+      <div class="st active" id="d1-s0"><div class="st-inner" onclick="setStep('day1',0)"><div class="st-circle">🔍</div><div class="st-label">拆</div><div class="st-sub">Persona<br>痛點</div></div></div>
+      <div class="st-line" id="d1-l0"></div>
+      <div class="st" id="d1-s1"><div class="st-inner" onclick="setStep('day1',1)"><div class="st-circle">🔨</div><div class="st-label">建</div><div class="st-sub">Persona<br>Gem</div></div></div>
+      <div class="st-line" id="d1-l1"></div>
+      <div class="st" id="d1-s2"><div class="st-inner" onclick="setStep('day1',2)"><div class="st-circle">✏️</div><div class="st-label">修</div><div class="st-sub">測試<br>優化</div></div></div>
+      <div class="st-line" id="d1-l2"></div>
+      <div class="st" id="d1-s3"><div class="st-inner" onclick="setStep('day1',3)"><div class="st-circle">🔗</div><div class="st-label">串</div><div class="st-sub">作業<br>說明</div></div></div>
+    </div>
+    <div class="step-hint text-sm" id="step-hint-day1">點選上方圓圈可標記目前進度。</div>
+    <div class="divider" style="margin:12px 0 8px"></div>
+    <div class="day-progress">
+      <div class="dp-label" id="d1-prog-label">0 / 8 實作</div>
+      <div class="dp-bar"><div class="dp-fill" id="d1-prog-bar" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <!-- 計時器 -->
+  <div class="card">
+    <div class="section-head">
+      <div class="section-icon" style="background:var(--tbsa-parchment)">⏱️</div>
+      <div><div class="section-title">練習計時器</div><div class="section-sub">設定後按開始，時間到視覺提醒</div></div>
+    </div>
+    <div class="timer-wrap">
+      <div class="timer-label" id="t1-label">尚未計時</div>
+      <div class="timer-display" id="t1-display">00:00</div>
+      <div class="timer-presets">
+        <button class="preset-btn" onclick="setTimer(1,5)">5 分</button>
+        <button class="preset-btn" onclick="setTimer(1,7)">7 分</button>
+        <button class="preset-btn" onclick="setTimer(1,10)">10 分</button>
+        <button class="preset-btn" onclick="setTimer(1,15)">15 分</button>
+        <button class="preset-btn" onclick="setTimer(1,20)">20 分</button>
+      </div>
+      <div class="timer-custom">
+        <span style="font-size:.8rem;color:var(--gray-500)">自訂：</span>
+        <input type="number" id="t1-custom" min="1" max="90" placeholder="分" onchange="setTimer(1,parseInt(this.value)||10)">
+        <span style="font-size:.8rem;color:var(--gray-500)">分鐘</span>
+      </div>
+      <div class="timer-controls">
+        <button class="tcbtn start" id="t1-start" onclick="toggleTimer(1)">▶ 開始</button>
+        <button class="tcbtn reset" onclick="resetTimer(1)">↺ 重置</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 實作 #0 ─── -->
+  <div class="lab-card b1" id="lab-0">
+    <div class="lab-header" onclick="toggleLab(0)">
+      <div class="lab-header-left">
+        <span class="lab-badge">Block 1 · 實作 #0</span>
+        <span class="lab-header-title">🤖 建立「設計 Gem 的 Gem」</span>
+      </div>
+      <div class="lab-check" id="lc-0" onclick="event.stopPropagation();toggleLabCheck(0)"></div>
+    </div>
+    <div class="lab-body" id="lb-0">
+      <div class="lab-time">⏱ 15 分鐘｜Block 1（13:45–14:45）</div>
+      <div class="lab-step">步驟 1｜在 Gemini 建立這個 Meta Gem</div>
+      <div class="lab-desc">開啟 gemini.google.com → 左欄「Gem 管理員」→「新建 Gem」</div>
+      <div class="copy-block">
+        <div class="copy-label-top">Gem 名稱</div>
+        <div class="copy-text" id="cp-0a">Gem 專用生成器</div>
+        <button class="copy-btn" onclick="copyBlock('cp-0a',this)">📋 複製</button>
+      </div>
+      <div class="copy-block">
+        <div class="copy-label-top">說明欄（整段複製貼入）</div>
+        <div class="copy-text" id="cp-0b">你是 Gemini 的 Gem 生成器，依需求產出 Gem 名稱、說明與使用說明。</div>
+        <button class="copy-btn" onclick="copyBlock('cp-0b',this)">📋 複製</button>
+      </div>
+      <div class="lab-note">⚙️ 工具區塊記得勾選「Canvas」，讓 Gem 能輸出可編輯格式</div>
+      <div class="lab-step">步驟 2｜儲存後開啟這個 Gem，開始對話</div>
+      <div class="lab-desc">上傳 DataRoom 的「AI 餵食用」資料，然後告訴它你想做什麼 Gem。</div>
+      <div class="mt8">
+        <a class="btn btn-gemini btn-sm" href="https://gemini.google.com/gems/create" target="_blank">✨ 前往 Gemini 建立 Gem</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 實作 #1 ─── -->
+  <div class="lab-card b2" id="lab-1">
+    <div class="lab-header" onclick="toggleLab(1)">
+      <div class="lab-header-left">
+        <span class="lab-badge">Block 2 · 實作 #1</span>
+        <span class="lab-header-title">👤 打造 Persona Gem</span>
+      </div>
+      <div class="lab-check" id="lc-1" onclick="event.stopPropagation();toggleLabCheck(1)"></div>
+    </div>
+    <div class="lab-body hidden" id="lb-1">
+      <div class="lab-time">⏱ 15 分鐘｜Block 2（15:35–16:25）</div>
+      <div class="lab-step">步驟 1｜打開你剛建好的「Gem 專用生成器」</div>
+      <div class="lab-desc">直接用 #0 建好的 Meta Gem，<strong>不需要上傳任何檔案</strong>，一句話就會幫你生出完整 Persona Gem 提示詞。</div>
+      <div class="lab-step">步驟 2｜對 Meta Gem 貼入以下這段</div>
+      <div class="copy-block">
+        <div class="copy-label-top">對 Meta Gem 對話框輸入（整段複製）</div>
+        <div class="copy-text" id="cp-1">請幫我設計一個 Persona Gem，依照 Buyer Persona 八大欄位（基本背景、痛點、動機、目標、觀念價值、媒體偏好、購買流程、抗拒原因），把模糊的學生描述轉成可教學應用的人物誌。
+
+輸入：課程名稱 + 學生科系年級 + 觀察到的學生特質。
+輸出：Markdown 八大欄位逐項描述（每欄 2–4 句話），每欄附「教學應用建議」一句話，最後給一句「角色扮演啟動句」。
+資訊不足時要主動問 1–2 個補充題，不要憑空編造。</div>
+        <button class="copy-btn" onclick="copyBlock('cp-1',this)">📋 複製</button>
+      </div>
+      <div class="lab-step">步驟 3｜複製 Meta Gem 輸出的提示詞 → 新建「Persona Gem」</div>
+      <div class="lab-desc">在 Gemini → 新建 Gem → 名稱填「Persona Gem」→ 把 Meta Gem 產出的整段提示詞貼到「說明」欄 → 儲存 → 完成！</div>
+      <div class="lab-note info">💡 想直接拿 prompt 不想自己想？切到 <strong>💡 Prompt 速查</strong> tab，所有實作的 prompt 都集中在那</div>
+      <div class="mt8">
+        <button class="btn btn-purple btn-sm" onclick="switchTab('gemlab')">💡 開啟 Prompt 速查 →</button>
+        <a class="btn btn-gemini btn-sm" href="https://gemini.google.com/gems/create" target="_blank" style="margin-left:8px">✨ 前往 Gemini</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 實作 #2 ─── -->
+  <div class="lab-card b2" id="lab-2">
+    <div class="lab-header" onclick="toggleLab(2)">
+      <div class="lab-header-left">
+        <span class="lab-badge">Block 2 · 實作 #2</span>
+        <span class="lab-header-title">🎤 AI 訪談：認識你的學生</span>
+      </div>
+      <div class="lab-check" id="lc-2" onclick="event.stopPropagation();toggleLabCheck(2)"></div>
+    </div>
+    <div class="lab-body hidden" id="lb-2">
+      <div class="lab-time">⏱ 10 分鐘｜Block 2（15:35–16:25）</div>
+      <div class="lab-desc">開新的 Gemini 對話（不要在 Gem 裡），貼入以下 AI 訪談提示詞：</div>
+      <div class="copy-block">
+        <div class="copy-label-top">AI 訪談指令（整段複製）</div>
+        <div class="copy-text" id="cp-2">你是我的備課顧問。請依序問我以下 4 個問題，一次只問一題，等我回答完再問下一題：
+
+1. 你教哪一門課？學生通常是哪個系所、幾年級？
+2. 班上大概幾個人？你觀察到學生之間最明顯的程度差異是什麼？
+3. 學生在這門課最常卡在哪裡？或者最常跟你反映什麼困難？
+4. 上完這門課之後，你最希望學生帶走什麼？（能力、觀念、態度都可以）
+
+從第一題開始。</div>
+        <button class="copy-btn" onclick="copyBlock('cp-2',this)">📋 複製</button>
+      </div>
+      <div class="lab-note info">💡 4 題訪談結束後，把對話記錄複製保存，實作 #3「3 個人物誌」會把這份訪談稿當素材丟給 Persona Gem</div>
+      <div class="mt8"><a class="btn btn-gemini btn-sm" href="https://gemini.google.com/app" target="_blank">✦ 開啟 Gemini 新對話</a></div>
+    </div>
+  </div>
+
+  <!-- ─── 實作 #3 ─── -->
+  <div class="lab-card b2" id="lab-3">
+    <div class="lab-header" onclick="toggleLab(3)">
+      <div class="lab-header-left">
+        <span class="lab-badge">Block 2 · 實作 #3</span>
+        <span class="lab-header-title">📋 產出 3 個學生人物誌</span>
+      </div>
+      <div class="lab-check" id="lc-3" onclick="event.stopPropagation();toggleLabCheck(3)"></div>
+    </div>
+    <div class="lab-body hidden" id="lb-3">
+      <div class="lab-time">⏱ 15 分鐘｜Block 2（15:35–16:25）</div>
+      <div class="lab-desc">開啟你剛建好的 <strong>Persona Gem</strong>，貼入以下指令：</div>
+      <div class="copy-block">
+        <div class="copy-label-top">Persona Gem 對話框指令</div>
+        <div class="copy-text" id="cp-3">請根據我的課程，給我 3 種最典型的學生人物誌。
+每種人物誌請用完整的八大欄位格式呈現，各欄位至少 50 字，並附一個具體例子。</div>
+        <button class="copy-btn" onclick="copyBlock('cp-3',this)">📋 複製</button>
+      </div>
+      <div class="lab-note">⚡ Gem 可能會先問你補充問題——回答後它才會產出完整八大欄位</div>
+      <div class="lab-step">若 Gem 沒有自動帶入你的課程資訊，補充這句：</div>
+      <div class="copy-block">
+        <div class="copy-label-top">補充說明範例（依實際修改）</div>
+        <div class="copy-text" id="cp-3b">我教的是【課程名稱】，學生大多是【系所年級】，班上約【人數】人，程度差異主要在【描述差異】。</div>
+        <button class="copy-btn" onclick="copyBlock('cp-3b',this)">📋 複製</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 實作 #4 ─── -->
+  <div class="lab-card b2" id="lab-4">
+    <div class="lab-header" onclick="toggleLab(4)">
+      <div class="lab-header-left">
+        <span class="lab-badge">Block 2 · 實作 #4</span>
+        <span class="lab-header-title">🎭 跟 Persona 說話（扮演模式）</span>
+      </div>
+      <div class="lab-check" id="lc-4" onclick="event.stopPropagation();toggleLabCheck(4)"></div>
+    </div>
+    <div class="lab-body hidden" id="lb-4">
+      <div class="lab-time">⏱ 15 分鐘｜Block 2（15:35–16:25）</div>
+      <div class="lab-desc">繼續在 Persona Gem 對話，讓它「扮演」你剛產出的學生：</div>
+      <div class="copy-block">
+        <div class="copy-label-top">啟動扮演模式（複製貼入）</div>
+        <div class="copy-text" id="cp-4a">你是誰？請用第一人稱自我介紹，說說你的學習狀況、最大的煩惱，以及你對這門課的期待和擔心。</div>
+        <button class="copy-btn" onclick="copyBlock('cp-4a',this)">📋 複製</button>
+      </div>
+      <div class="lab-desc mt8">想深入問，可以繼續追問：</div>
+      <div class="copy-block">
+        <div class="copy-label-top">追問範例（可修改）</div>
+        <div class="copy-text" id="cp-4b">如果老師用以下方式教這個概念，你的第一反應是什麼？你覺得這樣能幫助到你嗎？</div>
+        <button class="copy-btn" onclick="copyBlock('cp-4b',this)">📋 複製</button>
+      </div>
+      <div class="lab-note info">💡 這個扮演模式讓你「聽到」學生的聲音——用來調整 Gem 設定或課程設計都很有效</div>
+    </div>
+  </div>
+
+  <!-- ─── 實作 #5 ─── -->
+  <div class="lab-card b3" id="lab-5">
+    <div class="lab-header" onclick="toggleLab(5)">
+      <div class="lab-header-left">
+        <span class="lab-badge">Block 3 · 實作 #5</span>
+        <span class="lab-header-title">🔴 三色殘酷測試（找破綻）</span>
+      </div>
+      <div class="lab-check" id="lc-5" onclick="event.stopPropagation();toggleLabCheck(5)"></div>
+    </div>
+    <div class="lab-body hidden" id="lb-5">
+      <div class="lab-time">⏱ 25 分鐘｜Block 3（16:25–17:00）</div>
+      <div class="lab-desc">用三種難度的情境，把你的 Persona Gem 逼到極限：</div>
+      <div class="copy-block" style="background:#f0fdf4;border:1.5px solid var(--green-border)">
+        <div class="copy-label-top" style="color:#15803d">🟢 綠燈｜完整、清楚的標準情境（自測 5 分鐘）</div>
+        <div class="copy-text" style="color:#166534" id="cp-5g">請幫我分析這位學生：
+大三傳播系學生，主修廣告，對視覺設計有強烈興趣，Canva 很熟練但不懂 Illustrator。
+平常準時交作業，但批判性思考較弱，習慣套用老師給的框架而不自己發展想法。
+班上 28 人，她屬於「安全牌」型學生，不願意冒險嘗試創新。</div>
+        <button class="copy-btn" style="top:10px" onclick="copyBlock('cp-5g',this)">📋 複製</button>
+      </div>
+      <div class="copy-block" style="background:var(--yellow-bg);border:1.5px solid var(--yellow-border)">
+        <div class="copy-label-top" style="color:#a16207">🟡 黃燈｜模糊、資訊不完整（自測 5 分鐘）</div>
+        <div class="copy-text" style="color:#713f12" id="cp-5y">我有個學生好像學得不太順，每次都說「聽不懂」…</div>
+        <button class="copy-btn" style="top:10px" onclick="copyBlock('cp-5y',this)">📋 複製</button>
+      </div>
+      <div class="copy-block" style="background:var(--red-bg);border:1.5px solid var(--red-border)">
+        <div class="copy-label-top" style="color:#b91c1c">🔴 紅燈｜刁鑽邊界情境（自測 5 分鐘）</div>
+        <div class="copy-text" style="color:#7f1d1d" id="cp-5r">有個母語是英文的外籍學生要修我的中文寫作課，他說他「完全不會中文但又不想學注音」，你能幫我分析他的學習需求嗎？</div>
+        <button class="copy-btn" style="top:10px" onclick="copyBlock('cp-5r',this)">📋 複製</button>
+      </div>
+      <div class="lab-note">⚡ 同桌交叉測試（10 分鐘）：交換電腦，用同桌的三色題目測對方的 Gem</div>
+      <div class="mt8">
+        <button class="btn btn-ghost btn-sm" onclick="switchTab('tritest')">🧪 開啟完整三色測試沙盒 →</button>
+        <a class="btn btn-gemini btn-sm" href="https://gemini.google.com/app" target="_blank" style="margin-left:8px">✦ 開啟 Gemini</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 實作 #6 ─── -->
+  <div class="lab-card b3" id="lab-6">
+    <div class="lab-header" onclick="toggleLab(6)">
+      <div class="lab-header-left">
+        <span class="lab-badge">Block 3 · 實作 #6</span>
+        <span class="lab-header-title">🖼️ 生成學生照片</span>
+      </div>
+      <div class="lab-check" id="lc-6" onclick="event.stopPropagation();toggleLabCheck(6)"></div>
+    </div>
+    <div class="lab-body hidden" id="lb-6">
+      <div class="lab-time">⏱ 5–10 分鐘｜Block 3（修的延伸）</div>
+      <div class="lab-desc">在 Gemini 對話框（需 Gemini Advanced / 2.0），選一種風格後貼入指令，並在最後補上你的人物誌「基本背景」欄位內容：</div>
+      <div class="copy-options">
+        <button class="copy-opt-btn active" id="photo-opt-0" onclick="selectPhotoStyle(0)">① 寫實攝影</button>
+        <button class="copy-opt-btn" id="photo-opt-1" onclick="selectPhotoStyle(1)">② 插畫風</button>
+        <button class="copy-opt-btn" id="photo-opt-2" onclick="selectPhotoStyle(2)">③ 素描風</button>
+      </div>
+      <div class="copy-block">
+        <div class="copy-label-top">圖片生成指令（選好風格後複製）</div>
+        <div class="copy-text" id="cp-6">請根據以下學生人物誌，生成一張學生的半身照片（白色背景、自然光、寫實攝影風）：
+
+【貼上你的人物誌基本背景欄位內容】</div>
+        <button class="copy-btn" onclick="copyBlock('cp-6',this)">📋 複製</button>
+      </div>
+      <div class="lab-note info">💡 把生成的照片配上八大欄位，就是一份完整的 Buyer Persona 視覺卡片</div>
+      <div class="mt8"><a class="btn btn-gemini btn-sm" href="https://gemini.google.com/app" target="_blank">✦ 開啟 Gemini</a></div>
+    </div>
+  </div>
+
+  <!-- ─── 實作 #7 ─── -->
+  <div class="lab-card b3" id="lab-7">
+    <div class="lab-header" onclick="toggleLab(7)">
+      <div class="lab-header-left">
+        <span class="lab-badge">Block 3 · 實作 #7</span>
+        <span class="lab-header-title">📊 NotebookLM 資訊圖表（可控技巧）</span>
+      </div>
+      <div class="lab-check" id="lc-7" onclick="event.stopPropagation();toggleLabCheck(7)"></div>
+    </div>
+    <div class="lab-body hidden" id="lb-7">
+      <div class="lab-time">⏱ 10 分鐘｜Block 3（修的延伸）</div>
+      <div class="lab-desc">用 NotebookLM 把人物誌轉成格式一致的資訊圖表，關鍵是<strong>只勾選兩個來源</strong>：</div>
+      <div style="margin:12px 0">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;gap:10px;align-items:flex-start;font-size:.85rem">
+            <span style="background:var(--blue);color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;font-size:.75rem;margin-top:1px">1</span>
+            <div>開啟 <strong>notebooklm.google.com</strong> → 新建 Notebook</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start;font-size:.85rem">
+            <span style="background:var(--blue);color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;font-size:.75rem;margin-top:1px">2</span>
+            <div>上傳來源 ① → <strong>AI餵食_03_Persona資訊圖表視覺規範.md</strong>（DataRoom 取得）</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start;font-size:.85rem">
+            <span style="background:var(--blue);color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;font-size:.75rem;margin-top:1px">3</span>
+            <div>上傳來源 ② → 複製貼上你的<strong>人物誌說明文字</strong>（八大欄位內容）</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start;font-size:.85rem">
+            <span style="background:var(--amber);color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;font-size:.75rem;margin-top:1px">!</span>
+            <div><strong>只勾選這兩個來源</strong>（其他來源會干擾格式判斷，務必取消勾選）</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start;font-size:.85rem">
+            <span style="background:var(--green);color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;font-size:.75rem;margin-top:1px">5</span>
+            <div>按下「<strong>資訊圖表</strong>」按鈕 → 格式依規範產出，可跨所有 Persona 複用</div>
+          </div>
+        </div>
+      </div>
+      <div class="lab-note success">✅ 技巧核心：用視覺規範文件「控制」NotebookLM 的輸出格式，讓每個 Persona 圖表風格一致</div>
+      <div class="mt8"><a class="btn btn-ghost btn-sm" href="https://notebooklm.google.com" target="_blank">📓 開啟 NotebookLM</a></div>
+    </div>
+  </div>
+
+  <!-- 時程參考 -->
+  <div class="card">
+    <div class="section-head">
+      <div class="section-icon" style="background:#fef3c7">🗓️</div>
+      <div><div class="section-title">Day 1 時程</div><div class="section-sub">5/6（三）13:00–17:00</div></div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item current"><div class="tl-time">13:00 – 13:20</div><div class="tl-title">前導介紹（TBSA × {{ORG_SHORT}} + 講師介紹）</div><div class="tl-desc">TBSA 知識體系 / 講師背景 / AI 時代人才架構</div></div>
+      <div class="tl-item"><div class="tl-time">13:20 – 13:45</div><div class="tl-title">開場 + 問卷洞察</div><div class="tl-desc">課程架構 / DataRoom / LINE 群組 — N=14：86% 重度用戶 × Gem 14%，看見缺口</div><span class="tl-tag tag-拆">拆</span></div>
+      <div class="tl-item"><div class="tl-time">13:45 – 14:45</div><div class="tl-title">Block 1：AI 工具打底 + 實作 #0</div><div class="tl-desc">Gemini 登入 / 拆建修串方法論 / Agent 三大超能力 / 實作 #0 建 Meta Gem（15 min）</div><span class="tl-tag tag-建">建</span></div>
+      <div class="tl-item"><div class="tl-time">14:45 – 14:55</div><div class="tl-title">休息 10 分鐘</div></div>
+      <div class="tl-item"><div class="tl-time">14:55 – 15:35</div><div class="tl-title">Block 2：Buyer Persona 核心 + 八大欄位</div><div class="tl-desc">為什麼需要 Persona / AI 角色 / 欄位 1–8 說明</div><span class="tl-tag tag-拆">拆</span></div>
+      <div class="tl-item"><div class="tl-time">15:35 – 16:25</div><div class="tl-title">Block 2：實作 #1–#4（Persona Gem 拆→建）</div><div class="tl-desc">#1 建 Gem（15m）→ #2 AI 訪談（10m）→ #3 產人物誌（15m）→ #4 扮演（15m）</div><span class="tl-tag tag-拆">拆</span><span class="tl-tag tag-建" style="margin-left:4px">建</span></div>
+      <div class="tl-item"><div class="tl-time">16:25 – 17:00</div><div class="tl-title">Block 3：修 — 實作 #5–#7 + 40h 作業說明</div><div class="tl-desc">三色測試（#5）→ 照片生成（#6）→ NotebookLM 資訊圖表（#7）→ 作業說明</div><span class="tl-tag tag-修">修</span><span class="tl-tag tag-橋" style="margin-left:4px">橋</span></div>
+    </div>
+  </div>
+
+  <!-- 課堂資源 -->
+  <div class="card card-sm">
+    <div class="label mb8">快速連結</div>
+    <div class="res-grid">
+      <a class="res-btn" href="https://gemini.google.com" target="_blank"><div class="res-icon">✨</div><div class="res-label">Gemini</div><div class="res-sub">開啟 AI 工具</div></a>
+      <a class="res-btn" href="{{LINE_URL}}" target="_blank"><div class="res-icon">💬</div><div class="res-label">LINE 群組</div><div class="res-sub">課堂討論 &amp; 救援</div></a>
+      <a class="res-btn" href="https://notebooklm.google.com" target="_blank"><div class="res-icon">📓</div><div class="res-label">NotebookLM</div><div class="res-sub">實作 #7</div></a>
+      <div class="res-btn" onclick="switchTab('gemlab')" style="cursor:pointer"><div class="res-icon">💡</div><div class="res-label">Prompt 速查</div><div class="res-sub">所有 prompt 集中區</div></div>
+      <div class="res-btn" onclick="switchTab('tritest')" style="cursor:pointer"><div class="res-icon">🧪</div><div class="res-label">三色測試</div><div class="res-sub">壓力測試</div></div>
+      <a class="res-btn" href="{{DATAROOM_URL}}" target="_blank"><div class="res-icon">📁</div><div class="res-label">課程 DataRoom</div><div class="res-sub">餵食檔 &amp; 素材</div></a>
+      <a class="res-btn" href="{{UPLOAD_URL}}" target="_blank"><div class="res-icon">⬆️</div><div class="res-label">實作上傳</div><div class="res-sub">成果繳交區</div></a>
+    </div>
+  </div>
+</div><!-- /pane-day1 -->
+
+
+<!-- ══════════════════════════════════════
+     40h 橋
+══════════════════════════════════════ -->
+<div class="pane" id="pane-bridge">
+  <div class="banner warn" style="margin-top:0"><div class="banner-icon">🌉</div><div><strong>40 小時橋任務</strong>：Day 1 結束到 Day 2 開始，完成 AI 驗證作業！Day 2 開場每人分享 30 秒。</div></div>
+
+  <div class="card">
+    <div class="countdown-big">
+      <div class="countdown-title">距離 Day 2 開始還有</div>
+      <div class="countdown-row">
+        <div class="cd-unit"><div class="cd-num" id="cd-h">--</div><div class="cd-label">小時</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit"><div class="cd-num" id="cd-m">--</div><div class="cd-label">分鐘</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit"><div class="cd-num" id="cd-s">--</div><div class="cd-label">秒</div></div>
+      </div>
+      <div id="cd-msg" class="countdown-msg"></div>
+    </div>
+    <div class="divider"></div>
+    <div class="text-sm flex-center gap8">🗓️ Day 2 <strong>2026 / 05 / 08（五）09:00</strong> 開場</div>
+  </div>
+
+  <div class="card">
+    <div class="label-row mb8">
+      <div class="label">橋任務清單</div>
+      <div class="badge-sm" style="background:var(--green-bg);color:var(--green-dark)" id="hw-count-label">0 / 4</div>
+    </div>
+    <div class="hw-progress"><div class="hw-bar" id="hw-bar" style="width:0%"></div></div>
+    <div style="font-size:.72rem;color:var(--gray-400);text-align:right;margin-bottom:10px" id="hw-pct-label">尚未開始</div>
+    <div id="hw-list">
+      <div class="hw-item"><div class="hw-check" id="hw0" onclick="toggleHW(0)"></div><div><div class="hw-title">① 打開 Day 1 建好的 Persona Gem，確認能正常對話</div><div class="hw-desc">跑一輪基本確認，確認 Gem 設定沒有跑掉</div></div></div>
+      <div class="hw-item"><div class="hw-check" id="hw1" onclick="toggleHW(1)"></div><div><div class="hw-title">② 生成 3 個學生人物誌</div><div class="hw-desc">在 Persona Gem 輸入：「請根據我的課程，給我 3 種最典型的學生人物誌（各一段）」</div></div></div>
+      <div class="hw-item"><div class="hw-check" id="hw2" onclick="toggleHW(2)"></div><div><div class="hw-title">③ 選出最讓你驚艷或最意外的一個</div><div class="hw-desc">截圖或複製，想好「AI 說了什麼讓你意外？」Day 2 開場 30 秒分享用</div></div></div>
+      <div class="hw-item"><div class="hw-check" id="hw3" onclick="toggleHW(3)"></div><div><div class="hw-title">④ 在 LINE 群組分享你的作業</div><div class="hw-desc">貼一段人物誌 + 一句心得，和大家交流！</div></div></div>
+    </div>
+  </div>
+
+  <div class="card card-sm">
+    <div class="label mb8">卡關了？</div>
+    <div class="banner info" style="margin-bottom:10px"><div class="banner-icon">💡</div><div>Gem 沒反應？先描述「我教的是什麼課、學生大概是什麼背景」再問人物誌。</div></div>
+    <div class="copy-block">
+      <div class="copy-label-top">救援指令（複製貼入 Persona Gem）</div>
+      <div class="copy-text" id="cp-bridge">請根據我的課程，給我 3 種最典型的學生人物誌（各一段）。
+我教的是【課程名稱】，學生是【系所年級】，約【人數】人。</div>
+      <button class="copy-btn" onclick="copyBlock('cp-bridge',this)">📋 複製</button>
+    </div>
+    <div class="res-grid" style="grid-template-columns:1fr 1fr;margin-top:10px">
+      <a class="res-btn" href="{{LINE_URL}}" target="_blank"><div class="res-icon">🆘</div><div class="res-label">LINE 求助</div><div class="res-sub">Jacky 或同學救援</div></a>
+      <a class="res-btn" href="https://gemini.google.com" target="_blank"><div class="res-icon">✨</div><div class="res-label">重新打開 Gemini</div><div class="res-sub">找回你的 Gem</div></a>
+    </div>
+  </div>
+</div><!-- /pane-bridge -->
+
+
+<!-- ══════════════════════════════════════
+     DAY 2
+══════════════════════════════════════ -->
+<div class="pane" id="pane-day2">
+
+  <div class="card" style="margin-top:0">
+    <div class="label-row">
+      <div class="label">今日進度 ── 拆 → 建 → 修 → 串</div>
+      <button onclick="resetSteps('day2')" style="font-size:.7rem;color:var(--gray-400);background:none;border:none;cursor:pointer">重置</button>
+    </div>
+    <div class="steps-track" id="steps-day2">
+      <div class="st active" id="d2-s0"><div class="st-inner" onclick="setStep('day2',0)"><div class="st-circle">🔍</div><div class="st-label">拆</div><div class="st-sub">備課<br>痛點</div></div></div>
+      <div class="st-line" id="d2-l0"></div>
+      <div class="st" id="d2-s1"><div class="st-inner" onclick="setStep('day2',1)"><div class="st-circle">🔨</div><div class="st-label">建</div><div class="st-sub">備課<br>Gem</div></div></div>
+      <div class="st-line" id="d2-l1"></div>
+      <div class="st" id="d2-s2"><div class="st-inner" onclick="setStep('day2',2)"><div class="st-circle">✏️</div><div class="st-label">修</div><div class="st-sub">測試<br>優化</div></div></div>
+      <div class="st-line" id="d2-l2"></div>
+      <div class="st" id="d2-s3"><div class="st-inner" onclick="setStep('day2',3)"><div class="st-circle">🎯</div><div class="st-label">串</div><div class="st-sub">需求收束<br>+暑假預告</div></div></div>
+    </div>
+    <div class="step-hint text-sm" id="step-hint-day2">點選上方圓圈可標記目前進度。</div>
+    <div class="divider" style="margin:12px 0 8px"></div>
+    <div class="day-progress">
+      <div class="dp-label" id="d2-prog-label">0 / 3 實作</div>
+      <div class="dp-bar"><div class="dp-fill" id="d2-prog-bar" style="width:0%;background:linear-gradient(90deg,var(--green-dark),var(--green))"></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-head">
+      <div class="section-icon" style="background:#dcfce7">⏱️</div>
+      <div><div class="section-title">練習計時器</div><div class="section-sub">設定後按開始</div></div>
+    </div>
+    <div class="timer-wrap">
+      <div class="timer-label" id="t2-label">尚未計時</div>
+      <div class="timer-display" id="t2-display">00:00</div>
+      <div class="timer-presets">
+        <button class="preset-btn" onclick="setTimer(2,5)">5 分</button>
+        <button class="preset-btn" onclick="setTimer(2,7)">7 分</button>
+        <button class="preset-btn" onclick="setTimer(2,10)">10 分</button>
+        <button class="preset-btn" onclick="setTimer(2,15)">15 分</button>
+        <button class="preset-btn" onclick="setTimer(2,20)">20 分</button>
+      </div>
+      <div class="timer-custom">
+        <span style="font-size:.8rem;color:var(--gray-500)">自訂：</span>
+        <input type="number" id="t2-custom" min="1" max="90" placeholder="分" onchange="setTimer(2,parseInt(this.value)||10)">
+        <span style="font-size:.8rem;color:var(--gray-500)">分鐘</span>
+      </div>
+      <div class="timer-controls">
+        <button class="tcbtn start" id="t2-start" onclick="toggleTimer(2)">▶ 開始</button>
+        <button class="tcbtn reset" onclick="resetTimer(2)">↺ 重置</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 實作 #8 ─── -->
+  <div class="lab-card b4" id="lab-8">
+    <div class="lab-header" onclick="toggleLab(8)">
+      <div class="lab-header-left">
+        <span class="lab-badge">Block 4 · 實作 #8</span>
+        <span class="lab-header-title">🎤 拆備課流程（AI 訪談）</span>
+      </div>
+      <div class="lab-check" id="lc-8" onclick="event.stopPropagation();toggleLabCheck(8)"></div>
+    </div>
+    <div class="lab-body hidden" id="lb-8">
+      <div class="lab-time">⏱ 20 分鐘｜09:30–09:55</div>
+      <div class="lab-desc">開新的 Gemini 對話，用 AI 幫你把備課流程拆解清楚：</div>
+      <div class="copy-block">
+        <div class="copy-label-top">備課流程 AI 訪談指令（整段複製）</div>
+        <div class="copy-text" id="cp-8">你是我的備課顧問。請依序問我以下 4 個問題，一次只問一題，等我回答完再問下一題，幫我找出最值得 AI 輔助的備課環節：
+
+1. 你備一堂課通常花多少時間？整個流程中最耗時的步驟是什麼？
+2. 哪個備課環節你覺得「這件事應該可以讓 AI 幫我做」？
+3. 有沒有哪個備課步驟每次都很重複、很煩，但又不得不做？
+4. 如果有一個 AI 備課助手，你最希望它幫你做哪一件事？
+
+從第一題開始。</div>
+        <button class="copy-btn" onclick="copyBlock('cp-8',this)">📋 複製</button>
+      </div>
+      <div class="lab-step">訪談結束後，截圖到 Google Slides</div>
+      <div class="lab-desc">把 4 題對話截圖貼到課堂共用 Google Slides，等等建 Gem 用。</div>
+      <div class="mt8"><a class="btn btn-gemini btn-sm" href="https://gemini.google.com/app" target="_blank">✦ 開啟 Gemini 新對話</a></div>
+    </div>
+  </div>
+
+  <!-- ─── 實作 #9 ─── -->
+  <div class="lab-card b4" id="lab-9">
+    <div class="lab-header" onclick="toggleLab(9)">
+      <div class="lab-header-left">
+        <span class="lab-badge">Block 4 · 實作 #9</span>
+        <span class="lab-header-title">🔨 建立備課 Gem</span>
+      </div>
+      <div class="lab-check" id="lc-9" onclick="event.stopPropagation();toggleLabCheck(9)"></div>
+    </div>
+    <div class="lab-body hidden" id="lb-9">
+      <div class="lab-time">⏱ 20 分鐘｜09:55–10:35（含示範）</div>
+      <div class="lab-desc">根據剛才的 AI 訪談結果，用 <strong>Meta Gem 一句話</strong>就能生出備課 Gem。選一個主軸（會跳到 Prompt 速查對應段落）：</div>
+      <div class="copy-options" style="margin-bottom:12px">
+        <button class="copy-opt-btn active" onclick="switchTab('gemlab');setTimeout(()=>{const e=document.getElementById('cp-pr3');if(e)e.scrollIntoView({behavior:'smooth',block:'center'})},150)">📚 教材分層版（A/B/C 三程度）</button>
+        <button class="copy-opt-btn" onclick="switchTab('gemlab');setTimeout(()=>{const e=document.getElementById('cp-pr4');if(e)e.scrollIntoView({behavior:'smooth',block:'center'})},150)">🎨 視覺生成版（投影片腳本）</button>
+      </div>
+      <div class="lab-note info">💡 建議選你今天課程中最痛的那個備課環節來做，不一定要做完整，做到「初版能用」就好</div>
+      <div class="lab-step">建立流程（3 步驟）</div>
+      <div class="lab-desc">① 切到 <strong>Prompt 速查</strong> tab → 找區塊 A 的 #3 或 #4<br>② 複製對 Meta Gem 的指令 → 貼到你的 Meta Gem<br>③ 把 Meta Gem 產出的提示詞貼到新 Gem → 初測截圖</div>
+      <div class="mt8">
+        <button class="btn btn-purple btn-sm" onclick="switchTab('gemlab')">💡 開啟 Prompt 速查 →</button>
+        <a class="btn btn-gemini btn-sm" href="https://gemini.google.com/gems/create" target="_blank" style="margin-left:8px">✨ 前往 Gemini 建立 Gem</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 實作 #10 ─── -->
+  <div class="lab-card b4" id="lab-10">
+    <div class="lab-header" onclick="toggleLab(10)">
+      <div class="lab-header-left">
+        <span class="lab-badge">Block 4 · 實作 #10</span>
+        <span class="lab-header-title">🔴 三色殘酷測試（備課 Gem 完整版）</span>
+      </div>
+      <div class="lab-check" id="lc-10" onclick="event.stopPropagation();toggleLabCheck(10)"></div>
+    </div>
+    <div class="lab-body hidden" id="lb-10">
+      <div class="lab-time">⏱ 17 分鐘｜10:45–11:15</div>
+      <div class="lab-desc">用三色殘酷測試找出你備課 Gem 的弱點，然後即時修訂：</div>
+      <div style="display:flex;gap:8px;margin:12px 0;flex-wrap:wrap">
+        <div style="flex:1;min-width:120px;background:#f0fdf4;border:1.5px solid var(--green-border);border-radius:10px;padding:12px;text-align:center">
+          <div style="font-size:1.3rem;margin-bottom:4px">🟢</div>
+          <div style="font-size:.8rem;font-weight:700;color:var(--green-dark)">自測</div>
+          <div style="font-size:.72rem;color:var(--green)">7 分鐘<br>三色都跑一遍</div>
+        </div>
+        <div style="flex:1;min-width:120px;background:var(--yellow-bg);border:1.5px solid var(--yellow-border);border-radius:10px;padding:12px;text-align:center">
+          <div style="font-size:1.3rem;margin-bottom:4px">🔄</div>
+          <div style="font-size:.8rem;font-weight:700;color:var(--yellow-dark)">同桌交叉</div>
+          <div style="font-size:.72rem;color:var(--yellow)">10 分鐘<br>測對方的 Gem</div>
+        </div>
+      </div>
+      <div class="lab-note">⚡ 測完即時修改 Gem 設定，修完再測一次——這就是「修」的循環！</div>
+      <div class="mt8">
+        <button class="btn btn-ghost btn-sm" onclick="switchTab('tritest')">🧪 開啟三色測試沙盒 →</button>
+        <a class="btn btn-gemini btn-sm" href="https://gemini.google.com/app" target="_blank" style="margin-left:8px">✦ 開啟 Gemini</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 老師需求收束 -->
+  <div class="hook-card">
+    <h3>🎯 你提的需求，暑假課接續</h3>
+    <p>今天大家提出的備課需求，本場帶你走完了第一段。<br>下一段 — 多 Agent 串接、外部資料源、自動出題批改 —<br>暑期 AI AGENT 進階課接續完成。</p>
+    <button class="hook-btn" onclick="alert('暑期 AI AGENT 進階課詳情即將公告，請加 LINE 群組獲得第一手消息！')">了解暑期 AI AGENT 進階課 →</button>
+  </div>
+
+  <!-- Day 2 時程 -->
+  <div class="card">
+    <div class="section-head">
+      <div class="section-icon" style="background:#dcfce7">🗓️</div>
+      <div><div class="section-title">Day 2 時程</div><div class="section-sub">5/8（五）09:00–12:00</div></div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item current"><div class="tl-time">09:00 – 09:30</div><div class="tl-title">40h 作業快閃分享 + 卡點熱力圖</div><div class="tl-desc">每人 30 秒：最驚艷人物誌 + 一句卡點 → Jacky 分類回顧</div><span class="tl-tag tag-橋">橋</span></div>
+      <div class="tl-item"><div class="tl-time">09:30 – 09:55</div><div class="tl-title">拆：備課流程拆解（實作 #8，20 min）</div><div class="tl-desc">備課 12 步驟元循環 → AI 訪談選 Gem 化標的 → 截圖上傳</div><span class="tl-tag tag-拆">拆</span></div>
+      <div class="tl-item"><div class="tl-time">09:55 – 10:35</div><div class="tl-title">建：備課 Gem（實作 #9，20 min）</div><div class="tl-desc">Jacky 示範 → AI 訪談自己（5m）→ 建 Gem（5m）→ 初測截圖（10m）</div><span class="tl-tag tag-建">建</span></div>
+      <div class="tl-item"><div class="tl-time">10:35 – 10:45</div><div class="tl-title">休息 10 分鐘</div></div>
+      <div class="tl-item"><div class="tl-time">10:45 – 11:15</div><div class="tl-title">修：三色殘酷測試（實作 #10，17 min）</div><div class="tl-desc">🟢 自測（7m）→ 🔄 同桌交叉（10m）→ 即時修訂</div><span class="tl-tag tag-修">修</span></div>
+      <div class="tl-item"><div class="tl-time">11:15 – 11:45</div><div class="tl-title">串：老師需求 → 解法示範</div><div class="tl-desc">老師提的需求原話 → 各領域 Gem 解法示範</div><span class="tl-tag tag-串">串</span></div>
+      <div class="tl-item"><div class="tl-time">11:45 – 12:00</div><div class="tl-title">需求收束 + 暑期 AI AGENT 進階課預告 + 課後問卷</div><div class="tl-desc">老師需求回顧 / 暑期 AI AGENT 進階課預告 / 課後問卷 QR / DataRoom 永久連結 / 合影</div><span class="tl-tag tag-許">需</span></div>
+    </div>
+  </div>
+
+  <div class="card card-sm">
+    <div class="label mb8">課後資源</div>
+    <div class="res-grid">
+      <a class="res-btn" href="https://gemini.google.com" target="_blank"><div class="res-icon">✨</div><div class="res-label">Gemini</div><div class="res-sub">繼續練習</div></a>
+      <a class="res-btn" href="{{LINE_URL}}" target="_blank"><div class="res-icon">💬</div><div class="res-label">LINE 群組</div><div class="res-sub">持續交流</div></a>
+      <div class="res-btn" onclick="switchTab('gemlab')" style="cursor:pointer"><div class="res-icon">💡</div><div class="res-label">Prompt 速查</div><div class="res-sub">複製 prompt</div></div>
+      <div class="res-btn" onclick="switchTab('tritest')" style="cursor:pointer"><div class="res-icon">🧪</div><div class="res-label">三色測試</div><div class="res-sub">隨時回來測</div></div>
+    </div>
+  </div>
+</div><!-- /pane-day2 -->
+
+
+<!-- ══════════════════════════════════════
+     GEM 工坊（內嵌）
+══════════════════════════════════════ -->
+<div class="pane" id="pane-gemlab">
+
+  <div class="card">
+    <div class="card-title">💡 Prompt 速查 — 一鍵複製到你的 AI</div>
+    <div class="lab-desc">所有實作中需要輸入的 prompt 都集中在這裡。複製後直接貼到 <strong>Gemini</strong> 對話框（或你建好的 Gem）即可。本場核心邏輯：先建一個 <strong>Meta Gem（Gem 專用生成器）</strong>，之後所有 Gem 都用「對 Meta Gem 一句話」就能生成。</div>
+  </div>
+
+  <!-- ═══ 區塊 A：Meta Gem 與三個衍生 Gem ═══ -->
+  <div class="card">
+    <div class="card-title">🤖 區塊 A｜Meta Gem 與三個衍生 Gem</div>
+
+    <div class="lab-step">📍 1. Gem 專用生成器（Meta Gem 本體）</div>
+    <div class="lab-desc">這個 Meta Gem 建立後，只需一句話就能幫你生成任何 Gem 的完整提示詞。</div>
+    <div class="copy-block">
+      <div class="copy-label-top">說明欄填入（整句複製）</div>
+      <div class="copy-text" id="cp-pr1">你是 Gemini 的 Gem 生成器，依需求產出 Gem 名稱、說明與使用說明。</div>
+      <button class="copy-btn" onclick="copyBlock('cp-pr1',this)">📋 複製</button>
+    </div>
+    <div class="lab-note info">⚙️ 建立時記得在工具區塊勾選 <strong>Canvas</strong></div>
+
+    <div class="divider"></div>
+
+    <div class="lab-step">📍 2. Persona Gem 生成指令（給 Meta Gem 用）</div>
+    <div class="lab-desc">對 Meta Gem 說這段話，它會幫你產出完整的 Persona Gem 提示詞，再貼到新 Gem 即可。</div>
+    <div class="copy-block">
+      <div class="copy-label-top">對 Meta Gem 對話框輸入（整段複製）</div>
+      <div class="copy-text" id="cp-pr2">請幫我設計一個 Persona Gem，依照 Buyer Persona 八大欄位（基本背景、痛點、動機、目標、觀念價值、媒體偏好、購買流程、抗拒原因），把模糊的學生描述轉成可教學應用的人物誌。
+
+輸入：課程名稱 + 學生科系年級 + 觀察到的學生特質。
+輸出：Markdown 八大欄位逐項描述（每欄 2–4 句話），每欄附「教學應用建議」一句話，最後給一句「角色扮演啟動句」。
+資訊不足時要主動問 1–2 個補充題，不要憑空編造。</div>
+      <button class="copy-btn" onclick="copyBlock('cp-pr2',this)">📋 複製</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="lab-step">📍 3. 備課 Gem · 教材分層版 生成指令（給 Meta Gem 用）</div>
+    <div class="lab-desc">對 Meta Gem 一句話，得到能把同一份教材自動拆成 A/B/C 三程度版本的備課 Gem。</div>
+    <div class="copy-block">
+      <div class="copy-label-top">對 Meta Gem 對話框輸入（整段複製）</div>
+      <div class="copy-text" id="cp-pr3">請幫我設計一個備課 Gem，主軸是「教材分層」。
+
+輸入：教師提供的單元主題 + 原始教材重點 + 班上學生的程度分佈。
+輸出：A 版（先備不足者，多舉例多搭手）、B 版（一般程度）、C 版（學有餘力者，加挑戰任務）三個版本，每版含教學引導語與課堂活動建議。
+不要直接幫教師寫完整投影片內容，聚焦在架構與引導語。</div>
+      <button class="copy-btn" onclick="copyBlock('cp-pr3',this)">📋 複製</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="lab-step">📍 4. 備課 Gem · 視覺生成版 生成指令（給 Meta Gem 用）</div>
+    <div class="lab-desc">對 Meta Gem 一句話，得到能根據教學主題產出投影片腳本與圖表設計的備課 Gem。</div>
+    <div class="copy-block">
+      <div class="copy-label-top">對 Meta Gem 對話框輸入（整段複製）</div>
+      <div class="copy-text" id="cp-pr4">請幫我設計一個備課 Gem，主軸是「視覺化」。
+
+輸入：教師提供的單元主題 + 教學目標 + 上課時間長度。
+輸出：投影片腳本（每張一個重點 + 圖示建議）+ 對應的 Mermaid 流程圖或表格 + 一個適合放在開場的視覺化比喻。
+不要產出完整的圖片素材描述，重點在「結構與資訊設計」。</div>
+      <button class="copy-btn" onclick="copyBlock('cp-pr4',this)">📋 複製</button>
+    </div>
+  </div>
+
+  <!-- ═══ 區塊 B：AI 自我訪談 ═══ -->
+  <div class="card">
+    <div class="card-title">🎤 區塊 B｜AI 自我訪談（收素材用）</div>
+
+    <div class="lab-step">📍 5. 學生分析訪談（Day 1 實作 #2）</div>
+    <div class="lab-desc">用 Gemini 一般對話訪談自己 4 題，產出後續建 Persona Gem 用的素材。</div>
+    <div class="copy-block">
+      <div class="copy-label-top">對 Gemini 對話框輸入（整段複製，AI 會逐題進行）</div>
+      <div class="copy-text" id="cp-pr5">我接下來要建立一個學生人物誌生成 Gem，請依序問我下列 4 題，等我回答一題再問下一題：
+
+1. 你目前教的這門課是什麼？課程名稱、開設系所、選課人數大約多少？
+2. 班上學生的差異在哪裡？什麼樣的學生最多、什麼樣的最特別？
+3. 學生在這門課最常卡在哪裡？或者最常跟你反映什麼困難？
+4. 上完這門課之後，你最希望學生帶走什麼？（能力、觀念、態度都可以）
+
+從第一題開始。</div>
+      <button class="copy-btn" onclick="copyBlock('cp-pr5',this)">📋 複製</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="lab-step">📍 6. 備課流程訪談（Day 2 實作 #8）</div>
+    <div class="lab-desc">用 Gemini 一般對話自我訪談 4 題，產出建備課 Gem 用的素材。</div>
+    <div class="copy-block">
+      <div class="copy-label-top">對 Gemini 對話框輸入（整段複製，AI 會逐題進行）</div>
+      <div class="copy-text" id="cp-pr6">我接下來要建立一個備課流程 Gem，請依序問我下列 4 題：
+
+1. 你備一堂 50 分鐘的課，平均花多少時間？大約都花在哪些步驟？
+2. 整個備課流程裡，你覺得 AI 該幫你做哪一段？什麼是 AI 不該碰的？
+3. 哪一個備課環節最重複、最煩瑣，做完很沒成就感？
+4. 如果有一個 AI 助理可以幫你做一件最神奇的事，你最希望它做什麼？
+
+從第一題開始。</div>
+      <button class="copy-btn" onclick="copyBlock('cp-pr6',this)">📋 複製</button>
+    </div>
+  </div>
+
+  <!-- ═══ 區塊 C：Persona Gem 操作 prompt ═══ -->
+  <div class="card">
+    <div class="card-title">👤 區塊 C｜Persona Gem 操作 prompt</div>
+
+    <div class="lab-step">📍 7. 生成 3 個典型學生人物誌（Day 1 實作 #3）</div>
+    <div class="lab-desc">把訪談稿丟給 Persona Gem，產出 3 個代表性人物。</div>
+    <div class="copy-block">
+      <div class="copy-label-top">對你的 Persona Gem 對話框輸入（整段複製）</div>
+      <div class="copy-text" id="cp-pr7">請根據我的課程資訊，給我 3 種最典型的學生人物誌（各一段，依八大欄位完整描述）：
+
+【貼上 Day 1 實作 #2 的 4 題訪談對話內容】
+
+或補充輸入：
+課程名稱：___
+系所：___
+人數：___
+我觀察到的 1–2 個學生特質：___</div>
+      <button class="copy-btn" onclick="copyBlock('cp-pr7',this)">📋 複製</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="lab-step">📍 8. 角色扮演啟動 + 追問（Day 1 實作 #4）</div>
+    <div class="lab-desc">讓 Persona Gem 化身學生，模擬聽你上課的反應。</div>
+    <div class="copy-block">
+      <div class="copy-label-top">啟動句（整句複製）</div>
+      <div class="copy-text" id="cp-pr8a">你是誰？請用第一人稱自我介紹，並告訴我你為什麼來修這門課、最近有什麼學習上的困擾。</div>
+      <button class="copy-btn" onclick="copyBlock('cp-pr8a',this)">📋 複製</button>
+    </div>
+    <div class="copy-block">
+      <div class="copy-label-top">追問範例（整句複製，把 [單元主題] 換成你要講的內容）</div>
+      <div class="copy-text" id="cp-pr8b">我等等要講「[單元主題]」這個主題，你聽了會怎麼反應？哪邊會卡？哪邊會點頭？你會想問什麼問題？</div>
+      <button class="copy-btn" onclick="copyBlock('cp-pr8b',this)">📋 複製</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="lab-step">📍 9. Persona 照片生成 — 三選一風格（Day 1 實作 #6）</div>
+    <div class="lab-desc">在 Gemini 對話框（需 Gemini Advanced / 2.0），選一種風格貼入，並在最後補上你的人物誌「基本背景」欄位內容。</div>
+    <div class="copy-block">
+      <div class="copy-label-top">① 寫實攝影風（整段複製）</div>
+      <div class="copy-text" id="cp-pr9a">請根據以下學生人物誌，生成一張學生的半身照片（白色背景、自然光、寫實攝影風）：
+
+【貼上你的人物誌基本背景欄位內容】</div>
+      <button class="copy-btn" onclick="copyBlock('cp-pr9a',this)">📋 複製</button>
+    </div>
+    <div class="copy-block">
+      <div class="copy-label-top">② 插畫風（整段複製）</div>
+      <div class="copy-text" id="cp-pr9b">請根據以下學生人物誌，生成一張學生的插畫頭像（扁平設計、亮色系、乾淨背景）：
+
+【貼上你的人物誌基本背景欄位內容】</div>
+      <button class="copy-btn" onclick="copyBlock('cp-pr9b',this)">📋 複製</button>
+    </div>
+    <div class="copy-block">
+      <div class="copy-label-top">③ 素描風（整段複製）</div>
+      <div class="copy-text" id="cp-pr9c">請根據以下學生人物誌，生成一張學生的手繪素描頭像（鉛筆線條風格、白色背景）：
+
+【貼上你的人物誌基本背景欄位內容】</div>
+      <button class="copy-btn" onclick="copyBlock('cp-pr9c',this)">📋 複製</button>
+    </div>
+  </div>
+
+  <!-- ═══ 區塊 D：三色殘酷測試 ═══ -->
+  <div class="card">
+    <div class="card-title">🚦 區塊 D｜三色殘酷測試（自測 + 互測）</div>
+    <div class="lab-desc">把你的 Gem 逼到極限：綠燈（標準題）→ 黃燈（模糊題）→ 紅燈（刁鑽題）。失敗很正常，每次失敗都是修改的素材。</div>
+
+    <div class="lab-step">📍 10. Persona Gem 三色測試（Day 1 實作 #5）</div>
+    <div class="copy-block" style="background:#f0fdf4;border:1.5px solid var(--green-border)">
+      <div class="copy-label-top" style="color:#15803d">🟢 綠燈｜完整、清楚的標準情境</div>
+      <div class="copy-text" style="color:#166534" id="cp-pr10g">請幫我分析這位學生：
+大三傳播系學生，主修廣告，對視覺設計有強烈興趣，Canva 很熟練但不懂 Illustrator。
+平常準時交作業，但批判性思考較弱，習慣套用老師給的框架而不自己發展想法。
+班上 28 人，她屬於「安全牌」型學生，不願意冒險嘗試創新。</div>
+      <button class="copy-btn" style="top:10px" onclick="copyBlock('cp-pr10g',this)">📋 複製</button>
+    </div>
+    <div class="copy-block" style="background:var(--yellow-bg);border:1.5px solid var(--yellow-border)">
+      <div class="copy-label-top" style="color:#a16207">🟡 黃燈｜模糊、資訊不完整</div>
+      <div class="copy-text" style="color:#713f12" id="cp-pr10y">我有個學生好像學得不太順，每次都說「聽不懂」…</div>
+      <button class="copy-btn" style="top:10px" onclick="copyBlock('cp-pr10y',this)">📋 複製</button>
+    </div>
+    <div class="copy-block" style="background:var(--red-bg);border:1.5px solid var(--red-border)">
+      <div class="copy-label-top" style="color:#b91c1c">🔴 紅燈｜刁鑽邊界情境</div>
+      <div class="copy-text" style="color:#7f1d1d" id="cp-pr10r">有個母語是英文的外籍學生要修我的中文寫作課，他說他「完全不會中文但又不想學注音」，你能幫我分析他的學習需求嗎？</div>
+      <button class="copy-btn" style="top:10px" onclick="copyBlock('cp-pr10r',this)">📋 複製</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="lab-step">📍 11. 備課 Gem 三色測試（Day 2 實作 #10）</div>
+    <div class="copy-block" style="background:#f0fdf4;border:1.5px solid var(--green-border)">
+      <div class="copy-label-top" style="color:#15803d">🟢 綠燈｜清楚的備課需求</div>
+      <div class="copy-text" style="color:#166534" id="cp-pr11g">幫我備一堂大二行銷管理 50 分鐘的課，主題是「品牌定位」。
+學生先備：已修完行銷學概論。
+教學目標：能說出 STP 三步驟並用一個品牌實例分析。
+需要：開場吸引注意 5 分鐘 + 主題講解 25 分鐘 + 課堂活動 15 分鐘 + 收尾 5 分鐘。</div>
+      <button class="copy-btn" style="top:10px" onclick="copyBlock('cp-pr11g',this)">📋 複製</button>
+    </div>
+    <div class="copy-block" style="background:var(--yellow-bg);border:1.5px solid var(--yellow-border)">
+      <div class="copy-label-top" style="color:#a16207">🟡 黃燈｜模糊的備課需求</div>
+      <div class="copy-text" style="color:#713f12" id="cp-pr11y">我下週要上一堂課，主題大概是「設計思考」之類的，幫我準備一下吧。</div>
+      <button class="copy-btn" style="top:10px" onclick="copyBlock('cp-pr11y',this)">📋 複製</button>
+    </div>
+    <div class="copy-block" style="background:var(--red-bg);border:1.5px solid var(--red-border)">
+      <div class="copy-label-top" style="color:#b91c1c">🔴 紅燈｜刁鑽情境</div>
+      <div class="copy-text" style="color:#7f1d1d" id="cp-pr11r">我這堂課班上有 3 位視障生 + 12 位一般生，我要教「色彩構成」。我不想把視障生變成旁觀者，但我也不會點字也不會手語，你能幫我設計嗎？</div>
+      <button class="copy-btn" style="top:10px" onclick="copyBlock('cp-pr11r',this)">📋 複製</button>
+    </div>
+    <div class="lab-note">⚡ 同桌交叉測試（10 分鐘）：交換電腦，用同桌的三色題目測對方的 Gem。</div>
+  </div>
+
+  <!-- ═══ 區塊 E：救援 prompt ═══ -->
+  <div class="card">
+    <div class="card-title">🆘 區塊 E｜緊急救援 Prompt</div>
+    <div class="lab-desc">如果 Gem 還沒做完、或回家做作業卡關，用這條 prompt 直接在 Gemini 一般對話救急。</div>
+
+    <div class="lab-step">📍 12. 40h 橋救援指令</div>
+    <div class="copy-block">
+      <div class="copy-label-top">對 Gemini（或半成品 Persona Gem）對話框輸入（整段複製）</div>
+      <div class="copy-text" id="cp-pr12">請根據我的課程，給我 3 種最典型的學生人物誌（各一段）。
+我教的是【課程名稱】，學生是【系所年級】，約【人數】人。</div>
+      <button class="copy-btn" onclick="copyBlock('cp-pr12',this)">📋 複製</button>
+    </div>
+    <div class="lab-note info">💡 救援用 — 暫時繞過 Gem，直接拿到可用的 3 個人物誌。後續仍建議補建 Persona Gem，否則無法做角色扮演。</div>
+  </div>
+
+  <!-- ═══ 結語 ═══ -->
+  <div class="card">
+    <div class="card-title">✅ 用法小結</div>
+    <div class="lab-step">流程</div>
+    <div class="lab-desc">① 先建 <strong>Meta Gem（Prompt #1）</strong> → ② 對 Meta Gem 用 <strong>Prompt #2/#3/#4</strong> 生出 Persona Gem 或備課 Gem 提示詞 → ③ 把生出的提示詞貼到新 Gem → ④ 用 <strong>Prompt #5–#9 / #11</strong> 操作對話 → ⑤ 用 <strong>Prompt #10–#11</strong> 三色測試 → ⑥ 卡住就用 <strong>Prompt #12</strong> 救援。</div>
+    <div class="mt8">
+      <a class="btn btn-gemini btn-sm" href="https://gemini.google.com/gems/create" target="_blank">✨ 前往 Gemini 建立 Gem</a>
+      <a class="btn btn-gemini btn-sm" href="https://gemini.google.com/app" target="_blank" style="margin-left:8px">✦ 開啟 Gemini 對話</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="pane" id="pane-tritest">
+  <div style="background:linear-gradient(135deg,var(--tbsa-crimson-dk),var(--tbsa-crimson-dk);border-radius:14px;padding:20px;text-align:center;margin-bottom:14px;color:white">
+    <h2 style="font-size:1.45rem;font-weight:800;margin-bottom:5px">🧪 三色殘酷測試沙盒</h2>
+    <div style="font-size:.85rem;opacity:.85;margin-bottom:12px">把你的 Gem 練到戰場等級 — 三種情境全壓測</div>
+    <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap">
+      <span style="padding:4px 12px;border-radius:16px;font-size:.78rem;font-weight:700;background:var(--green-bg);color:var(--green-dark)">🟢 標準情境</span>
+      <span style="padding:4px 12px;border-radius:16px;font-size:.78rem;font-weight:700;background:var(--yellow-bg);color:var(--yellow-dark)">🟡 邊緣情境</span>
+      <span style="padding:4px 12px;border-radius:16px;font-size:.78rem;font-weight:700;background:var(--red-bg);color:var(--red-dark)">🔴 刁鑽情境</span>
+    </div>
+  </div>
+
+  <div class="tc-steps-wrap">
+    <div class="tc-steps">
+      <div class="tc-step active" id="tc-s1"><div class="tc-step-n">1</div><span>輸入 Gem</span></div>
+      <div class="tc-step-line" id="tc-l1"></div>
+      <div class="tc-step" id="tc-s2"><div class="tc-step-n">2</div><span>跑三色測試</span></div>
+      <div class="tc-step-line" id="tc-l2"></div>
+      <div class="tc-step" id="tc-s3"><div class="tc-step-n">3</div><span>診斷報告</span></div>
+    </div>
+  </div>
+
+  <div class="tc-wrap">
+    <!-- TC Screen 1 -->
+    <div class="tc-screen active" id="tc-sc1">
+      <div class="card">
+        <div class="card-title">📋 輸入你的 Gem 資訊</div>
+        <div class="fg"><label style="font-weight:600;font-size:.875rem;color:var(--gray-700);display:block;margin-bottom:5px">Gem 名稱</label><input type="text" id="tc-gemName" placeholder="我的 Persona 生成 Gem" maxlength="60"></div>
+        <div class="fg"><label style="font-weight:600;font-size:.875rem;color:var(--gray-700);display:block;margin-bottom:5px">這個 Gem 主要做什麼？</label><select id="tc-gemType"><option value="">— 請選擇 —</option><option value="persona">Persona 人物誌生成器</option><option value="visual">備課：視覺生成</option><option value="layer">備課：教材分層</option><option value="other">其他 Gem</option></select></div>
+        <div class="fg"><label style="font-weight:600;font-size:.875rem;color:var(--gray-700);display:block;margin-bottom:5px">你的課程領域</label><select id="tc-domain"><option value="">— 請選擇 —</option><option value="lang">語文（中文 / 日文 / 英文 / 外語）</option><option value="visual">視覺設計（視傳 / 多媒體 / 廣告 / 傳播）</option><option value="biz">商管（企管 / 行銷 / 財金 / 觀光）</option><option value="eng">理工（資工 / 機械 / 電機 / 科學）</option><option value="svc">服務（餐旅 / 護理 / 社工 / 幼教）</option><option value="arts">人文藝術（歷史 / 哲學 / 音樂 / 美術）</option><option value="other">其他</option></select></div>
+        <div class="fg"><label style="font-weight:600;font-size:.875rem;color:var(--gray-700);display:block;margin-bottom:5px">貼入你的 Gem Prompt 全文 <span style="font-weight:400;font-size:.8rem;color:var(--gray-500)">（Gem 設定裡的所有文字）</span></label><textarea id="tc-gemPrompt" style="min-height:180px" placeholder="請在此貼入你的 Gem 完整設定文字…" oninput="tc_updateCount()"></textarea><div style="text-align:right;font-size:.73rem;color:var(--gray-500);margin-top:3px" id="tc-charCount">0 字</div></div>
+        <button class="btn btn-primary btn-full" onclick="tc_go2()">🚀 生成三色測試題</button>
+      </div>
+    </div><!-- /tc-sc1 -->
+
+    <!-- TC Screen 2 -->
+    <div class="tc-screen" id="tc-sc2">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+        <div><strong id="tc-s2name" style="font-size:.95rem"></strong><div style="font-size:.78rem;color:var(--gray-500);margin-top:2px" id="tc-s2domain"></div></div>
+        <button class="btn btn-ghost btn-sm" onclick="tc_goTo(1)">← 重新輸入</button>
+      </div>
+
+      <div class="tritest-card gc">
+        <div class="tritest-head"><div class="tritest-label"><span style="font-size:1.3rem">🟢</span><span style="color:var(--green-dark)">綠燈測試</span></div><span class="tritest-sub">標準情境｜完整輸入 → 驗證基本產出品質</span></div>
+        <div class="prompt-box" id="tc-pg"></div>
+        <div class="tc-actions">
+          <button class="btn btn-dark btn-sm" id="tc-cpg" onclick="tc_cp('g',this)">📋 複製測試題</button>
+          <a class="btn btn-gemini btn-sm" href="https://gemini.google.com/app" target="_blank">✦ 開啟 Gemini</a>
+        </div>
+        <div class="res-area"><label>📝 Gem 的回答如何？記錄一句話</label><textarea id="tc-rg" placeholder="例：輸出很完整，但痛點欄描述太表面…"></textarea><div class="rating-row"><button class="rb good" onclick="tc_rate('g','good',this)">✅ 好用</button><button class="rb ok" onclick="tc_rate('g','ok',this)">⚠️ 普通</button><button class="rb bad" onclick="tc_rate('g','bad',this)">❌ 需改</button></div></div>
+      </div>
+
+      <div class="tritest-card yc">
+        <div class="tritest-head"><div class="tritest-label"><span style="font-size:1.3rem">🟡</span><span style="color:var(--yellow-dark)">黃燈測試</span></div><span class="tritest-sub">邊緣情境｜模糊輸入 → 看 Gem 如何應對</span></div>
+        <div class="prompt-box" id="tc-py"></div>
+        <div class="tc-actions">
+          <button class="btn btn-dark btn-sm" id="tc-cpy" onclick="tc_cp('y',this)">📋 複製測試題</button>
+          <a class="btn btn-gemini btn-sm" href="https://gemini.google.com/app" target="_blank">✦ 開啟 Gemini</a>
+        </div>
+        <div class="res-area"><label>📝 Gem 的回答如何？記錄一句話</label><textarea id="tc-ry" placeholder="例：Gem 開始自己假設，編了一堆不存在的資訊…"></textarea><div class="rating-row"><button class="rb good" onclick="tc_rate('y','good',this)">✅ 好用</button><button class="rb ok" onclick="tc_rate('y','ok',this)">⚠️ 普通</button><button class="rb bad" onclick="tc_rate('y','bad',this)">❌ 需改</button></div></div>
+      </div>
+
+      <div class="tritest-card rc">
+        <div class="tritest-head"><div class="tritest-label"><span style="font-size:1.3rem">🔴</span><span style="color:var(--red-dark)">紅燈測試</span></div><span class="tritest-sub">刁鑽情境｜最棘手邊界案例 → 看 Gem 會不會崩潰</span></div>
+        <div class="prompt-box" id="tc-pr"></div>
+        <div class="tc-actions">
+          <button class="btn btn-dark btn-sm" id="tc-cpr" onclick="tc_cp('r',this)">📋 複製測試題</button>
+          <a class="btn btn-gemini btn-sm" href="https://gemini.google.com/app" target="_blank">✦ 開啟 Gemini</a>
+        </div>
+        <div class="res-area"><label>📝 Gem 的回答如何？記錄一句話</label><textarea id="tc-rr" placeholder="例：完全超出 Gem 範圍，回答不知所云…"></textarea><div class="rating-row"><button class="rb good" onclick="tc_rate('r','good',this)">✅ 好用</button><button class="rb ok" onclick="tc_rate('r','ok',this)">⚠️ 普通</button><button class="rb bad" onclick="tc_rate('r','bad',this)">❌ 需改</button></div></div>
+      </div>
+
+      <button class="btn btn-primary btn-full mt12" onclick="tc_go3()">📊 生成診斷報告</button>
+      <div style="text-align:center;margin-top:6px;font-size:.75rem;color:var(--gray-500)">三色都評分後報告最完整，但現在也可以直接按</div>
+    </div><!-- /tc-sc2 -->
+
+    <!-- TC Screen 3 -->
+    <div class="tc-screen" id="tc-sc3">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+        <div><strong id="tc-s3name" style="font-size:.95rem"></strong><div style="font-size:.75rem;color:var(--gray-500);margin-top:2px">診斷報告</div></div>
+        <button class="btn btn-ghost btn-sm" onclick="tc_goTo(2)">← 回測試</button>
+      </div>
+      <div class="card"><div class="card-title">📊 三色測試結果摘要</div><div class="result-pills" id="tc-rpills"></div><div id="tc-rnotes"></div></div>
+      <div class="card"><div class="card-title">🩺 Gem 七區塊健診</div><div style="font-size:.78rem;color:var(--gray-500);margin-bottom:8px">掃描你的 Prompt 是否涵蓋七個關鍵區塊</div><div style="margin:8px 0"><div class="score-bar"><div class="score-fill" id="tc-sfill" style="width:0%"></div></div><div class="score-meta"><span>覆蓋率</span><strong id="tc-stxt">0 / 7</strong></div></div><ul class="chk-list" id="tc-chklist"></ul></div>
+      <div class="card"><div class="card-title">💡 三大改進建議</div><ul class="sug-list" id="tc-suglist"></ul></div>
+      <div class="card" style="text-align:center"><div style="font-size:.78rem;color:var(--gray-500);margin-bottom:14px">📸 截圖這份報告，修改 Gem 後再測一次</div><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn btn-ghost" onclick="tc_goTo(1)">🔄 換一個 Gem</button><button class="btn btn-primary" onclick="tc_goTo(2)">↩ 回去補結果</button></div></div>
+    </div><!-- /tc-sc3 -->
+  </div><!-- /tc-wrap -->
+</div><!-- /pane-tritest -->
+
+<div class="success-toast" id="gw-toast"></div>
+<script>
+// ══ TAB ══════════════════════════════════════════════════════
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  document.querySelectorAll('.pane').forEach(p => p.classList.toggle('active', p.id === 'pane-' + tab));
+  location.hash = tab;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+window.addEventListener('load', () => {
+  const h = location.hash.replace('#','');
+  if (['day1','bridge','day2','gemlab','tritest'].includes(h)) switchTab(h);
+  startBridgeCountdown();
+  loadHW();
+  loadSteps();
+  loadLabChecks();
+  // gw_init();  // Gem 工坊已改成 Prompt 速查，跳過初始化避免找不到 DOM 元素
+});
+
+// ══ COPY ═════════════════════════════════════════════════════
+async function copyBlock(id, btn) {
+  const text = document.getElementById(id).textContent;
+  try { await navigator.clipboard.writeText(text); } catch {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+  }
+  const orig = btn.innerHTML;
+  btn.innerHTML = '✅ 已複製！'; btn.classList.add('copied');
+  setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2200);
+}
+
+// ══ LAB CARDS ════════════════════════════════════════════════
+const LAB_COUNT = { day1: [0,1,2,3,4,5,6,7], day2: [8,9,10] };
+let labOpen = {};
+let labDone = {};
+
+function toggleLab(idx) {
+  const body = document.getElementById('lb-' + idx);
+  if (!body) return;
+  labOpen[idx] = !labOpen[idx];
+  body.style.display = labOpen[idx] ? 'block' : 'none';
+}
+
+function toggleLabCheck(idx) {
+  if (window._SYNC && window._SYNC.enabled && !window._SYNC.isTeacher) return;  // 學員不能勾
+  labDone[idx] = !labDone[idx];
+  renderLabCheck(idx);
+  updateDayProgress();
+  try { localStorage.setItem('lab-done', JSON.stringify(labDone)); } catch(e) {}
+  if (window._SYNC && window._SYNC.enabled) {
+    _syncPush('labs', idx, labDone[idx]);
+  }
+}
+
+function renderLabCheck(idx) {
+  const el = document.getElementById('lc-' + idx);
+  const card = document.getElementById('lab-' + idx);
+  if (!el || !card) return;
+  el.classList.toggle('checked', !!labDone[idx]);
+  el.textContent = labDone[idx] ? '✓' : '';
+  card.classList.toggle('done-card', !!labDone[idx]);
+}
+
+function loadLabChecks() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('lab-done'));
+    if (saved && typeof saved === 'object') labDone = saved;
+  } catch(e) {}
+  for (let i = 0; i <= 10; i++) renderLabCheck(i);
+  // Open first undone in each day by default
+  [0,8].forEach(start => {
+    const range = start === 0 ? [0,1,2,3,4,5,6,7] : [8,9,10];
+    const first = range.find(i => !labDone[i]) ?? range[0];
+    toggleLab(first);
+  });
+  updateDayProgress();
+}
+
+function updateDayProgress() {
+  const d1done = LAB_COUNT.day1.filter(i => labDone[i]).length;
+  const d2done = LAB_COUNT.day2.filter(i => labDone[i]).length;
+  const d1bar = document.getElementById('d1-prog-bar');
+  const d1lbl = document.getElementById('d1-prog-label');
+  const d2bar = document.getElementById('d2-prog-bar');
+  const d2lbl = document.getElementById('d2-prog-label');
+  if (d1bar) { d1bar.style.width = Math.round(d1done/8*100) + '%'; }
+  if (d1lbl) d1lbl.textContent = d1done + ' / 8 實作';
+  if (d2bar) { d2bar.style.width = Math.round(d2done/3*100) + '%'; }
+  if (d2lbl) d2lbl.textContent = d2done + ' / 3 實作';
+}
+
+// ══ PHOTO STYLE SELECTOR ═════════════════════════════════════
+const PHOTO_PROMPTS = [
+  '請根據以下學生人物誌，生成一張學生的半身照片（白色背景、自然光、寫實攝影風）：\n\n【貼上你的人物誌基本背景欄位內容】',
+  '請根據以下學生人物誌，生成一張學生的插畫頭像（扁平設計、亮色系、乾淨背景）：\n\n【貼上你的人物誌基本背景欄位內容】',
+  '請根據以下學生人物誌，生成一張學生的手繪素描頭像（鉛筆線條風格、白色背景）：\n\n【貼上你的人物誌基本背景欄位內容】'
+];
+let currentPhotoStyle = 0;
+function selectPhotoStyle(idx) {
+  currentPhotoStyle = idx;
+  for (let i = 0; i < 3; i++) {
+    const b = document.getElementById('photo-opt-' + i);
+    if (b) b.classList.toggle('active', i === idx);
+  }
+  document.getElementById('cp-6').textContent = PHOTO_PROMPTS[idx];
+}
+
+// ══ STEP TRACKER ═════════════════════════════════════════════
+const STEP_HINTS = {
+  day1: ['正在拆解 Persona 框架，找出學生面孔。','正在建立 Persona Gem，耐心餵食！','正在修煉 Gem：照片 + 資訊圖表（NotebookLM 兩來源技巧）。','Persona Gem 完成！說明 40h 橋任務。'],
+  day2: ['分享橋任務作業，收集卡點。','正在建立備課 Gem（備課流程拆解 → AI 訪談 → 建 Gem）。','三色殘酷測試 + 同桌交叉，讓備課 Gem 更強。','老師需求收束 → 暑期 AI AGENT 進階課預告 → 課後問卷！']
+};
+function setStep(day, idx) {
+  if (window._SYNC && window._SYNC.enabled && !window._SYNC.isTeacher && !window._SYNC.suppressWrite) return;
+  const n = day === 'day1' ? '1' : '2';
+  for (let i = 0; i < 4; i++) {
+    const s = document.getElementById(`d${n}-s${i}`);
+    s.classList.remove('active','done');
+    if (i < idx) s.classList.add('done');
+    else if (i === idx) s.classList.add('active');
+    if (i < 3) {
+      const l = document.getElementById(`d${n}-l${i}`);
+      l.classList.remove('done','active');
+      if (i < idx) l.classList.add('done');
+      else if (i === idx) l.classList.add('active');
+    }
+  }
+  document.getElementById(`step-hint-${day}`).textContent = STEP_HINTS[day][idx];
+  try { localStorage.setItem('step-'+day, idx); } catch(e) {}
+  if (window._SYNC && window._SYNC.enabled && window._SYNC.isTeacher && !window._SYNC.suppressWrite) {
+    _syncPush('steps', day, idx);
+  }
+}
+function resetSteps(day) { setStep(day, 0); }
+function loadSteps() {
+  ['day1','day2'].forEach(day => {
+    try {
+      const s = parseInt(localStorage.getItem('step-'+day));
+      if (!isNaN(s) && s >= 0 && s <= 3) setStep(day, s);
+    } catch(e) {}
+  });
+}
+
+// ══ TIMER ════════════════════════════════════════════════════
+const timers = {
+  1: { total:0, remaining:0, interval:null, running:false },
+  2: { total:0, remaining:0, interval:null, running:false }
+};
+function setTimer(id, mins) {
+  const t = timers[id];
+  clearInterval(t.interval); t.running = false;
+  t.total = mins * 60; t.remaining = t.total;
+  updateTimerDisplay(id);
+  document.getElementById('t'+id+'-start').textContent = '▶ 開始';
+  document.getElementById('t'+id+'-start').className = 'tcbtn start';
+  document.getElementById('t'+id+'-label').textContent = '設定 ' + mins + ' 分鐘';
+  const pane = id === 1 ? document.getElementById('pane-day1') : document.getElementById('pane-day2');
+  if (pane) pane.querySelectorAll('.preset-btn').forEach(b => b.classList.toggle('active', parseInt(b.textContent) === mins));
+}
+function toggleTimer(id) {
+  const t = timers[id];
+  if (t.total === 0) { alert('請先選擇或設定時間。'); return; }
+  if (t.running) {
+    clearInterval(t.interval); t.running = false;
+    document.getElementById('t'+id+'-start').textContent = '▶ 繼續';
+    document.getElementById('t'+id+'-start').className = 'tcbtn start';
+    document.getElementById('t'+id+'-label').textContent = '暫停中';
+  } else {
+    t.running = true;
+    document.getElementById('t'+id+'-start').textContent = '⏸ 暫停';
+    document.getElementById('t'+id+'-start').className = 'tcbtn pause';
+    document.getElementById('t'+id+'-label').textContent = '計時中…';
+    t.interval = setInterval(() => {
+      t.remaining--;
+      updateTimerDisplay(id);
+      if (t.remaining <= 0) {
+        clearInterval(t.interval); t.running = false;
+        document.getElementById('t'+id+'-label').textContent = '時間到！';
+        document.getElementById('t'+id+'-start').textContent = '▶ 再一次';
+        document.getElementById('t'+id+'-start').className = 'tcbtn start';
+        document.getElementById('t'+id+'-display').className = 'timer-display done';
+        document.body.style.boxShadow = 'inset 0 0 0 6px #16a34a';
+        setTimeout(() => { document.body.style.boxShadow = ''; }, 1400);
+        if (Notification && Notification.permission === 'granted')
+          new Notification('⏰ 時間到！', { body: '練習時間結束' });
+      } else if (t.remaining <= 60) {
+        document.getElementById('t'+id+'-display').className = 'timer-display warn';
+      } else {
+        document.getElementById('t'+id+'-display').className = 'timer-display running';
+      }
+    }, 1000);
+  }
+}
+function resetTimer(id) {
+  const t = timers[id];
+  clearInterval(t.interval); t.running = false;
+  t.remaining = t.total; updateTimerDisplay(id);
+  document.getElementById('t'+id+'-display').className = 'timer-display';
+  document.getElementById('t'+id+'-start').textContent = '▶ 開始';
+  document.getElementById('t'+id+'-start').className = 'tcbtn start';
+  document.getElementById('t'+id+'-label').textContent = t.total > 0 ? '設定 ' + Math.round(t.total/60) + ' 分鐘' : '尚未計時';
+}
+function updateTimerDisplay(id) {
+  const t = timers[id];
+  const m = Math.floor(t.remaining/60).toString().padStart(2,'0');
+  const s = (t.remaining%60).toString().padStart(2,'0');
+  document.getElementById('t'+id+'-display').textContent = m + ':' + s;
+}
+if (Notification && Notification.permission === 'default') Notification.requestPermission();
+
+// ══ BRIDGE COUNTDOWN ═════════════════════════════════════════
+function startBridgeCountdown() {
+  const target = new Date('2026-05-08T09:00:00+08:00').getTime();
+  function tick() {
+    const diff = target - Date.now();
+    const msg = document.getElementById('cd-msg');
+    if (diff <= 0) {
+      ['cd-h','cd-m','cd-s'].forEach(id => document.getElementById(id).textContent = '00');
+      msg.className = 'countdown-done-msg';
+      msg.textContent = '🎉 Day 2 已開始！準備好精彩的分享了嗎？';
+      return;
+    }
+    const total = Math.floor(diff/1000);
+    document.getElementById('cd-h').textContent = String(Math.floor(total/3600)).padStart(2,'0');
+    document.getElementById('cd-m').textContent = String(Math.floor((total%3600)/60)).padStart(2,'0');
+    document.getElementById('cd-s').textContent = String(total%60).padStart(2,'0');
+    const h = Math.floor(total/3600);
+    msg.textContent = h < 12 ? '快了！趕緊完成橋任務，準備好明天的分享材料。' : h < 24 ? '今晚完成作業，明天一起分享！' : '完成 40h 橋任務，Day 2 見！';
+  }
+  tick(); setInterval(tick, 1000);
+}
+
+// ══ HOMEWORK ═════════════════════════════════════════════════
+let hwState = [false,false,false,false];
+function toggleHW(idx) {
+  if (window._SYNC && window._SYNC.enabled && !window._SYNC.isTeacher) return;
+  hwState[idx] = !hwState[idx]; renderHW();
+  try { localStorage.setItem('hw-bridge', JSON.stringify(hwState)); } catch(e) {}
+  if (window._SYNC && window._SYNC.enabled) {
+    _syncPush('hw', idx, hwState[idx]);
+  }
+}
+function loadHW() {
+  try { const s = JSON.parse(localStorage.getItem('hw-bridge')); if (Array.isArray(s) && s.length===4) hwState=s; } catch(e) {}
+  renderHW();
+}
+function renderHW() {
+  const done = hwState.filter(Boolean).length;
+  for (let i=0;i<4;i++) {
+    const el = document.getElementById('hw'+i);
+    el.classList.toggle('checked',hwState[i]);
+    el.textContent = hwState[i] ? '✓' : '';
+  }
+  const pct = Math.round(done/4*100);
+  document.getElementById('hw-bar').style.width = pct+'%';
+  document.getElementById('hw-count-label').textContent = done+' / 4';
+  document.getElementById('hw-pct-label').textContent = done===4 ? '🎉 全部完成，Day 2 見！' : done>0 ? '已完成 '+pct+'%，繼續加油！' : '尚未開始';
+}
+
+// ══ GEM 工坊 JS ══════════════════════════════════════════════
+let gw_gemType = 'persona';
+let gw_filledSecs = [false,false,false,false,false,false,false];
+
+const GW_TPL = {
+  persona:{
+    examples:['你是【課程名稱】的學生人物誌生成專家，熟悉大學教師的備課需求。','根據老師的一句話學生描述，產出完整的八欄位學生人物誌（Buyer Persona）。','教師，在設計課程、備課，或想更了解學生族群時使用。','1. 讀取老師的學生描述 → 2. 依八欄位架構推演 → 3. 輸出完整表格 → 4. 若資訊不足，問 1 個最關鍵的補充問題','老師對學生的一句話描述，例如「大三傳播系，約 30 人，常用手機但沒用過 Gemini」','八欄位表格：基本背景 / 人口統計 / 身份標籤 / 目標 / 碰到什麼挑戰 / 你能提供什麼 / 最常見的疑慮 / 真實的引言，每欄 ≥50 字 + 1 個具體例子','不要憑空編造 / 不要寫「認真上課的學生」這種空泛描述 / 不寫超出老師提供的資訊範圍'],
+    fields:['你是【課程名稱】的學生人物誌生成專家，熟悉大學教師的備課需求。','根據老師的一句話學生描述，產出完整的八欄位學生人物誌（Buyer Persona），讓老師清楚看見真實學生的樣貌與學習困境。','教師，在設計課程、備課、或想更了解學生族群時使用。','1. 讀取老師給的學生描述\n2. 依八欄位架構推演學生樣貌\n3. 依序輸出八欄位人物誌\n4. 若描述不夠具體，主動問 1 個最關鍵的補充問題，確認後再產出','老師對學生的一句話或幾行字的描述，例如「大三傳播系學生，約 30 人，大部分沒用過 Gemini，但日常會用 ChatGPT 寫報告」','表格格式，八個欄位並排：\n1. 基本背景（年齡/科系/成長環境）\n2. 人口統計（性別分布/地區/家庭背景）\n3. 身份標籤（角色定位/社群屬性）\n4. 目標（這門課想達成什麼）\n5. 碰到什麼挑戰（學習上的痛點）\n6. 你能提供什麼（老師能給的價值）\n7. 最常見的疑慮（最容易放棄的原因）\n8. 真實的引言（學生可能說的一句話）\n每欄至少 50 字，附 1 個具體例子','不要憑空編造，只根據老師給的資訊推演 / 不要寫「認真上課的學生」這種空泛描述 / 不寫超出老師提供的資訊範圍']
+  },
+  layer:{
+    examples:['你是【課程名稱】的教材分層設計師。','將教學內容分成 A（基礎）/ B（標準）/ C（進階）三個版本，讓不同程度的學生都能理解同一個概念。','教師，備課時需要照顧班上程度差異較大的學生族群。','1. 先寫 C 版（最難，保留完整學術深度）→ 2. 退階到 B 版（去掉進階細節）→ 3. 再退階到 A 版（重新組織語言讓零基礎也能懂）','課程主題 + 該概念的教學重點（教師提供）','三欄表格（A/B/C 各一欄），同一章節主題並排對比，每欄 3–5 個要點，難度漸進','A 版不要過度幼稚化 / C 版不要塞太多專業名詞 / 三版不能只是字數多少的差別，要有實質思考深度的差異'],
+    fields:['你是【課程名稱】的教材分層設計師。','將教學內容分成 A（基礎）/ B（標準）/ C（進階）三個版本，讓不同程度的學生都能理解同一個概念。','教師，備課時需要照顧班上程度差異較大的學生族群，適合在備課或複習課準備時使用。','1. 先寫 C 版（最難版本，保留完整學術深度）\n2. 退階到 B 版（標準理解深度，去掉進階細節）\n3. 再退階到 A 版（最易，重新組織語言讓零基礎也能懂）\n每個版本不能只是字數差異，要有實質思考深度的改變。','課程主題 + 該概念的教學重點（教師提供），例如「傳播理論中的議題設定效果」','三欄表格（A/B/C 各一欄），同一章節主題並排對比，每欄 3–5 個要點，難度漸進呈現。','A 版不要過度幼稚化 / C 版不要塞太多專業名詞 / 三版不能只是字數多少的差別，要有實質思考深度的差異']
+  },
+  visual:{
+    examples:['你是【課程名稱】的 PPT 視覺腳本設計師。','幫老師產出 10–15 頁 PPT 的完整頁面結構，含標題、要點與視覺意象建議。','教師，需要在短時間內搭出一堂課的簡報骨架。','1. 先梳理章節邏輯架構 → 2. 想每頁的視覺 metaphor → 3. 產出完整頁面 outline','課程主題 + 教學目標（可附上課程大綱）','每頁格式：【第 N 頁】標題（10 字以內）+ 3 條要點 + 視覺建議（意象描述）','不要塞超過 5 條要點 / 標題不超過 10 字 / 不用 stock photo 提案，只寫意象描述'],
+    fields:['你是【課程名稱】的 PPT 視覺腳本設計師。','幫老師產出 10–15 頁 PPT 的完整頁面結構，含標題、要點與視覺意象建議，讓老師快速搭出一堂課的簡報骨架。','教師，需要在短時間內搭出一堂課的簡報結構，或是備課時想先有視覺架構再填內容。','1. 先梳理章節邏輯架構（這堂課要說什麼故事）\n2. 再想每頁的視覺 metaphor（什麼圖最能說明）\n3. 最後產出完整頁面 outline','課程主題 + 教學目標，例如「傳播概論第三週：媒體效果理論，目標讓學生理解三大效果模型」','每頁輸出格式：\n【第 N 頁】標題（10 字以內）\n• 要點 1\n• 要點 2\n• 要點 3\n視覺建議：[意象描述]','不要塞超過 5 條要點 / 標題不超過 10 字 / 不用 stock photo 提案，只寫意象描述 / 不加入課程目標以外的延伸內容']
+  },
+  custom:{examples:['你是一位專業的 [填入角色]，擅長 [填入專長]。','[動詞開頭] 根據老師的需求，[填入主要任務]。','[使用者身份]，在 [使用情境] 時使用。','1. [第一步] → 2. [第二步] → 3. [第三步]','[說明使用者會輸入的內容類型]','[描述輸出結構與格式]','[設定 AI 的邊界與禁區]'],fields:['','','','','','','']},
+  meta:{gemName:'Gem 專用生成器',gemInstruction:'你是 Gemini 的 Gem 生成器，依需求產出 Gem 名稱、說明與使用說明。',defaultTool:'Canvas',usageSteps:['開啟 gemini.google.com，點左欄「Gem 管理員」→「新建 Gem」','名稱填：Gem 專用生成器','說明欄填：你是 Gemini 的 Gem 生成器，依需求產出 Gem 名稱、說明與使用說明','工具區塊勾選「Canvas」（讓 Gem 能輸出可編輯的文件格式）','點「儲存」，然後開啟這個 Gem 開始對話','上傳 DataRoom 的【AI 餵食用】Persona 八欄位說明書','輸入需求，例如：「我想做一個產生人物誌的 Gem，請依照我上傳的文件內容設計」','Gem 會輸出：Gem 名稱 + 完整說明文字 + 使用說明 → 複製說明欄內容 → 貼到新 Gem 的說明欄'],examples:['（此類型不走 Role→Guard 框架，整份說明只需一句話）','','','','','',''],fields:['','','','','','','']}
+};
+const GW_SEC_NAMES = ['① Role','② Mission','③ User','④ Workflow','⑤ Input','⑥ Output','⑦ Guard'];
+const GW_SEC_KEYS = ['gw-f-role','gw-f-task','gw-f-bg','gw-f-fmt','gw-f-proc','gw-f-limit','gw-f-int'];
+const GW_REQUIRED = [0,1,4,5];
+
+function gw_init() { gw_selectType('persona'); }
+
+function gw_selectType(type) {
+  gw_gemType = type;
+  ['persona','layer','visual','custom','meta'].forEach(t => {
+    document.getElementById('gwt-'+t).classList.toggle('selected', t===type);
+  });
+  const isMeta = type === 'meta';
+  document.getElementById('gw-meta-banner').style.display = isMeta ? 'block' : 'none';
+  document.getElementById('gw-course-info').style.display = isMeta ? 'none' : 'block';
+  document.getElementById('gw-s1-nav').style.display = isMeta ? 'none' : 'flex';
+  const tpl = GW_TPL[type];
+  const exIds = ['gw-ex-role','gw-ex-task','gw-ex-bg','gw-ex-fmt','gw-ex-proc','gw-ex-limit','gw-ex-int'];
+  exIds.forEach((id,i) => { const el=document.getElementById(id); if(el) el.textContent='範例：'+(tpl.examples[i]||''); });
+}
+
+function gw_goMetaOutput() {
+  gw_renderPreview();
+  document.getElementById('gws1').classList.remove('active');
+  document.getElementById('gws2').classList.remove('active');
+  document.getElementById('gws3').classList.add('active');
+  gw_setSB(2); window.scrollTo(0,0);
+}
+
+function gw_setSB(active) {
+  for (let i=0;i<3;i++) {
+    const s=document.getElementById('gw-sb'+i); s.classList.remove('active','done');
+    if(i<active){s.classList.add('done');const l=document.getElementById('gw-sbl'+Math.min(i,1));if(l)l.classList.add('done');}
+    else if(i===active) s.classList.add('active');
+  }
+}
+
+function gw_goStep1() {
+  ['gws1','gws2','gws3'].forEach((id,i)=>document.getElementById(id).classList.toggle('active',i===0));
+  gw_setSB(0); window.scrollTo(0,0);
+}
+
+function gw_goStep2() {
+  const cn=document.getElementById('gw-course-name').value.trim();
+  const sb=document.getElementById('gw-student-bg').value.trim();
+  if(!cn||!sb){alert('請先填入「課程名稱」和「學生背景」再繼續。');return;}
+  const bgField=document.getElementById('gw-f-bg');
+  if(!bgField.value.trim()){
+    const gf=document.getElementById('gw-goal-free').value.trim();
+    bgField.value='教師，課程：'+cn+'，學生背景：'+sb+(gf?'，希望達成：'+gf:'');
+    gw_markFilled(2);
+  }
+  const tpl=GW_TPL[gw_gemType];
+  GW_SEC_KEYS.forEach((key,i)=>{const el=document.getElementById(key);if(el&&!el.value.trim()&&tpl.fields[i]){el.value=tpl.fields[i];gw_markFilled(i);}});
+  gw_selectType(gw_gemType);
+  ['gws1','gws2','gws3'].forEach((id,i)=>document.getElementById(id).classList.toggle('active',i===1));
+  gw_setSB(1); gw_updateCompleteness(); window.scrollTo(0,0);
+}
+
+function gw_goStep3() {
+  const missing=GW_REQUIRED.filter(i=>!document.getElementById(GW_SEC_KEYS[i]).value.trim());
+  if(missing.length){const names=missing.map(i=>GW_SEC_NAMES[i]).join('、');if(!confirm('「'+names+'」尚未填寫，建議補完讓 Gem 更強大。\n繼續輸出嗎？'))return;}
+  gw_renderPreview();
+  ['gws1','gws2','gws3'].forEach((id,i)=>document.getElementById(id).classList.toggle('active',i===2));
+  gw_setSB(2); window.scrollTo(0,0);
+}
+
+function gw_startOver() {
+  GW_SEC_KEYS.forEach(k=>{const el=document.getElementById(k);if(el)el.value='';});
+  gw_filledSecs=[false,false,false,false,false,false,false];
+  ['gw-course-name','gw-student-bg','gw-goal-free'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  gw_goStep1();
+}
+
+function gw_switchSec(idx) {
+  document.querySelectorAll('.sec-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));
+  document.querySelectorAll('.sec-pane').forEach((p,i)=>p.classList.toggle('active',i===idx));
+}
+
+function gw_markFilled(idx) {
+  const el=document.getElementById(GW_SEC_KEYS[idx]); if(!el) return;
+  gw_filledSecs[idx]=el.value.trim().length>0;
+  const dn=document.getElementById('gw-dn'+idx);
+  if(dn) dn.style.background=gw_filledSecs[idx]?'var(--green)':'var(--gray-300)';
+  const btn=document.querySelector('.sec-btn[data-sec="'+idx+'"]');
+  if(btn) btn.classList.toggle('filled',gw_filledSecs[idx]);
+  gw_updateCompleteness();
+}
+
+function gw_applyTemplate(idx) {
+  const tpl=GW_TPL[gw_gemType];
+  const el=document.getElementById(GW_SEC_KEYS[idx]); if(!el) return;
+  if(idx===2){
+    const cn=document.getElementById('gw-course-name').value.trim()||'[課程名稱]';
+    const sb=document.getElementById('gw-student-bg').value.trim()||'[學生背景]';
+    const gf=document.getElementById('gw-goal-free').value.trim();
+    el.value='教師，課程：'+cn+'，學生背景：'+sb+(gf?'，希望達成：'+gf:'');
+  } else {
+    el.value=tpl.fields[idx]||'';
+  }
+  gw_markFilled(idx);
+}
+
+function gw_updateCompleteness() {
+  const done=gw_filledSecs.filter(Boolean).length;
+  const pct=Math.round(done/7*100);
+  const arc=document.getElementById('gw-ring-arc');
+  if(arc){const circ=2*Math.PI*25;arc.style.strokeDashoffset=circ*(1-pct/100);}
+  const rp=document.getElementById('gw-ring-pct'); if(rp) rp.textContent=pct+'%';
+  const titles=['從 Role 開始填寫','繼續加油，還有更多區塊','已完成一半以上！','快完成了！','幾乎完整！','接近滿分！','🎉 7 個區塊全部完成！'];
+  const subs=['填越完整，Gem 越精準有效','建議填完 Role / Mission / Input / Output','選填區塊也很重要，繼續填！','再補幾個區塊就滿了','差一點就完美了','最後一個區塊！','你的 Gem 會非常精準強大'];
+  const idx=Math.min(done,6);
+  const ct=document.getElementById('gw-complete-title'); if(ct) ct.textContent=titles[idx];
+  const cs=document.getElementById('gw-complete-sub'); if(cs) cs.textContent=subs[idx];
+  const missing=GW_SEC_NAMES.filter((_,i)=>!gw_filledSecs[i]);
+  const ml=document.getElementById('gw-missing-list');
+  if(ml) ml.innerHTML=missing.slice(0,4).map(n=>'<span class="missing-tag">'+n+' 未填</span>').join('');
+}
+
+function gw_renderPreview() {
+  if(gw_gemType==='meta'){
+    const m=GW_TPL.meta;
+    const box=document.getElementById('gw-preview-output');
+    if(box) box.textContent='═══════════════════════════════\nGem 專用生成器（設計 Gem 的 Gem）\n═══════════════════════════════\n\n【Gem 名稱】\n'+m.gemName+'\n\n【說明欄（貼入 Gemini）】\n'+m.gemInstruction+'\n\n【啟用工具】\n'+m.defaultTool+'（記得在 Gemini 建立 Gem 時勾選）';
+    let html='<div style="background:var(--tbsa-parchment);border:1px solid #c4b5fd;border-radius:10px;padding:14px;margin-bottom:10px"><div style="font-weight:700;color:var(--tbsa-gold-dk);margin-bottom:8px;font-size:.9rem">⚡ 這個 Gem 只需一句話說明，建立後按以下步驟操作：</div><ol style="padding-left:16px;font-size:.83rem;color:#5b21b6;line-height:1.9">';
+    m.usageSteps.forEach(s=>{html+='<li>'+s+'</li>';});
+    html+='</ol></div><div style="background:var(--blue-light);border:1px solid var(--blue-mid);border-radius:9px;padding:10px 13px;font-size:.8rem;color:var(--tbsa-crimson-dk);line-height:1.6"><strong>💡 用法示範：</strong><br>上傳 DataRoom 的【AI 餵食用】Persona 八欄位說明書後，輸入：<br>「我想要做一個產生人物誌的 Gem，請依照我上傳的文件內容設計」<br>→ Gem 會輸出名稱 + 完整 Role/Mission/Guard 說明 → 複製後貼到新 Gem 的說明欄</div>';
+    const rb=document.getElementById('gw-report-body'); if(rb) rb.innerHTML=html;
+    return;
+  }
+  const vals=GW_SEC_KEYS.map(k=>{const el=document.getElementById(k);return el?el.value.trim():'';});
+  const headers=['【Role｜角色】','【Mission｜使命】','【User｜使用者】','【Workflow｜工作流】','【Input｜輸入】','【Output｜輸出】','【Guard｜護欄】'];
+  const typeName={persona:'Persona Gem',layer:'備課 Gem（教材分層）',visual:'備課 Gem（視覺生成）',custom:'自訂 Gem'}[gw_gemType];
+  const cn=document.getElementById('gw-course-name').value.trim();
+  let out='═══════════════════════════════\n'+typeName+(cn?'：'+cn:'')+'\n═══════════════════════════════\n\n';
+  vals.forEach((v,i)=>{if(v) out+=headers[i]+'\n'+v+'\n\n';});
+  const box=document.getElementById('gw-preview-output'); if(box) box.textContent=out.trimEnd();
+  const done=vals.filter(Boolean).length; const pct=Math.round(done/7*100);
+  const color=pct>=85?'var(--green)':pct>=57?'var(--amber)':'#dc2626';
+  let html='<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><div style="font-size:1.8rem;font-weight:800;color:'+color+'">'+pct+'%</div><div><div style="font-weight:700;color:var(--gray-800)">'+done+' / 7 個區塊已填寫</div><div style="font-size:.78rem;color:var(--gray-500)">'+(pct>=85?'優秀！這個 Gem 會很精準。':pct>=57?'不錯，有填選填區塊會更好。':'建議補完必填區塊再使用。')+'</div></div></div>';
+  html+='<div style="display:flex;flex-wrap:wrap;gap:7px">';
+  GW_SEC_NAMES.forEach((name,i)=>{const f=!!vals[i];const req=GW_REQUIRED.includes(i);html+='<div style="padding:4px 10px;border-radius:7px;font-size:.76rem;font-weight:600;background:'+(f?'var(--green-bg)':'var(--gray-100)')+';color:'+(f?'var(--green-dark)':'var(--gray-400)')+';border:1px solid '+(f?'var(--green-border)':'var(--gray-200)')+'">'+( f?'✓':'○')+' '+name+(req&&!f?' *':'')+'</div>';});
+  html+='</div>';
+  const rb=document.getElementById('gw-report-body'); if(rb) rb.innerHTML=html;
+}
+
+async function gw_copyGem() {
+  const text=gw_gemType==='meta'?GW_TPL.meta.gemInstruction:(document.getElementById('gw-preview-output')?.textContent||'');
+  try{await navigator.clipboard.writeText(text);}catch{const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
+  gw_showToast(gw_gemType==='meta'?'✓ 已複製說明欄文字！':'✓ 已複製到剪貼簿！');
+}
+
+function gw_showToast(msg) {
+  const t=document.getElementById('gw-toast'); if(!t) return;
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2400);
+}
+
+function gw_updateChar(inputId,countId,max) {
+  const el=document.getElementById(inputId); const cl=document.getElementById(countId);
+  if(el&&cl) cl.textContent=el.value.length+' / '+max;
+}
+
+// ══ 三色測試 JS ══════════════════════════════════════════════
+const TC_T = {
+  persona:{
+    lang:[`請幫我分析這位學生：\n\n大三外文系學生，主修日語，目前 JLPT N3 程度，希望畢業前通過 N2。平常上課認真記筆記，但口說練習時很容易害羞、不敢開口。家裡環境普通、週末打工，學習時間有限。對日本流行文化很有興趣，把看日劇當作自學方式。`,`我有個學生日文好像學得不太順，一直說聽不懂…`,`有個母語是日語的日本交換生想修我的日文課（和本地學生同班），你怎麼幫我分析他的學習需求？`],
+    visual:[`請幫我分析這位學生：\n\n二年級視覺傳達設計系學生，對插畫風格有強烈個人偏好，軟體操作熟練（Illustrator、Procreate），但排版邏輯薄弱，作業常被老師說「美感有了但缺乏視覺層次」。習慣開夜車趕作業，較少主動尋求老師意見。`,`我學生的設計作業感覺都怪怪的，說不出哪裡不對…`,`有個學生說自己完全沒有美感、也不想有，他只是因為父母期望才選視傳系，你能幫我分析他嗎？`],
+    biz:[`請幫我分析這位學生：\n\n大四企管系學生，有創業想法（打算做寵物用品電商），邏輯思維強但財務分析弱，英文閱讀勉強但口說較差。在學期間有行銷實習經驗，對課本上的理論常覺得「太抽象、跟現實脫節」。`,`班上有個同學學習態度很消極，常常不交作業…`,`有個東南亞背景的外籍學生修我的行銷課，他的商業邏輯和台灣本地學生完全不同，請幫我分析他的需求。`],
+    eng:[`請幫我分析這位學生：\n\n大二資工系學生，程式設計期中拿 B+，但演算法課程明顯較弱，喜歡用 YouTube 和 GitHub 自學，會主動找額外資源。宿舍環境吵雜，習慣深夜寫程式。對開源專案感興趣，但從未真正 contribute 過。`,`有個學生每次作業都遲交，說他「不知道怎麼開始」…`,`我有個學生說他學程式是被父母強迫，完全不感興趣，但測驗顯示他的邏輯思維其實很強，請分析他。`],
+    svc:[`請幫我分析這位學生：\n\n餐旅管理系大三學生，有連鎖咖啡廳兼職經驗，英語接待能力尚可，但書面報告和服務案例分析能力較弱。個性外向、喜歡和客人互動，但不擅長反思和書面表達。`,`我有個學生在實習報告上表現很差，每次都交一些流水帳…`,`有個學生很排斥服務業，覺得「做服務業很丟臉，這個系沒前途」，我要怎麼幫他學這門課？`],
+    arts:[`請幫我分析這位學生：\n\n歷史系大三學生，喜歡閱讀但寫作能力落差大（思想豐富但文字表達混亂），課堂討論積極，但考試時常常「腦袋有東西寫不出來」。對現代史有強烈興趣，對古代史覺得「記不起來、沒感覺」。`,`有個學生說他覺得歷史課沒用，跟現實生活完全沒關係…`,`我有個有輕度讀寫困難的學生要修我的文學課，你能幫我分析他的學習需求嗎？`],
+    other:[`請幫我分析這位學生：\n\n大三學生，選了一門對他而言較難的必修課。平時有認真備課，筆記詳細，但考試成績常低於預期。上課習慣被動等重點，較少主動提問。課外有兼職，學習時間有限。`,`我有個學生好像都不太在狀態，上課常常心不在焉…`,`有個同時面臨家庭、經濟、學習動機等多重困境的學生要修我的課，請幫我分析他的完整學習需求。`]
+  },
+  layer:{
+    lang:[`請幫我把「英文現在完成式 vs 過去簡單式」的教學內容分成三個難度版本：\nA 版（基礎）：高中或大學英文較弱的學生\nB 版（中階）：大學英文一般程度\nC 版（進階）：有志備考托福/雅思的學生\n\n每個版本需包含：核心說明、2 個例句、1 個練習題。`,`幫我把這個文法概念分成簡單和難兩個版本…`,`請把「虛擬語氣（Subjunctive Mood）」分成三層難度，並設計讓三層學生能在同一組互相解釋給對方聽的跨層協作任務。`],
+    visual:[`請幫我把「構圖法則—三分法」的教學內容分成三層：\nA 版（基礎）：完全沒有攝影/設計背景的學生\nB 版（中階）：學過基礎設計概念的學生\nC 版（進階）：有作品集要準備的設計系學生\n\n每版包含：核心說明、視覺範例描述、1 個操作練習。`,`幫我把三分法做成不同難度的教材…`,`請把「品牌視覺識別設計」做三層教材，並設計讓三個層次學生最終能合作完成一份品牌提案的跨層任務。`],
+    biz:[`請幫我把「損益兩平分析（Break-even Analysis）」分成三個難度：\nA 版（基礎）：沒有財務背景、只需理解概念的學生\nB 版（中階）：能做基本計算的學生\nC 版（進階）：能應用在真實商業決策的學生\n\n每版包含：概念說明、計算範例、1 個應用題。`,`幫我把損益分析做成不同程度的教材…`,`請把「創業財務規劃」做三層教材，設計讓 A/B/C 三層學生在同一組內分工完成一份真實創業提案（差異化協作版）。`],
+    eng:[`請幫我把「物件導向程式設計—封裝概念」分成三個難度：\nA 版（基礎）：剛學 Python 基礎語法\nB 版（中階）：已了解函式和基本資料結構\nC 版（進階）：要準備技術面試的學生\n\n每版包含：類比說明、Python 程式碼範例、1 個練習任務。`,`幫我把封裝概念分成初中高三個版本…`,`請把「機器學習基礎」做三層教材，並設計讓非理工（A版）和資工學生（C版）能在同組協作完成一個 AI 應用專題。`],
+    svc:[`請幫我把「顧客服務中的衝突處理（De-escalation）」分成三個難度：\nA 版（基礎）：完全沒有服務業經驗的學生\nB 版（中階）：有過短期打工經驗\nC 版（進階）：有實習或正職服務業經驗\n\n每版包含：情境說明、話術範本 2 句、1 個角色扮演情境。`,`幫我把衝突處理技巧做成不同程度的版本…`,`請把「危機溝通」主題做三層教材，設計讓三個層次學生在實習時能互相支援、依能力差異化分工的協作機制。`],
+    arts:[`請幫我把「二戰的成因分析」分成三個難度：\nA 版（基礎）：高中歷史程度\nB 版（中階）：大學歷史系大一\nC 版（進階）：歷史所準備生\n\n每版包含：核心論點說明、史料舉例、1 個討論問題。`,`幫我把二戰成因做成不同難度的分析教材…`,`請把「後殖民主義」哲學概念做三層教材，讓歷史、社會、文學三個不同學科背景的學生都能從自己的視角切入。`],
+    other:[`請幫我把「[你的課程主題]」分成三個難度版本：\nA 版（基礎）：[描述起點最低的學生]\nB 版（中階）：[描述一般程度學生]\nC 版（進階）：[描述最有基礎的學生]\n\n每版包含：核心說明、範例、1 個練習題。`,`幫我把這個主題做成不同程度的教材版本…`,`請把「[主題]」做三層教材，設計讓三個程度的學生能在同一組內差異化協作、共同完成一個任務。`]
+  },
+  visual:{
+    lang:[`請幫我製作一份視覺教材，主題：「英文現在完成式 vs 過去簡單式」，目標學生：大學英文一般程度。\n格式：信息圖表式，可課堂投影，包含：核心差異說明、生活化例句對比、常見錯誤圖示。`,`幫我做個英文文法的圖解，要視覺化一點…`,`請製作一份同時適合 A1（初學）和 C1（高階）的冠詞 a/an/the 視覺教材，讓兩種程度的學生都能從中獲得不同深度的學習。`],
+    visual:[`請幫我製作一份視覺素材，主題：「色彩三屬性（色相/明度/彩度）」，目標：視傳系大一學生。\n格式：可課堂投影的簡報圖解，包含對比範例和常見設計錯誤示範。`,`幫我做個設計概念的圖解，要讓學生看一眼就懂…`,`請製作一份讓完全色盲的學生也能理解「色彩搭配原則」的視覺教材，不能依賴顏色本身傳遞資訊。`],
+    biz:[`請幫我製作一份視覺教材，主題：「SWOT 分析四象限」，目標學生：企管系大二，有一點商業基礎。\n格式：信息圖表，包含一個台灣茶飲品牌真實案例，有填空格讓學生練習。`,`幫我做個商業分析的圖表，要學生容易填的那種…`,`請製作一份讓沒有商業背景的大一學生也能看懂的「商業模式圖（Business Model Canvas）」視覺教材，並設計互動填寫格式。`],
+    eng:[`請幫我製作一份視覺教材，主題：「遞迴（Recursion）概念」，目標學生：資工系大一，剛學完基礎 Python。\n格式：步驟圖解 + 費氏數列動態示意 + 常見錯誤（無窮迴圈）圖示。`,`幫我畫個程式概念的解說圖，要讓初學者看得懂…`,`請幫我製作一份讓完全不懂程式的文組學生也能理解「演算法時間複雜度 O(n)」的視覺教材。`],
+    svc:[`請幫我製作一份視覺教材，主題：「服務藍圖（Service Blueprint）」，目標學生：餐旅系大二，有基礎服務概念。\n格式：顧客視角 vs 後台視角的對照流程圖，加入咖啡廳實際案例。`,`幫我做個服務流程的圖解，要前後台都看得到的那種…`,`請製作一份讓完全沒有服務業經驗的工科學生也能理解「服務設計思考」的視覺教材，要能引發共鳴。`],
+    arts:[`請幫我製作一份視覺教材，主題：「中國朝代時間軸（秦→清）」，目標學生：高中歷史程度。\n格式：橫向時間軸，標出重要事件、制度演變、文化特色，可作課堂參考卡。`,`幫我做個歷史時間軸圖，要清楚好看…`,`請製作一份同時呈現中國、歐洲、伊斯蘭三個文明發展的跨文化對照時間軸視覺教材。`],
+    other:[`請幫我製作一份視覺教材，主題：[你的課程主題]，目標學生：[程度描述]。\n格式：可課堂投影的信息圖表，包含核心概念、範例對照、學生練習填空區。`,`幫我做個 [主題] 的圖解，越視覺化越好…`,`請製作一份讓跨系所、不同背景學生都能看懂的 [主題] 視覺教材，不預設任何先備知識。`]
+  },
+  other:{default:[`[請自行輸入一個「完整、清楚、資訊充足」的使用案例]\n\n✏️ 提示：把你最理想的輸入情況作為測試題，驗證 Gem 在最佳狀況下的產出品質。`,`[請自行輸入一個「資訊不完整、模糊或含糊」的使用案例]\n\n✏️ 提示：想像用戶很懶、只給你一半資訊時，你的 Gem 會怎麼反應？`,`[請自行輸入一個「超出預期範圍、矛盾或刁鑽」的使用案例]\n\n✏️ 提示：想像最困難、最容易讓 Gem 出包的邊界情境。`]}
+};
+const TC_SECS=[
+  {name:'角色定位',desc:'定義 Gem 是誰、有什麼專長',kw:['你是','您是','角色','身份','助教','顧問','專家'],tip:'加入「你是一個專門幫助 [科系] 老師的 AI 助教」這類明確角色定義'},
+  {name:'任務目標',desc:'說明 Gem 要完成什麼任務',kw:['任務','目標','產出','你需要','你要','你必須','生成','分析','製作','幫我輸出'],tip:'明確寫出「你的任務是：當用戶給你 [輸入]，你要產出 [輸出]」'},
+  {name:'背景知識',desc:'提供領域知識、學生情境背景',kw:['背景','知識','你知道','前提','假設','系所','課程','學生','科系','領域','情境'],tip:'加入你的教學領域、學生特質、課程常見情境等背景知識'},
+  {name:'輸出格式',desc:'規定回答的格式與結構',kw:['格式','結構','表格','條列','清單','段落','字數','欄位','版面','呈現','分成'],tip:'指定「請用表格/條列呈現，每個欄位至少 XX 字，附具體例子」'},
+  {name:'思考流程',desc:'引導 Gem 的思考步驟',kw:['先','再','最後','步驟','流程','思考','首先','接著','然後','第一步','第二步'],tip:'加入「請先分析 A，再考量 B，最後產出 C」的思考路徑'},
+  {name:'限制條件',desc:'告訴 Gem 什麼不能做',kw:['不要','不能','禁止','避免','限制','只','絕對','注意','切勿','除非'],tip:'加入「不要憑空編造 / 只根據我提供的內容 / 超出範圍時說明無法回答」'},
+  {name:'互動方式',desc:'定義 Gem 如何向用戶提問補充',kw:['問我','詢問','互動','如果不清楚','資訊不足','需要更多','請告訴我','主動'],tip:'加入「如果輸入不足，請主動問我一個最重要的補充問題，不要自行假設」'}
+];
+const TC_S = { name:'', type:'', dom:'', prompt:'', ratings:{g:null,y:null,r:null} };
+const TC_DOM_LABEL = {lang:'語文類課程',visual:'視覺設計課程',biz:'商管課程',eng:'理工課程',svc:'服務類課程',arts:'人文藝術課程',other:'其他課程'};
+
+function tc_updateCount() {
+  const v=document.getElementById('tc-gemPrompt').value;
+  document.getElementById('tc-charCount').textContent=v.length+' 字';
+}
+
+function tc_cp(c, btn) {
+  const text=document.getElementById('tc-p'+c).textContent;
+  const orig=btn.textContent;
+  navigator.clipboard.writeText(text).catch(()=>{const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);});
+  btn.textContent='✅ 已複製！'; btn.classList.add('ok');
+  setTimeout(()=>{btn.textContent=orig;btn.classList.remove('ok');},2000);
+}
+
+function tc_rate(c, val, btn) {
+  TC_S.ratings[c]=val;
+  btn.closest('.rating-row').querySelectorAll('.rb').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+}
+
+function tc_goTo(n) {
+  ['tc-sc1','tc-sc2','tc-sc3'].forEach((id,i)=>document.getElementById(id).classList.toggle('active',i+1===n));
+  for(let i=1;i<=3;i++){const el=document.getElementById('tc-s'+i);el.classList.remove('active','done-step');if(i<n)el.classList.add('done-step');else if(i===n)el.classList.add('active');}
+  for(let i=1;i<=2;i++) document.getElementById('tc-l'+i).classList.toggle('done',i<n);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function tc_go2() {
+  const name=document.getElementById('tc-gemName').value.trim()||'我的 Gem';
+  const type=document.getElementById('tc-gemType').value;
+  const dom=document.getElementById('tc-domain').value;
+  const prm=document.getElementById('tc-gemPrompt').value.trim();
+  if(!type) return alert('請選擇 Gem 的用途！');
+  if(!dom) return alert('請選擇你的課程領域！');
+  if(prm.length<20) return alert('請貼入你的 Gem Prompt（至少 20 個字）！');
+  Object.assign(TC_S,{name,type,dom,prompt:prm}); TC_S.ratings={g:null,y:null,r:null};
+  const src=TC_T[type];
+  const prompts=(src&&src[dom])?src[dom]:(src&&src['other'])?src['other']:TC_T.other.default;
+  document.getElementById('tc-pg').textContent=prompts[0];
+  document.getElementById('tc-py').textContent=prompts[1];
+  document.getElementById('tc-pr').textContent=prompts[2];
+  document.getElementById('tc-s2name').textContent='🧪 '+name;
+  document.getElementById('tc-s2domain').textContent=TC_DOM_LABEL[dom]||dom;
+  document.querySelectorAll('.rb').forEach(b=>b.classList.remove('sel'));
+  ['tc-rg','tc-ry','tc-rr'].forEach(id=>document.getElementById(id).value='');
+  tc_goTo(2);
+}
+
+function tc_go3() {
+  const prompt=TC_S.prompt;
+  const analysis=TC_SECS.map(s=>({...s,found:s.kw.some(k=>prompt.includes(k))}));
+  const found=analysis.filter(s=>s.found).length;
+  const pct=Math.round(found/TC_SECS.length*100);
+  document.getElementById('tc-s3name').textContent='📊 '+TC_S.name;
+  const fill=document.getElementById('tc-sfill');
+  setTimeout(()=>{fill.style.width=pct+'%';fill.style.background=pct>=72?'var(--green)':pct>=43?'var(--yellow)':'var(--red)';},100);
+  document.getElementById('tc-stxt').textContent=found+' / '+TC_SECS.length+'（'+pct+'%）';
+  document.getElementById('tc-chklist').innerHTML=analysis.map(s=>`<li><span class="ci">${s.found?'✅':'❌'}</span><div><strong>${s.name}</strong><div style="font-size:.78rem;color:var(--gray-500)">${s.desc}</div>${!s.found?'<div class="chk-fix">改進：'+s.tip+'</div>':''}</div></li>`).join('');
+  const rMap={good:['var(--green-bg)','var(--green-dark)','✅ 好用'],ok:['var(--yellow-bg)','var(--yellow-dark)','⚠️ 普通'],bad:['var(--red-bg)','var(--red-dark)','❌ 需改'],null:['var(--gray-100)','var(--gray-500)','— 未評']};
+  const pillData=[{c:'g',e:'🟢',l:'綠燈'},{c:'y',e:'🟡',l:'黃燈'},{c:'r',e:'🔴',l:'紅燈'}];
+  document.getElementById('tc-rpills').innerHTML=pillData.map(({c,e,l})=>{const [bg,col,txt]=rMap[TC_S.ratings[c]];return'<div class="pill" style="background:'+bg+';color:'+col+'">'+e+' '+l+'<br>'+txt+'</div>';}).join('');
+  const noteItems=[{c:'tc-rg',e:'🟢',l:'綠燈'},{c:'tc-ry',e:'🟡',l:'黃燈'},{c:'tc-rr',e:'🔴',l:'紅燈'}].map(({c,e,l})=>{const v=document.getElementById(c).value.trim();return v?'<div class="result-note-item"><strong>'+e+' '+l+'：</strong>'+v+'</div>':'';}).join('');
+  document.getElementById('tc-rnotes').innerHTML=noteItems||'<div class="text-sm">（尚未填寫測試結果備註）</div>';
+  const missing=analysis.filter(s=>!s.found);
+  const sugs=[];
+  missing.slice(0,2).forEach(s=>sugs.push({title:'補強「'+s.name+'」區塊',body:s.tip}));
+  if(TC_S.ratings.y==='bad'||TC_S.ratings.y==='ok'){const hasInter=analysis.find(s=>s.name==='互動方式')?.found;if(!hasInter)sugs.push({title:'加入「模糊輸入處理」機制',body:'黃燈不佳代表 Gem 遇到模糊輸入會亂猜。在 Prompt 加入：「如果輸入資訊不足，請主動問我最重要的補充問題，不要自行假設。」'});}
+  if(TC_S.ratings.r==='bad') sugs.push({title:'設定邊界（限制條件）',body:'紅燈失敗代表 Gem 缺乏邊界意識。加入：「如果問題超出你的設定範圍，請說明無法回答，並告知你能做什麼。」'});
+  if(TC_S.ratings.g==='bad') sugs.push({title:'強化輸出格式規格',body:'連標準情境都表現不佳，通常是輸出格式未規定清楚。加入：「請用表格呈現，每個欄位至少 [X] 字，必須附具體例子。」'});
+  if(sugs.length===0){sugs.push({title:'提升「背景知識」具體度',body:'把你的科系特色、學生常見情境、領域術語寫進背景知識區塊，讓 Gem 更懂你的課。'});sugs.push({title:'加入「典型輸入範例」',body:'在 Gem 最後加一個「示範輸入：...」，告訴 Gemini 你理想的使用者輸入長什麼樣，能顯著提升產出品質。'});}
+  document.getElementById('tc-suglist').innerHTML=sugs.slice(0,3).map((s,i)=>'<li class="sug-item"><div class="sug-n">'+(i+1)+'</div><div><strong>'+s.title+'</strong><div class="sug-body">'+s.body+'</div></div></li>').join('');
+  tc_goTo(3);
+}
+
+
+// ════════════════════════════════════════════════════════
+// SSE 即時同步層（Zeabur 版，取代 Firebase）
+// 講師（?role=teacher）→ POST /api/update → server → SSE → 學員即時更新
+// ════════════════════════════════════════════════════════
+
+window._SYNC = { enabled: false, isTeacher: false, suppressWrite: false };
+
+function _syncPush(type, key, value) {
+  if (!window._SYNC.isTeacher) return;
+  fetch('/api/update', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type, key, value })
+  }).catch(e => console.warn('[SSE] push failed', e));
+}
+
+function _applyState(state) {
+  if (!state) return;
+
+  // labs
+  if (state.labs) {
+    window._SYNC.suppressWrite = true;
+    try {
+      for (let i = 0; i <= 10; i++) {
+        const newVal = !!state.labs[String(i)];
+        if (labDone[i] !== newVal) { labDone[i] = newVal; renderLabCheck(i); }
+      }
+      updateDayProgress();
+    } finally { window._SYNC.suppressWrite = false; }
+  }
+
+  // steps
+  if (state.steps) {
+    window._SYNC.suppressWrite = true;
+    try {
+      if (typeof state.steps.day1 === 'number' && state.steps.day1 >= 0) setStep('day1', state.steps.day1);
+      if (typeof state.steps.day2 === 'number' && state.steps.day2 >= 0) setStep('day2', state.steps.day2);
+    } finally { window._SYNC.suppressWrite = false; }
+  }
+
+  // hw
+  if (state.hw) {
+    window._SYNC.suppressWrite = true;
+    try {
+      let changed = false;
+      for (let i = 0; i < 4; i++) {
+        const newVal = !!state.hw[String(i)];
+        if (hwState[i] !== newVal) { hwState[i] = newVal; changed = true; }
+      }
+      if (changed) renderHW();
+    } finally { window._SYNC.suppressWrite = false; }
+  }
+}
+
+function _initSSESync() {
+  const role = new URLSearchParams(location.search).get('role') || 'student';
+  const isTeacher = role === 'teacher';
+  document.body.classList.add(isTeacher ? 'teacher-mode' : 'viewer-mode');
+  window._SYNC.isTeacher = isTeacher;
+
+  // 嘗試連線 SSE（若是 file:// 或離線則略過）
+  if (location.protocol === 'file:') {
+    document.getElementById('role-banner-viewer').style.display = 'none';
+    document.getElementById('role-banner-teacher').style.display = 'none';
+    document.body.classList.remove('teacher-mode','viewer-mode');
+    console.log('[SSE] file:// 模式，使用 localStorage');
+    return;
+  }
+
+  try {
+    const es = new EventSource('/api/events');
+    window._SYNC.enabled = true;
+
+    es.onopen = () => {
+      const banner = document.getElementById(isTeacher ? 'role-banner-teacher' : 'role-banner-viewer');
+      if (banner) { banner.classList.add('synced'); banner.classList.remove('error'); }
+      console.log('[SSE] 已連線，角色：' + role);
+    };
+
+    es.onmessage = (e) => {
+      try { _applyState(JSON.parse(e.data)); } catch (_) {}
+    };
+
+    es.onerror = () => {
+      const banner = document.getElementById(isTeacher ? 'role-banner-teacher' : 'role-banner-viewer');
+      if (banner) { banner.classList.add('error'); banner.classList.remove('synced'); }
+    };
+
+    // 講師端：定期更新線上人數
+    if (isTeacher) {
+      const updateCount = () => fetch('/api/count').then(r=>r.json()).then(d=>{
+        const el = document.getElementById('online-count');
+        if (el) el.textContent = '線上 ' + d.count + ' 人';
+      }).catch(()=>{});
+      updateCount();
+      setInterval(updateCount, 10000);
+    }
+  } catch (e) {
+    console.warn('[SSE] 連線失敗，退回 localStorage：', e);
+  }
+}
+
+if (document.readyState === 'loading') {
+  window.addEventListener('load', _initSSESync);
+} else {
+  setTimeout(_initSSESync, 100);
+}
+
+</script>
+
+<div class="tbsa-bar-bottom"></div>
+<div class="tbsa-footer">
+  <div class="tbsa-footer-zh">台灣商務策劃協會 · TBSA</div>
+  <div class="tbsa-footer-meta">{{ORG_NAME}} AI 教師研習營 <em>· {{COURSE_MONTH_EN}}</em></div>
+  <div class="tbsa-footer-en">Taiwan Business Strategy Association</div>
+</div>
+
+</body>
+</html>
