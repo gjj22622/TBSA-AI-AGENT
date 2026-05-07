@@ -416,6 +416,7 @@ body{font-family:var(--font-sans);background:var(--gray-100);color:var(--gray-80
 .pm-step-badge{position:absolute;top:7px;right:9px;background:var(--tbsa-gold-lt);color:var(--tbsa-ink);font-family:var(--font-en-sans);font-size:.58rem;font-weight:800;letter-spacing:.14em;padding:2px 7px;border-radius:3px;line-height:1.5}
 .pm-step-gold{background:linear-gradient(135deg,var(--tbsa-gold) 0%,var(--tbsa-gold-dk) 100%)}
 .pm-step-crimson{background:linear-gradient(135deg,var(--tbsa-crimson) 0%,var(--tbsa-crimson-dk) 100%)}
+.pm-step-navy{background:linear-gradient(135deg,#1E2761 0%,#0F172A 100%)}
 .pm-step-doc{background:var(--tbsa-parchment);color:var(--tbsa-ink);border:1.5px dashed var(--tbsa-gold-dk);box-shadow:none}
 .pm-step-doc .pm-step-num{background:var(--tbsa-gold-lt);color:var(--tbsa-ink)}
 .pm-step-doc .pm-step-title{color:var(--tbsa-ink)}
@@ -448,6 +449,7 @@ body{font-family:var(--font-sans);background:var(--gray-100);color:var(--gray-80
 .pm-app-green{background:linear-gradient(135deg,#3E5C2A 0%,#5A8040 100%)}
 .pm-app-teal{background:linear-gradient(135deg,#0D7C76 0%,#14B8A6 100%)}
 .pm-app-brush{background:linear-gradient(135deg,#9F3128 0%,var(--tbsa-crimson) 100%)}
+.pm-app-amber{background:linear-gradient(135deg,#92400E 0%,#B45309 100%)}
 
 /* Footer pillars (punchline) */
 .pm-footer{display:flex;align-items:stretch;justify-content:space-between;background:linear-gradient(135deg,var(--tbsa-ink) 0%,var(--tbsa-ink-2) 100%);border-top:2px solid var(--tbsa-gold-lt);padding:14px 18px;position:relative}
@@ -1078,6 +1080,94 @@ body{font-family:var(--font-sans);background:var(--gray-100);color:var(--gray-80
     <div class="day-progress">
       <div class="dp-label" id="d2-prog-label">0 / 3 實作</div>
       <div class="dp-bar"><div class="dp-fill" id="d2-prog-bar" style="width:0%;background:linear-gradient(90deg,var(--green-dark),var(--green))"></div></div>
+    </div>
+  </div>
+
+  <!-- 心智模型補充 · 備課 Gem 全景圖 -->
+  <div class="card pm-card">
+    <div class="pm-head">
+      <div class="pm-eyebrow">// DAY_2 · SUPPLEMENT<span class="pm-eb-han">心智模型補充</span></div>
+      <div class="pm-title"><span class="pm-title-en">備課 Gem</span>全景圖</div>
+      <div class="pm-sub">拆 <strong>1 個痛點</strong> · 建 <strong>1 個 Gem</strong> · 改變 <strong>每天的備課</strong></div>
+    </div>
+
+    <div class="pm-body">
+      <!-- LEFT: BUILD（拆 → 建 → 修） -->
+      <div class="pm-col">
+        <div class="pm-col-label">// BUILD<span class="pm-col-han">建造流程</span></div>
+
+        <div class="pm-step pm-step-crimson">
+          <div class="pm-step-num">1</div>
+          <div class="pm-step-content">
+            <div class="pm-step-title">拆 · AI 訪談</div>
+            <div class="pm-step-sub">Gemini 4 問找出最痛環節</div>
+          </div>
+        </div>
+        <div class="pm-arrow">↓</div>
+
+        <div class="pm-step pm-step-gold">
+          <div class="pm-step-num">2</div>
+          <div class="pm-step-content">
+            <div class="pm-step-title">建 · Meta Gem</div>
+            <div class="pm-step-sub">一句話產出備課 Gem 設定</div>
+          </div>
+        </div>
+        <div class="pm-arrow">↓</div>
+
+        <div class="pm-step pm-step-navy">
+          <div class="pm-step-num">3</div>
+          <div class="pm-step-content">
+            <div class="pm-step-title">修 · 三色測試</div>
+            <div class="pm-step-sub">紅黃綠刺探弱點 → 即時修訂</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CENTER: HERO -->
+      <div class="pm-hero">
+        <div class="pm-hero-eyebrow">── HERO · 中心目標 ──</div>
+        <div class="pm-hero-title">備課<span class="pm-hero-second">Gem</span></div>
+        <div class="pm-hero-divider"></div>
+        <div class="pm-hero-sub">你的個人備課 AI 助教</div>
+        <div class="pm-hero-desc">老師備課，AI 苦力<br>三色測試認證<br>今晚就能用</div>
+      </div>
+
+      <!-- RIGHT: APPLY（4 個應用） -->
+      <div class="pm-col">
+        <div class="pm-col-label">// APPLY<span class="pm-col-han">多重應用</span></div>
+
+        <div class="pm-app pm-app-green">
+          <div class="pm-app-letter">a</div>
+          <div class="pm-app-content">
+            <div class="pm-app-title">教材分層</div>
+            <div class="pm-app-sub">A／B／C 三程度同份教材</div>
+          </div>
+        </div>
+
+        <div class="pm-app pm-app-teal">
+          <div class="pm-app-letter">b</div>
+          <div class="pm-app-content">
+            <div class="pm-app-title">視覺腳本</div>
+            <div class="pm-app-sub">投影片提示與分鏡</div>
+          </div>
+        </div>
+
+        <div class="pm-app pm-app-brush">
+          <div class="pm-app-letter">c</div>
+          <div class="pm-app-content">
+            <div class="pm-app-title">隨堂評估</div>
+            <div class="pm-app-sub">出題與即時評分</div>
+          </div>
+        </div>
+
+        <div class="pm-app pm-app-amber">
+          <div class="pm-app-letter">d</div>
+          <div class="pm-app-content">
+            <div class="pm-app-title">學習回饋</div>
+            <div class="pm-app-sub">課後問卷自動產出</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
