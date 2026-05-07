@@ -327,23 +327,41 @@ body{font-family:var(--font-sans);background:var(--gray-100);color:var(--gray-80
 .tc-wrap{}
 .tc-screen{display:none}
 .tc-screen.active{display:block}
-.tc-steps-wrap{background:white;border-radius:12px;padding:12px 16px;margin-bottom:14px;border:1px solid var(--gray-200)}
-.tc-steps{display:flex;align-items:center;justify-content:center;gap:0}
-.tc-step{display:flex;align-items:center;gap:7px;font-size:.83rem;color:var(--gray-500);padding:0 10px;cursor:default}
-.tc-step-n{width:24px;height:24px;border-radius:50%;background:var(--gray-200);color:var(--gray-500);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.72rem;flex-shrink:0;transition:.2s}
-.tc-step.active{color:var(--blue);font-weight:600}
-.tc-step.active .tc-step-n{background:var(--blue);color:white}
-.tc-step.done-step{color:var(--green)}
-.tc-step.done-step .tc-step-n{background:var(--green);color:white}
-.tc-step-line{flex:1;height:2px;background:var(--gray-200);max-width:50px;transition:.3s}
-.tc-step-line.done{background:var(--green)}
-.tritest-card{border-radius:12px;padding:18px;margin-bottom:14px;border:2px solid}
+
+/* Tritest hero — TBSA 三色測試標題卡 */
+.tt-badges{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;padding:14px 18px;background:linear-gradient(180deg,var(--tbsa-parchment) 0%,var(--tbsa-paper) 100%);border-top:1.5px solid var(--tbsa-gold-lt)}
+.tt-badge{padding:6px 16px;border-radius:18px;font-size:.78rem;font-weight:700;letter-spacing:.04em;display:inline-flex;align-items:center;gap:6px;border:1.5px solid;font-family:var(--font-sans)}
+.tt-badge-green{background:#f0fdf4;color:#15803d;border-color:#86efac}
+.tt-badge-yellow{background:#fefce8;color:#a16207;border-color:#fde047}
+.tt-badge-red{background:#fff1f2;color:#b91c1c;border-color:#fca5a5}
+
+/* Step tracker — TBSA 升級版 */
+.tt-steps-card{background:var(--tbsa-paper);border-radius:14px;padding:18px 22px;margin-bottom:14px;border:1.5px solid var(--tbsa-gold-lt);position:relative;overflow:hidden}
+.tt-steps-card::before{content:'';position:absolute;top:0;left:0;height:3px;width:50%;background:var(--tbsa-gold)}
+.tt-steps-card::after{content:'';position:absolute;top:0;right:0;height:3px;width:50%;background:var(--tbsa-crimson)}
+.tt-steps-label{font-family:var(--font-en-sans);font-size:.65rem;letter-spacing:.32em;font-weight:700;color:var(--tbsa-gold-dk);text-transform:uppercase;margin-bottom:12px;text-align:center}
+.tt-steps-label .tt-zh{font-family:var(--font-sans);font-size:.74rem;color:var(--tbsa-stone);letter-spacing:.1em;text-transform:none;font-weight:600;margin-left:8px}
+.tc-steps{display:flex;align-items:center;justify-content:space-between;gap:0;max-width:480px;margin:0 auto}
+.tc-step{display:flex;align-items:center;gap:9px;font-size:.85rem;color:var(--tbsa-stone);cursor:default;font-family:var(--font-sans)}
+.tc-step-n{width:34px;height:34px;border-radius:50%;background:var(--tbsa-parchment);color:var(--tbsa-stone);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.95rem;flex-shrink:0;transition:.25s;border:1.5px solid var(--tbsa-line);font-family:var(--font-en);font-style:italic}
+.tc-step.active{color:var(--tbsa-crimson);font-weight:700}
+.tc-step.active .tc-step-n{background:linear-gradient(135deg,var(--tbsa-gold) 0%,var(--tbsa-gold-dk) 100%);color:var(--tbsa-paper);border-color:var(--tbsa-gold-dk);box-shadow:0 2px 8px rgba(163,122,15,.4)}
+.tc-step.done-step{color:var(--tbsa-gold-dk);font-weight:600}
+.tc-step.done-step .tc-step-n{background:var(--tbsa-gold-lt);color:var(--tbsa-ink);border-color:var(--tbsa-gold-lt)}
+.tc-step-line{flex:1;height:2px;background:var(--tbsa-line);max-width:50px;transition:.3s;margin:0 4px}
+.tc-step-line.done{background:linear-gradient(90deg,var(--tbsa-gold) 0%,var(--tbsa-gold-lt) 100%)}
+.tritest-card{border-radius:12px;padding:0;margin-bottom:14px;border:2px solid;overflow:hidden}
 .tritest-card.gc{background:#f0fdf4;border-color:var(--green-border)}
 .tritest-card.yc{background:var(--yellow-bg);border-color:var(--yellow-border)}
 .tritest-card.rc{background:var(--red-bg);border-color:var(--red-border)}
-.tritest-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:6px}
-.tritest-label{font-size:.95rem;font-weight:700;display:flex;align-items:center;gap:7px}
-.tritest-sub{font-size:.73rem;color:var(--gray-600);font-style:italic}
+.tritest-head{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;flex-wrap:wrap;gap:6px;font-family:var(--font-sans)}
+.tritest-card.gc .tritest-head{background:linear-gradient(135deg,#3E5C2A 0%,#5A8040 100%);color:#FAF7E8}
+.tritest-card.yc .tritest-head{background:linear-gradient(135deg,#92400E 0%,#B45309 100%);color:#FEF3C7}
+.tritest-card.rc .tritest-head{background:linear-gradient(135deg,var(--tbsa-crimson) 0%,var(--tbsa-crimson-dk) 100%);color:var(--tbsa-paper)}
+.tritest-card .tritest-body{padding:14px 18px}
+.tritest-label{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:8px;letter-spacing:.04em}
+.tritest-label span:last-child{color:inherit !important}
+.tritest-sub{font-size:.74rem;opacity:.85;font-style:italic;letter-spacing:.02em}
 .prompt-box{background:white;border-radius:8px;padding:12px;font-size:.85rem;color:var(--gray-700);border:1px solid var(--gray-200);margin-bottom:10px;white-space:pre-wrap;line-height:1.7}
 .tc-actions{display:flex;gap:7px;margin-bottom:12px;flex-wrap:wrap}
 .rating-row{display:flex;gap:7px;margin-top:9px}
@@ -1565,17 +1583,24 @@ body{font-family:var(--font-sans);background:var(--gray-100);color:var(--gray-80
 </div>
 
 <div class="pane" id="pane-tritest">
-  <div style="background:linear-gradient(135deg,var(--tbsa-crimson-dk),var(--tbsa-crimson-dk);border-radius:14px;padding:20px;text-align:center;margin-bottom:14px;color:white">
-    <h2 style="font-size:1.45rem;font-weight:800;margin-bottom:5px">🧪 三色殘酷測試沙盒</h2>
-    <div style="font-size:.85rem;opacity:.85;margin-bottom:12px">把你的 Gem 練到戰場等級 — 三種情境全壓測</div>
-    <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap">
-      <span style="padding:4px 12px;border-radius:16px;font-size:.78rem;font-weight:700;background:var(--green-bg);color:var(--green-dark)">🟢 標準情境</span>
-      <span style="padding:4px 12px;border-radius:16px;font-size:.78rem;font-weight:700;background:var(--yellow-bg);color:var(--yellow-dark)">🟡 邊緣情境</span>
-      <span style="padding:4px 12px;border-radius:16px;font-size:.78rem;font-weight:700;background:var(--red-bg);color:var(--red-dark)">🔴 刁鑽情境</span>
+
+  <!-- TBSA Hero -->
+  <div class="card pm-card" style="margin-top:0">
+    <div class="pm-head">
+      <div class="pm-eyebrow">// LAB · STRESS-TEST<span class="pm-eb-han">三色殘酷測試</span></div>
+      <div class="pm-title"><span class="pm-title-en">Tri-Color</span>沙盒</div>
+      <div class="pm-sub">把你的 Gem 練到 <strong>戰場等級</strong> · 三種情境 <strong>全壓測</strong></div>
+    </div>
+    <div class="tt-badges">
+      <span class="tt-badge tt-badge-green">🟢 標準情境</span>
+      <span class="tt-badge tt-badge-yellow">🟡 邊緣情境</span>
+      <span class="tt-badge tt-badge-red">🔴 刁鑽情境</span>
     </div>
   </div>
 
-  <div class="tc-steps-wrap">
+  <!-- TBSA Step Tracker -->
+  <div class="tt-steps-card">
+    <div class="tt-steps-label">// PROGRESS<span class="tt-zh">三步流程</span></div>
     <div class="tc-steps">
       <div class="tc-step active" id="tc-s1"><div class="tc-step-n">1</div><span>輸入 Gem</span></div>
       <div class="tc-step-line" id="tc-l1"></div>
@@ -1606,33 +1631,39 @@ body{font-family:var(--font-sans);background:var(--gray-100);color:var(--gray-80
       </div>
 
       <div class="tritest-card gc">
-        <div class="tritest-head"><div class="tritest-label"><span style="font-size:1.3rem">🟢</span><span style="color:var(--green-dark)">綠燈測試</span></div><span class="tritest-sub">標準情境｜完整輸入 → 驗證基本產出品質</span></div>
-        <div class="prompt-box" id="tc-pg"></div>
-        <div class="tc-actions">
-          <button class="btn btn-dark btn-sm" id="tc-cpg" onclick="tc_cp('g',this)">📋 複製測試題</button>
-          <a class="btn btn-gemini btn-sm" href="https://gemini.google.com/app" target="_blank">✦ 開啟 Gemini</a>
+        <div class="tritest-head"><div class="tritest-label"><span style="font-size:1.2rem">🟢</span><span>綠燈測試</span></div><span class="tritest-sub">標準情境｜完整輸入 → 驗證基本產出品質</span></div>
+        <div class="tritest-body">
+          <div class="prompt-box" id="tc-pg"></div>
+          <div class="tc-actions">
+            <button class="btn btn-dark btn-sm" id="tc-cpg" onclick="tc_cp('g',this)">📋 複製測試題</button>
+            <a class="btn btn-gemini btn-sm" href="https://gemini.google.com/app" target="_blank">✦ 開啟 Gemini</a>
+          </div>
+          <div class="res-area"><label>📝 Gem 的回答如何？記錄一句話</label><textarea id="tc-rg" placeholder="例：輸出很完整，但痛點欄描述太表面…"></textarea><div class="rating-row"><button class="rb good" onclick="tc_rate('g','good',this)">✅ 好用</button><button class="rb ok" onclick="tc_rate('g','ok',this)">⚠️ 普通</button><button class="rb bad" onclick="tc_rate('g','bad',this)">❌ 需改</button></div></div>
         </div>
-        <div class="res-area"><label>📝 Gem 的回答如何？記錄一句話</label><textarea id="tc-rg" placeholder="例：輸出很完整，但痛點欄描述太表面…"></textarea><div class="rating-row"><button class="rb good" onclick="tc_rate('g','good',this)">✅ 好用</button><button class="rb ok" onclick="tc_rate('g','ok',this)">⚠️ 普通</button><button class="rb bad" onclick="tc_rate('g','bad',this)">❌ 需改</button></div></div>
       </div>
 
       <div class="tritest-card yc">
-        <div class="tritest-head"><div class="tritest-label"><span style="font-size:1.3rem">🟡</span><span style="color:var(--yellow-dark)">黃燈測試</span></div><span class="tritest-sub">邊緣情境｜模糊輸入 → 看 Gem 如何應對</span></div>
-        <div class="prompt-box" id="tc-py"></div>
-        <div class="tc-actions">
-          <button class="btn btn-dark btn-sm" id="tc-cpy" onclick="tc_cp('y',this)">📋 複製測試題</button>
-          <a class="btn btn-gemini btn-sm" href="https://gemini.google.com/app" target="_blank">✦ 開啟 Gemini</a>
+        <div class="tritest-head"><div class="tritest-label"><span style="font-size:1.2rem">🟡</span><span>黃燈測試</span></div><span class="tritest-sub">邊緣情境｜模糊輸入 → 看 Gem 如何應對</span></div>
+        <div class="tritest-body">
+          <div class="prompt-box" id="tc-py"></div>
+          <div class="tc-actions">
+            <button class="btn btn-dark btn-sm" id="tc-cpy" onclick="tc_cp('y',this)">📋 複製測試題</button>
+            <a class="btn btn-gemini btn-sm" href="https://gemini.google.com/app" target="_blank">✦ 開啟 Gemini</a>
+          </div>
+          <div class="res-area"><label>📝 Gem 的回答如何？記錄一句話</label><textarea id="tc-ry" placeholder="例：Gem 開始自己假設，編了一堆不存在的資訊…"></textarea><div class="rating-row"><button class="rb good" onclick="tc_rate('y','good',this)">✅ 好用</button><button class="rb ok" onclick="tc_rate('y','ok',this)">⚠️ 普通</button><button class="rb bad" onclick="tc_rate('y','bad',this)">❌ 需改</button></div></div>
         </div>
-        <div class="res-area"><label>📝 Gem 的回答如何？記錄一句話</label><textarea id="tc-ry" placeholder="例：Gem 開始自己假設，編了一堆不存在的資訊…"></textarea><div class="rating-row"><button class="rb good" onclick="tc_rate('y','good',this)">✅ 好用</button><button class="rb ok" onclick="tc_rate('y','ok',this)">⚠️ 普通</button><button class="rb bad" onclick="tc_rate('y','bad',this)">❌ 需改</button></div></div>
       </div>
 
       <div class="tritest-card rc">
-        <div class="tritest-head"><div class="tritest-label"><span style="font-size:1.3rem">🔴</span><span style="color:var(--red-dark)">紅燈測試</span></div><span class="tritest-sub">刁鑽情境｜最棘手邊界案例 → 看 Gem 會不會崩潰</span></div>
-        <div class="prompt-box" id="tc-pr"></div>
-        <div class="tc-actions">
-          <button class="btn btn-dark btn-sm" id="tc-cpr" onclick="tc_cp('r',this)">📋 複製測試題</button>
-          <a class="btn btn-gemini btn-sm" href="https://gemini.google.com/app" target="_blank">✦ 開啟 Gemini</a>
+        <div class="tritest-head"><div class="tritest-label"><span style="font-size:1.2rem">🔴</span><span>紅燈測試</span></div><span class="tritest-sub">刁鑽情境｜最棘手邊界案例 → 看 Gem 會不會崩潰</span></div>
+        <div class="tritest-body">
+          <div class="prompt-box" id="tc-pr"></div>
+          <div class="tc-actions">
+            <button class="btn btn-dark btn-sm" id="tc-cpr" onclick="tc_cp('r',this)">📋 複製測試題</button>
+            <a class="btn btn-gemini btn-sm" href="https://gemini.google.com/app" target="_blank">✦ 開啟 Gemini</a>
+          </div>
+          <div class="res-area"><label>📝 Gem 的回答如何？記錄一句話</label><textarea id="tc-rr" placeholder="例：完全超出 Gem 範圍，回答不知所云…"></textarea><div class="rating-row"><button class="rb good" onclick="tc_rate('r','good',this)">✅ 好用</button><button class="rb ok" onclick="tc_rate('r','ok',this)">⚠️ 普通</button><button class="rb bad" onclick="tc_rate('r','bad',this)">❌ 需改</button></div></div>
         </div>
-        <div class="res-area"><label>📝 Gem 的回答如何？記錄一句話</label><textarea id="tc-rr" placeholder="例：完全超出 Gem 範圍，回答不知所云…"></textarea><div class="rating-row"><button class="rb good" onclick="tc_rate('r','good',this)">✅ 好用</button><button class="rb ok" onclick="tc_rate('r','ok',this)">⚠️ 普通</button><button class="rb bad" onclick="tc_rate('r','bad',this)">❌ 需改</button></div></div>
       </div>
 
       <button class="btn btn-primary btn-full mt12" onclick="tc_go3()">📊 生成診斷報告</button>
