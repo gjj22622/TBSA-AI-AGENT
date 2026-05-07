@@ -239,7 +239,7 @@ body{font-family:var(--font-sans);background:var(--gray-100);color:var(--gray-80
 .banner.warn{background:var(--amber-bg);border:1px solid var(--amber-border);color:#92400e}
 
 /* ── HOOK CARD ── */
-.hook-card{border-radius:14px;background:linear-gradient(135deg,#2d1b69,var(--tbsa-gold-dk);color:white;padding:22px;text-align:center;margin-bottom:14px}
+.hook-card{border-radius:14px;background:linear-gradient(135deg,#2d1b69,var(--tbsa-gold-dk));color:white;padding:22px;text-align:center;margin-bottom:14px}
 .hook-card h3{font-size:1rem;font-weight:800;margin-bottom:7px}
 .hook-card p{font-size:.82rem;opacity:.85;line-height:1.6;margin-bottom:14px}
 .hook-btn{display:inline-block;background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.4);color:white;border-radius:8px;padding:7px 18px;font-size:.82rem;font-weight:700;text-decoration:none;transition:.15s;cursor:pointer}
@@ -390,6 +390,78 @@ body{font-family:var(--font-sans);background:var(--gray-100);color:var(--gray-80
 .btn-sm{padding:6px 13px;font-size:.8rem}
 .btn-full{width:100%;justify-content:center;padding:12px}
 
+/* ══ PERSONA AGENT 全景圖 (Day 1 補充 · 心智模型補充) ══ */
+.card.pm-card{padding:0;overflow:hidden;border:1.5px solid var(--tbsa-gold-lt);background:var(--tbsa-paper)}
+.pm-head{background:linear-gradient(135deg,#14110D 0%,var(--tbsa-ink) 55%,var(--tbsa-ink-2) 100%);color:var(--tbsa-paper);padding:18px 22px 16px;position:relative}
+.pm-head::before{content:'';position:absolute;top:0;left:0;height:3px;width:50%;background:var(--tbsa-gold)}
+.pm-head::after{content:'';position:absolute;top:0;right:0;height:3px;width:50%;background:var(--tbsa-crimson)}
+.pm-eyebrow{font-family:var(--font-en-sans);font-size:.7rem;letter-spacing:.32em;color:var(--tbsa-gold-lt);text-transform:uppercase;font-weight:700;margin-bottom:6px}
+.pm-eyebrow .pm-eb-han{color:rgba(255,255,255,.78);letter-spacing:.08em;margin-left:10px;font-family:var(--font-sans);font-size:.78rem;text-transform:none;font-weight:500}
+.pm-title{font-family:var(--font-han);font-size:1.55rem;font-weight:700;letter-spacing:.05em;line-height:1.2}
+.pm-title .pm-title-en{font-family:var(--font-en);font-style:italic;font-weight:600;color:var(--tbsa-gold-lt);margin-right:10px;letter-spacing:.02em}
+.pm-sub{font-family:var(--font-sans);font-size:.85rem;color:var(--tbsa-gold-lt);margin-top:6px;letter-spacing:.04em}
+.pm-sub strong{color:var(--tbsa-paper);font-weight:700}
+
+.pm-body{display:grid;grid-template-columns:1.05fr 1fr 1fr;gap:14px;padding:18px;background:linear-gradient(180deg,var(--tbsa-paper) 0%,var(--tbsa-parchment) 100%)}
+.pm-col{display:flex;flex-direction:column}
+.pm-col-label{font-family:var(--font-en-sans);font-size:.65rem;letter-spacing:.32em;font-weight:700;color:var(--tbsa-gold-dk);text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--tbsa-gold-lt);display:flex;justify-content:space-between;align-items:baseline}
+.pm-col-label .pm-col-han{font-family:var(--font-sans);font-size:.74rem;color:var(--tbsa-stone);letter-spacing:.1em;text-transform:none;font-weight:600}
+
+/* Build steps */
+.pm-step{position:relative;border-radius:9px;padding:11px 12px 11px 13px;display:flex;align-items:center;gap:10px;color:var(--tbsa-paper);box-shadow:0 1px 4px rgba(31,27,22,.12)}
+.pm-step-num{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-family:var(--font-en);font-size:1.15rem;font-weight:600;font-style:italic;color:var(--tbsa-paper)}
+.pm-step-content{flex:1;min-width:0}
+.pm-step-title{font-family:var(--font-han);font-size:.95rem;font-weight:700;line-height:1.2;letter-spacing:.02em}
+.pm-step-sub{font-family:var(--font-sans);font-size:.7rem;opacity:.88;line-height:1.4;margin-top:3px}
+.pm-step-badge{position:absolute;top:7px;right:9px;background:var(--tbsa-gold-lt);color:var(--tbsa-ink);font-family:var(--font-en-sans);font-size:.58rem;font-weight:800;letter-spacing:.14em;padding:2px 7px;border-radius:3px;line-height:1.5}
+.pm-step-gold{background:linear-gradient(135deg,var(--tbsa-gold) 0%,var(--tbsa-gold-dk) 100%)}
+.pm-step-crimson{background:linear-gradient(135deg,var(--tbsa-crimson) 0%,var(--tbsa-crimson-dk) 100%)}
+.pm-step-doc{background:var(--tbsa-parchment);color:var(--tbsa-ink);border:1.5px dashed var(--tbsa-gold-dk);box-shadow:none}
+.pm-step-doc .pm-step-num{background:var(--tbsa-gold-lt);color:var(--tbsa-ink)}
+.pm-step-doc .pm-step-title{color:var(--tbsa-ink)}
+.pm-step-doc .pm-step-sub{color:var(--tbsa-stone)}
+.pm-step-highlight{box-shadow:0 0 0 2px var(--tbsa-gold-lt),0 2px 8px rgba(163,122,15,.45)}
+
+.pm-arrow{text-align:center;color:var(--tbsa-stone);font-size:1.2rem;line-height:1;padding:5px 0;margin-left:14px;letter-spacing:0}
+.pm-loop{background:linear-gradient(90deg,#FFF1F2 0%,#FFE4E6 50%,#FFF1F2 100%);border:1.5px solid var(--tbsa-crimson);border-radius:6px;padding:7px 10px;text-align:center;color:var(--tbsa-crimson-dk);font-family:var(--font-sans);font-size:.78rem;font-weight:700;margin:7px 0;letter-spacing:.04em}
+.pm-loop strong{color:var(--tbsa-crimson)}
+
+/* Hero */
+.pm-hero{background:linear-gradient(155deg,#14110D 0%,var(--tbsa-ink) 55%,var(--tbsa-ink-2) 100%);color:var(--tbsa-paper);border-radius:11px;padding:18px 16px 16px;text-align:center;border:2px solid var(--tbsa-gold-lt);position:relative;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.pm-hero::before{content:'';position:absolute;top:0;left:0;bottom:0;width:5px;background:linear-gradient(180deg,var(--tbsa-gold-lt) 0%,var(--tbsa-gold) 50%,var(--tbsa-crimson) 100%)}
+.pm-hero::after{content:'';position:absolute;top:8px;right:8px;width:32px;height:32px;border-top:1.5px solid var(--tbsa-gold-lt);border-right:1.5px solid var(--tbsa-gold-lt);opacity:.4}
+.pm-hero-eyebrow{font-family:var(--font-en-sans);font-size:.62rem;letter-spacing:.32em;color:var(--tbsa-gold-lt);text-transform:uppercase;margin-bottom:10px;font-weight:600}
+.pm-hero-title{font-family:var(--font-han);font-size:2.1rem;font-weight:700;line-height:1.05;margin:4px 0 2px;letter-spacing:.04em}
+.pm-hero-title .pm-hero-second{color:var(--tbsa-gold-lt);display:block;margin-top:2px}
+.pm-hero-divider{height:1px;background:linear-gradient(90deg,transparent 0%,var(--tbsa-gold-lt) 50%,transparent 100%);margin:12px 18px}
+.pm-hero-sub{font-family:var(--font-han);font-size:1rem;font-weight:600;color:var(--tbsa-gold-lt);letter-spacing:.08em}
+.pm-hero-desc{font-family:var(--font-sans);font-size:.78rem;color:rgba(255,255,255,.72);line-height:1.7;margin-top:12px}
+.pm-hero-stamp{margin-top:14px;background:linear-gradient(135deg,var(--tbsa-gold-lt) 0%,var(--tbsa-gold) 100%);color:var(--tbsa-ink);font-family:var(--font-han);font-size:.82rem;font-weight:700;padding:6px 10px;border-radius:4px;letter-spacing:.04em;display:inline-block;align-self:center}
+
+/* Apply boxes */
+.pm-app{position:relative;border-radius:9px;padding:11px 12px 11px 16px;display:flex;align-items:flex-start;gap:10px;color:var(--tbsa-paper);box-shadow:0 1px 4px rgba(31,27,22,.12);overflow:hidden}
+.pm-app::before{content:'';position:absolute;top:0;left:0;bottom:0;width:4px;background:rgba(255,255,255,.55)}
+.pm-app-letter{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:rgba(255,254,251,.95);color:var(--tbsa-ink);display:flex;align-items:center;justify-content:center;font-family:var(--font-en);font-size:1.15rem;font-weight:700;font-style:italic;margin-top:1px}
+.pm-app-content{flex:1;min-width:0}
+.pm-app-title{font-family:var(--font-han);font-size:1.02rem;font-weight:700;line-height:1.2;letter-spacing:.04em}
+.pm-app-sub{font-family:var(--font-sans);font-size:.72rem;opacity:.92;line-height:1.5;margin-top:3px}
+.pm-app-green{background:linear-gradient(135deg,#3E5C2A 0%,#5A8040 100%)}
+.pm-app-teal{background:linear-gradient(135deg,#0D7C76 0%,#14B8A6 100%)}
+.pm-app-brush{background:linear-gradient(135deg,#9F3128 0%,var(--tbsa-crimson) 100%)}
+
+/* Footer pillars (punchline) */
+.pm-footer{display:flex;align-items:stretch;justify-content:space-between;background:linear-gradient(135deg,var(--tbsa-ink) 0%,var(--tbsa-ink-2) 100%);border-top:2px solid var(--tbsa-gold-lt);padding:14px 18px;position:relative}
+.pm-footer::before,.pm-footer::after{content:'';position:absolute;bottom:0;height:3px;width:50%}
+.pm-footer::before{left:0;background:var(--tbsa-gold)}
+.pm-footer::after{right:0;background:var(--tbsa-crimson)}
+.pm-pillar{flex:1;text-align:center;display:flex;flex-direction:column;justify-content:center;gap:3px}
+.pm-pillar-label{font-family:var(--font-sans);font-size:.72rem;color:var(--tbsa-mist);letter-spacing:.08em;font-weight:500}
+.pm-pillar-value{font-family:var(--font-en);font-style:italic;font-size:1.75rem;font-weight:700;line-height:1}
+.pm-pillar-gold{color:var(--tbsa-gold-lt)}
+.pm-pillar-paper{color:var(--tbsa-paper)}
+.pm-pillar-crimsonlt{color:var(--tbsa-crimson-lt)}
+.pm-pillar-arrow{flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--tbsa-gold-lt);font-family:var(--font-en);font-size:1.3rem;font-style:italic;opacity:.7;padding:0 4px}
+
 /* ── MOBILE ── */
 @media(max-width:480px){
   .header h1{font-size:1.3rem}
@@ -401,6 +473,15 @@ body{font-family:var(--font-sans);background:var(--gray-100);color:var(--gray-80
   .ag-en,.ag-sub{display:none}
   .type-grid{grid-template-columns:1fr 1fr}
   .tab-btn{font-size:.75rem;padding:10px 5px}
+}
+@media(max-width:780px){
+  .pm-body{grid-template-columns:1fr;gap:12px}
+  .pm-hero{margin:4px 0;padding:16px 14px}
+  .pm-hero-title{font-size:1.7rem}
+  .pm-title{font-size:1.3rem}
+  .pm-footer{padding:12px 14px}
+  .pm-pillar-value{font-size:1.4rem}
+  .pm-pillar-arrow{font-size:1rem}
 }
 </style>
 </head>
@@ -485,6 +566,119 @@ body{font-family:var(--font-sans);background:var(--gray-100);color:var(--gray-80
     <div class="day-progress">
       <div class="dp-label" id="d1-prog-label">0 / 8 實作</div>
       <div class="dp-bar"><div class="dp-fill" id="d1-prog-bar" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <!-- 心智模型補充 · Persona Agent 全景圖 -->
+  <div class="card pm-card">
+    <div class="pm-head">
+      <div class="pm-eyebrow">// DAY_1 · SUPPLEMENT<span class="pm-eb-han">心智模型補充</span></div>
+      <div class="pm-title"><span class="pm-title-en">Persona Agent</span>全景圖</div>
+      <div class="pm-sub"><strong>Gem 工廠用 2 次</strong> · 造出 <strong>1 個 Persona Agent</strong> · 展開 <strong>無限應用</strong></div>
+    </div>
+
+    <div class="pm-body">
+      <!-- LEFT: BUILD -->
+      <div class="pm-col">
+        <div class="pm-col-label">// BUILD<span class="pm-col-han">建造流程</span></div>
+
+        <div class="pm-step pm-step-gold">
+          <div class="pm-step-num">1</div>
+          <div class="pm-step-content">
+            <div class="pm-step-title">Gem 工廠</div>
+            <div class="pm-step-sub">輸入 Gem 需求 → 輸出設定文字</div>
+          </div>
+          <div class="pm-step-badge">USE 1</div>
+        </div>
+        <div class="pm-arrow">↓</div>
+
+        <div class="pm-step pm-step-crimson">
+          <div class="pm-step-num">2</div>
+          <div class="pm-step-content">
+            <div class="pm-step-title">Persona 文件產生器</div>
+            <div class="pm-step-sub">輸入學生描述 → 輸出 Persona 文件</div>
+          </div>
+        </div>
+        <div class="pm-arrow">↓</div>
+
+        <div class="pm-step pm-step-doc">
+          <div class="pm-step-num">3</div>
+          <div class="pm-step-content">
+            <div class="pm-step-title">Persona 文件</div>
+            <div class="pm-step-sub">老師課堂學生的完整描述</div>
+          </div>
+        </div>
+
+        <div class="pm-loop">↩&nbsp;&nbsp;<strong>Persona 文件丟回 Gem 工廠</strong></div>
+
+        <div class="pm-step pm-step-gold pm-step-highlight">
+          <div class="pm-step-num">4</div>
+          <div class="pm-step-content">
+            <div class="pm-step-title">Gem 工廠</div>
+            <div class="pm-step-sub">輸入 Persona 文件 → 輸出 Agent 設定</div>
+          </div>
+          <div class="pm-step-badge">USE 2</div>
+        </div>
+      </div>
+
+      <!-- CENTER: HERO -->
+      <div class="pm-hero">
+        <div class="pm-hero-eyebrow">── HERO · 中心目標 ──</div>
+        <div class="pm-hero-title">Persona<span class="pm-hero-second">Agent</span></div>
+        <div class="pm-hero-divider"></div>
+        <div class="pm-hero-sub">你的學生替身</div>
+        <div class="pm-hero-desc">以學生身份，與老師對話<br>感受、回應、提問<br>可大量重複使用</div>
+        <div class="pm-hero-stamp">Gem 工廠 ×2　造出 ×1</div>
+      </div>
+
+      <!-- RIGHT: APPLY -->
+      <div class="pm-col">
+        <div class="pm-col-label">// APPLY<span class="pm-col-han">多重應用</span></div>
+
+        <div class="pm-app pm-app-green">
+          <div class="pm-app-letter">a</div>
+          <div class="pm-app-content">
+            <div class="pm-app-title">對談</div>
+            <div class="pm-app-sub">以學生視角，回應老師的提問</div>
+          </div>
+        </div>
+        <div class="pm-arrow">↓</div>
+
+        <div class="pm-app pm-app-teal">
+          <div class="pm-app-letter">b</div>
+          <div class="pm-app-content">
+            <div class="pm-app-title">畫自畫像</div>
+            <div class="pm-app-sub">生成學生的視覺 Persona 圖像</div>
+          </div>
+        </div>
+        <div class="pm-arrow">↓</div>
+
+        <div class="pm-app pm-app-brush">
+          <div class="pm-app-letter">c</div>
+          <div class="pm-app-content">
+            <div class="pm-app-title">做資訊圖表</div>
+            <div class="pm-app-sub">將 Persona 轉化為教學分析圖</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER: 三柱金句 -->
+    <div class="pm-footer">
+      <div class="pm-pillar">
+        <div class="pm-pillar-label">Gem 工廠</div>
+        <div class="pm-pillar-value pm-pillar-gold">× 2</div>
+      </div>
+      <div class="pm-pillar-arrow">→</div>
+      <div class="pm-pillar">
+        <div class="pm-pillar-label">Persona Agent</div>
+        <div class="pm-pillar-value pm-pillar-paper">× 1</div>
+      </div>
+      <div class="pm-pillar-arrow">→</div>
+      <div class="pm-pillar">
+        <div class="pm-pillar-label">應用</div>
+        <div class="pm-pillar-value pm-pillar-crimsonlt">× ∞</div>
+      </div>
     </div>
   </div>
 
