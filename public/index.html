@@ -438,8 +438,8 @@ body{font-family:var(--font-sans);background:var(--gray-100);color:var(--gray-80
 .pm-hero-desc{font-family:var(--font-sans);font-size:.78rem;color:rgba(255,255,255,.72);line-height:1.7;margin-top:12px}
 .pm-hero-stamp{margin-top:14px;background:linear-gradient(135deg,var(--tbsa-gold-lt) 0%,var(--tbsa-gold) 100%);color:var(--tbsa-ink);font-family:var(--font-han);font-size:.82rem;font-weight:700;padding:6px 10px;border-radius:4px;letter-spacing:.04em;display:inline-block;align-self:center}
 
-/* Apply boxes */
-.pm-app{position:relative;border-radius:9px;padding:11px 12px 11px 16px;display:flex;align-items:flex-start;gap:10px;color:var(--tbsa-paper);box-shadow:0 1px 4px rgba(31,27,22,.12);overflow:hidden}
+/* Apply boxes — flex:1 撐滿右欄垂直空間，與左欄等高 */
+.pm-app{position:relative;border-radius:9px;padding:11px 12px 11px 16px;display:flex;align-items:center;gap:10px;color:var(--tbsa-paper);box-shadow:0 1px 4px rgba(31,27,22,.12);overflow:hidden;flex:1;min-height:0}
 .pm-app::before{content:'';position:absolute;top:0;left:0;bottom:0;width:4px;background:rgba(255,255,255,.55)}
 .pm-app-letter{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:rgba(255,254,251,.95);color:var(--tbsa-ink);display:flex;align-items:center;justify-content:center;font-family:var(--font-en);font-size:1.15rem;font-weight:700;font-style:italic;margin-top:1px}
 .pm-app-content{flex:1;min-width:0}
