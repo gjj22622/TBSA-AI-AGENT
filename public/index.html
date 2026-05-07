@@ -350,6 +350,40 @@ body{font-family:var(--font-sans);background:var(--gray-100);color:var(--gray-80
 .tc-step.done-step .tc-step-n{background:var(--tbsa-gold-lt);color:var(--tbsa-ink);border-color:var(--tbsa-gold-lt)}
 .tc-step-line{flex:1;height:2px;background:var(--tbsa-line);max-width:50px;transition:.3s;margin:0 4px}
 .tc-step-line.done{background:linear-gradient(90deg,var(--tbsa-gold) 0%,var(--tbsa-gold-lt) 100%)}
+
+/* TBSA-styled form inputs (scoped to tritest pane) */
+#pane-tritest .fg label,
+#pane-tritest .fg .fg-label{display:block !important;margin-bottom:6px !important;font-family:var(--font-sans) !important;font-size:.82rem !important;font-weight:700 !important;color:var(--tbsa-ink-2) !important;letter-spacing:.04em}
+#pane-tritest .fg label span{font-weight:400;color:var(--tbsa-stone);font-style:italic;margin-left:4px;font-size:.78rem}
+#pane-tritest input[type="text"],
+#pane-tritest select,
+#pane-tritest textarea{width:100%;padding:11px 14px;font-size:.9rem;font-family:var(--font-sans);color:var(--tbsa-ink);background:var(--tbsa-paper);border:1.5px solid var(--tbsa-line);border-radius:9px;transition:border-color .15s,box-shadow .15s,background .15s;outline:none;box-shadow:inset 0 1px 2px rgba(31,27,22,.04)}
+#pane-tritest input[type="text"]::placeholder,
+#pane-tritest textarea::placeholder{color:#A8A092;font-style:italic;font-weight:400}
+#pane-tritest input[type="text"]:hover,
+#pane-tritest select:hover,
+#pane-tritest textarea:hover{border-color:var(--tbsa-gold-lt);background:var(--tbsa-paper)}
+#pane-tritest input[type="text"]:focus,
+#pane-tritest select:focus,
+#pane-tritest textarea:focus{border-color:var(--tbsa-gold);box-shadow:0 0 0 3px rgba(163,122,15,.18),inset 0 1px 2px rgba(31,27,22,.04);background:var(--tbsa-paper)}
+/* 自訂下拉箭頭（金色） */
+#pane-tritest select{appearance:none;-webkit-appearance:none;-moz-appearance:none;background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath fill='%23A37A0F' d='M0 0l6 8 6-8z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;background-size:11px 7px;padding-right:36px;cursor:pointer}
+#pane-tritest #tc-charCount{text-align:right;font-size:.72rem !important;color:var(--tbsa-stone) !important;margin-top:4px;font-family:var(--font-en-sans);letter-spacing:.04em}
+
+/* res-area（測試結果記錄區）統一升級 */
+#pane-tritest .res-area{margin-top:14px;padding-top:14px;border-top:1px dashed var(--tbsa-line)}
+#pane-tritest .res-area label{font-family:var(--font-sans);font-size:.82rem;color:var(--tbsa-ink-2);font-weight:700;display:block;margin-bottom:6px;letter-spacing:.04em}
+#pane-tritest .res-area textarea{min-height:68px;font-size:.85rem;border:1.5px solid var(--tbsa-line);border-radius:9px;padding:10px 12px}
+
+/* 評分按鈕 */
+#pane-tritest .rb{flex:1;padding:9px 6px;border-radius:9px;border:1.5px solid var(--tbsa-line);background:var(--tbsa-paper);font-family:var(--font-sans);font-size:.8rem;font-weight:700;cursor:pointer;transition:all .15s;text-align:center;letter-spacing:.04em;color:var(--tbsa-stone)}
+#pane-tritest .rb:hover{background:var(--tbsa-parchment);border-color:var(--tbsa-gold-lt);color:var(--tbsa-ink-2)}
+#pane-tritest .rb.sel.good{background:#dcfce7;border-color:#15803d;color:#15803d}
+#pane-tritest .rb.sel.ok{background:#fef9c3;border-color:#a16207;color:#a16207}
+#pane-tritest .rb.sel.bad{background:#fee2e2;border-color:#b91c1c;color:#b91c1c}
+
+/* prompt-box（顯示 Gem 測試題的框）優化 */
+#pane-tritest .prompt-box{background:var(--tbsa-parchment);border-radius:9px;padding:14px 16px;font-size:.86rem;color:var(--tbsa-ink-2);border:1.5px solid var(--tbsa-line);margin-bottom:12px;white-space:pre-wrap;line-height:1.7;font-family:var(--font-sans)}
 .tritest-card{border-radius:12px;padding:0;margin-bottom:14px;border:2px solid;overflow:hidden}
 .tritest-card.gc{background:#f0fdf4;border-color:var(--green-border)}
 .tritest-card.yc{background:var(--yellow-bg);border-color:var(--yellow-border)}
